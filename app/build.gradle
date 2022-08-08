@@ -1,0 +1,61 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+apply from: './gradleScript/dependencies.gradle'
+
+android {
+    def file = rootProject.file("local.properties")
+
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "wwon.seokk.abandonedpets"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField 'String', 'BASE_URL', "\"http://apis.data.go.kr/1543061/abandonmentPublicSrvc/\""
+        if (file.exists()) {
+            def localProperties = new Properties()
+            localProperties.load(new FileInputStream(file))
+            buildConfigField 'String', 'API_KEY', "\"" + localProperties['api.key'] + "\""
+        } else {
+            buildConfigField 'String', 'API_KEY', "\"" + System.getenv("API_KEY") + "\""
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.2.0'
+        kotlinCompilerVersion '1.7.0'
+    }
+    testOptions {
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+    }
+
+}

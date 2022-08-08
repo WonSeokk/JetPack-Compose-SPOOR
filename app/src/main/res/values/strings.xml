@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Abandoned pets</string>
+    <string name="all_ok">OK</string>
+    <string name="home_screen_scroll_error">Not able to get more results. Please try later.</string>
+    <string name="pet_image_description">Pet Image</string>
+</resources>
