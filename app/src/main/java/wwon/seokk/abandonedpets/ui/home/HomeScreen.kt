@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,15 +31,19 @@ import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.SnackBarView
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
+import wwon.seokk.abandonedpets.ui.common.HomeAppBar
+import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
 /**
  * Created by WonSeok on 2022.08.05
  **/
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
+    widthSize: WindowWidthSizeClass,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
-    val scaffoldState = rememberScaffoldState()
+    val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed)
 
     LaunchedEffect(homeViewModel.uiSideEffect()) {
         val messageHost = SnackBarView(this)
@@ -54,20 +59,39 @@ fun HomeScreen(
         }
     }
 
-    Scaffold(topBar = {
-//        HomeAppBar(
-//            title = stringResource(id = R.string.home_app_bar_title),
-//            searchClick = { openSearch.invoke() },
-//            filterClick = {  }
-//        )
-    },
+    BackdropScaffold(
         scaffoldState = scaffoldState,
-        content = { paddingValues ->  PetListing(paddingValues = paddingValues, homeViewModel = homeViewModel) }
+        backLayerBackgroundColor = AbandonedPetsTheme.colors.surfaceVariantColor,
+        frontLayerShape = AbandonedPetsTheme.shapes.bottomSheetShape,
+        frontLayerBackgroundColor = AbandonedPetsTheme.colors.surfaceColor,
+        frontLayerScrimColor = Color.Unspecified,
+        frontLayerElevation = 0.dp,
+        appBar = {
+            HomeAppBar("SPOOR")
+        },
+        backLayerContent = {
+            PetSearchContent(widthSize)
+        },
+        frontLayerContent = {
+            HomeContent(homeViewModel = homeViewModel)
+        }
     )
 }
 
 @Composable
-fun PetListing(paddingValues: PaddingValues, homeViewModel: HomeViewModel) {
+fun HomeContent(homeViewModel: HomeViewModel) {
+    Surface(modifier = Modifier.fillMaxSize(), color = Color.White, shape = AbandonedPetsTheme.shapes.bottomSheetShape) {
+        Column {
+            SearchScreen("전체","전체","전체","2022.07.01 ~ 2022.07.30")
+            Spacer(Modifier.height(8.dp))
+            PetListing(homeViewModel = homeViewModel)
+        }
+    }
+}
+
+
+@Composable
+fun PetListing(homeViewModel: HomeViewModel) {
     val errorMessage: String = stringResource(id = R.string.home_screen_scroll_error)
     val action: String = stringResource(id = R.string.all_ok)
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -90,7 +114,7 @@ fun PetListing(paddingValues: PaddingValues, homeViewModel: HomeViewModel) {
                 LazyColumn {
                     items(petItems.itemCount) { index ->
                         petItems[index]?.let {
-                            PetItem(pet = it, petClick = {} )
+                            PetCard(pet = it, petClick = {} )
                             PetListDivider()
                         }
                     }
@@ -145,6 +169,7 @@ fun SearchScreen(
 ) {
     Row(
         modifier = Modifier.height(32.dp)
+            .padding(start=10.dp, top=10.dp, end=10.dp, bottom=0.dp)
     ) {
         Column(
             Modifier
@@ -166,61 +191,8 @@ fun SearchScreen(
     }
 }
 
-@Composable
-fun PetItem(
-    pet: AbandonmentPublicResultEntity,
-    petClick: (AbandonmentPublicResultEntity) -> Unit
-) {
-    Card(
-        elevation = 0.dp,
-        modifier = Modifier
-            .padding(10.dp)
-            .fillMaxSize()
-            .clickable(
-                enabled = true,
-                onClick = {
-                    petClick(pet)
-                })
-    ) {
-        Row {
-            Column(
-                Modifier.weight(1f)
-            ) {
-                Row {
-                    Text(text = pet.processState,
-                        color = if(pet.processState == "보호중") Color(0xFF8BC34A) else Color(0xFFF44336),
-                        modifier = Modifier.padding(end = 8.dp))
-                    Text(text = "2022.08.01 ~ 2022.08.11")
-                }
-                Text(text = "${pet.kindCd} | ${pet.colorCd} | ${pet.age}"
-                )
-                Text(text = pet.careNm,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(top = 8.dp)
-                )
-                Text(text = pet.happenPlace)
-            }
-            Card(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .width(120.dp)
-                    .height(120.dp)
-                    .clip(RoundedCornerShape(10.dp))
-            ) {
-                AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-                    .data(pet.popfile)
-                    .crossfade(true)
-                    .build(),
-                    contentScale = ContentScale.FillBounds,
-                    placeholder = painterResource(R.drawable.ic_pets),
-                    contentDescription = stringResource(id = R.string.pet_image_description),
-                )
-            }
 
-        }
-    }
-}
+
 
 @Preview(showBackground = true)
 @Composable
@@ -228,14 +200,3 @@ fun SearchTitlePreview() {
     SearchScreen("전체","전체","전체","2022.07.01 ~ 2022.07.30")
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun PetItemPreview() {
-    PetItem(
-        AbandonmentPublicResultEntity("","","","",
-            "","","","","","","","","보호중",
-            "","","","","","","","",""),
-        petClick ={ }
-    )
-}

@@ -24,6 +24,6 @@ data class AbandonmentPublicResultEntity (
     val careTel: String,
     val careAddr: String,
     val orgNm: String,
-    val chargeNm: String,
+    val chargeNm: String?,
     val officetel: String
 )

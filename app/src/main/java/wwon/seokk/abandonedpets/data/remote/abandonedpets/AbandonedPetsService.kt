@@ -10,21 +10,21 @@ import wwon.seokk.abandonedpets.data.remote.model.response.common.CommonResponse
  **/
 interface AbandonedPetsService {
 
-    @GET("/sido")
+    @GET("sido")
     suspend fun getSido(): CommonResponse
 
-    @GET("/sigungu")
+    @GET("sigungu")
     suspend fun getSigungu(
         @Query("upr_cd") uprCd: String
     ): CommonResponse
 
-    @GET("/shelter")
+    @GET("shelter")
     suspend fun getShelter(
         @Query("upr_cd") uprCd: String,
         @Query("org_cd") orgCd: String
     ): CommonResponse
 
-    @GET("/kind")
+    @GET("kind")
     suspend fun getKind(
         @Query("up_kind_cd") upKindCd: String
     ): CommonResponse

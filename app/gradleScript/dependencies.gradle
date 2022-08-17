@@ -16,6 +16,9 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$jetpack_compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$jetpack_compose_version"
 
+    def jetpack_compose_material3= "1.0.0-alpha12"
+    implementation "androidx.compose.material3:material3-window-size-class:$jetpack_compose_material3"
+
     def jetpack_compose_viewmodel_version = "2.5.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$jetpack_compose_viewmodel_version"
 
