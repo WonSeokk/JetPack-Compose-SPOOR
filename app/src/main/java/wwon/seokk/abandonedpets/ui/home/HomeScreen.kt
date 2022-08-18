@@ -41,6 +41,7 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 @Composable
 fun HomeScreen(
     widthSize: WindowWidthSizeClass,
+    openPetRegionSearch: () -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed)
@@ -70,7 +71,7 @@ fun HomeScreen(
             HomeAppBar("SPOOR")
         },
         backLayerContent = {
-            PetSearchContent(widthSize)
+            PetSearchContent(widthSize, openPetRegionSearch)
         },
         frontLayerContent = {
             HomeContent(homeViewModel = homeViewModel)
@@ -82,7 +83,7 @@ fun HomeScreen(
 fun HomeContent(homeViewModel: HomeViewModel) {
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White, shape = AbandonedPetsTheme.shapes.bottomSheetShape) {
         Column {
-            SearchScreen("전체","전체","전체","2022.07.01 ~ 2022.07.30")
+            SearchScreen("전체","전체","전체","2022.08.01 ~ 2022.08.30")
             Spacer(Modifier.height(8.dp))
             PetListing(homeViewModel = homeViewModel)
         }

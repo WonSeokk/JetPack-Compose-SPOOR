@@ -9,7 +9,7 @@ import wwon.seokk.abandonedpets.data.remote.model.request.GetKindRequest
 import wwon.seokk.abandonedpets.data.remote.model.request.GetShelterRequest
 import wwon.seokk.abandonedpets.data.remote.model.request.GetSigunguRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicEntity
-import wwon.seokk.abandonedpets.domain.entity.location.LocationEntity
+import wwon.seokk.abandonedpets.domain.entity.region.RegionEntity
 import wwon.seokk.abandonedpets.domain.entity.base.Record
 import wwon.seokk.abandonedpets.domain.entity.kind.KindEntity
 import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterEntity
@@ -23,20 +23,20 @@ class AbandonedPetsRepositoryImpl @Inject constructor(private val abandonedPetsD
     private val abandonedPetsMapper = AbandonedPetsMapper()
     private val errorMapper = ErrorMapper()
 
-    override suspend fun getSido(): Record<LocationEntity> {
+    override suspend fun getSido(): Record<RegionEntity> {
         return try {
             abandonedPetsDataSource.getSido().run {
-                abandonedPetsMapper.mapLocationResponse(this)
+                abandonedPetsMapper.mapRegionResponse(this)
             }
         } catch (e: RemoteException) {
             errorMapper.mapErrorRecord(e)
         }
     }
 
-    override suspend fun getSigungu(uprCd: String): Record<LocationEntity> {
+    override suspend fun getSigungu(uprCd: String): Record<RegionEntity> {
         return try {
             abandonedPetsDataSource.getSigungu(GetSigunguRequest(uprCd)).run {
-                abandonedPetsMapper.mapLocationResponse(this)
+                abandonedPetsMapper.mapRegionResponse(this)
             }
         } catch (e: RemoteException) {
             errorMapper.mapErrorRecord(e)

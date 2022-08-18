@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun AbandonedPetsTheme(content: @Composable () -> Unit) {
     val localAbandonedPetsColors = AbandonedPetsColors(
+        primaryColor = PrimaryColor,
         surfaceColor = SurfaceColor,
         surfaceVariantColor = SurfaceVariantColor,
         greenColor = GreenColor,
@@ -34,12 +35,12 @@ fun AbandonedPetsTheme(content: @Composable () -> Unit) {
         title1 = TextStyle(
             fontSize = 24.sp,
             lineHeight = 28.8.sp,
-            fontWeight = FontWeight.W700
+            fontWeight = FontWeight.Bold
         ),
         title2 = TextStyle(
-            fontSize = 22.sp,
+            fontSize = 26.sp,
             lineHeight = 28.8.sp,
-            fontWeight = FontWeight.W700
+            fontWeight = FontWeight.Bold
         ),
         body1 = TextStyle(
             fontSize = 14.sp,

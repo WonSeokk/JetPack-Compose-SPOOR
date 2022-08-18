@@ -1,12 +1,9 @@
 package wwon.seokk.abandonedpets.data.remote.mapper
 
+import wwon.seokk.abandonedpets.data.remote.model.response.*
 import wwon.seokk.abandonedpets.data.remote.model.response.common.CommonResponse
-import wwon.seokk.abandonedpets.data.remote.model.response.toAbandonmentPublicsEntity
-import wwon.seokk.abandonedpets.data.remote.model.response.toKindsEntity
-import wwon.seokk.abandonedpets.data.remote.model.response.toLocationsEntity
-import wwon.seokk.abandonedpets.data.remote.model.response.toSheltersEntity
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicEntity
-import wwon.seokk.abandonedpets.domain.entity.location.LocationEntity
+import wwon.seokk.abandonedpets.domain.entity.region.RegionEntity
 import wwon.seokk.abandonedpets.domain.entity.base.Record
 import wwon.seokk.abandonedpets.domain.entity.kind.KindEntity
 import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterEntity
@@ -16,8 +13,8 @@ import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterEntity
  **/
 class AbandonedPetsMapper {
 
-    fun mapLocationResponse(commonResponse: CommonResponse): Record<LocationEntity> {
-        return Record(LocationEntity(commonResponse.response.body.items.item.toLocationsEntity()), null)
+    fun mapRegionResponse(commonResponse: CommonResponse): Record<RegionEntity> {
+        return Record(RegionEntity(commonResponse.response.body.items.item.toRegionsEntity()), null)
     }
 
     fun mapShelterResponse(commonResponse: CommonResponse): Record<ShelterEntity> {
@@ -29,6 +26,6 @@ class AbandonedPetsMapper {
     }
 
     fun mapAbandonmentPublicResponse(commonResponse: CommonResponse): Record<AbandonmentPublicEntity> {
-        return Record(AbandonmentPublicEntity(commonResponse.response.body.items.item.toAbandonmentPublicsEntity()), null)
+        return Record(AbandonmentPublicEntity(commonResponse.response.body.items.item.toAbandonmentPublicEntities()), null)
     }
 }

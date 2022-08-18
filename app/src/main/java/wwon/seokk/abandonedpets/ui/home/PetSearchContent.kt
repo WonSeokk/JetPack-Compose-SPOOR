@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,7 +26,8 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
  **/
 @Composable
 fun PetSearchContent(
-    widthSize: WindowWidthSizeClass
+    widthSize: WindowWidthSizeClass,
+    openPetRegionSearch: () -> Unit
 ) {
     val columns = when (widthSize) {
         WindowWidthSizeClass.Compact -> 1
@@ -42,25 +40,30 @@ fun PetSearchContent(
         columns = columns,
         content = {
             item {
-                SearchInput()
+                SearchInput("지역", openPetRegionSearch)
             }
             item {
-                SearchInput()
+                SearchInput("품종", openPetRegionSearch)
             }
             item {
-                SearchInput()
+                SearchInput("", openPetRegionSearch)
             }
         }
     )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun SearchInput() {
+private fun SearchInput(
+    title: String,
+    openScreen: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp)
-            .clip(AbandonedPetsTheme.shapes.mediumRoundCornerShape)
+            .clip(AbandonedPetsTheme.shapes.mediumRoundCornerShape),
+        onClick = {openScreen.invoke()}
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -69,7 +72,7 @@ private fun SearchInput() {
                 modifier = Modifier
                     .padding(24.dp, 0.dp, 0.dp, 0.dp)
                     .weight(0.5f),
-                text = "지역",
+                text = title,
                 style = AbandonedPetsTheme.typography.title1,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Left,
@@ -108,16 +111,10 @@ private fun PetSearch(
     )
 }
 
-@Composable
-private fun InputDivider() {
-    Divider(
-        modifier = Modifier.padding(horizontal = 14.dp),
-        color = MaterialTheme.colors.onSurface.copy(alpha = 0.08f)
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 private fun SearchInputPreview() {
-    SearchInput()
+    SearchInput("지역") {
+
+    }
 }

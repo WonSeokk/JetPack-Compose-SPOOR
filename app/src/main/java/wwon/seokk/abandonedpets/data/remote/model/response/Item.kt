@@ -2,7 +2,7 @@ package wwon.seokk.abandonedpets.data.remote.model.response
 
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.domain.entity.kind.KindResultEntity
-import wwon.seokk.abandonedpets.domain.entity.location.LocationResultEntity
+import wwon.seokk.abandonedpets.domain.entity.region.RegionResultEntity
 import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterResultEntity
 
 /**
@@ -38,8 +38,8 @@ data class Item (
     val officetel: String,
 )
 
-fun Item.toLocationEntity() = LocationResultEntity(uprCd, orgCd, orgdownNm)
-fun List<Item>.toLocationsEntity() = map { it.toLocationEntity() }
+fun Item.toRegionEntity() = RegionResultEntity(uprCd, orgCd, orgdownNm)
+fun List<Item>.toRegionsEntity() = map { it.toRegionEntity() }
 
 fun Item.toShelterEntity() = ShelterResultEntity(careRegNo, careNm)
 fun List<Item>.toSheltersEntity() = map { it.toShelterEntity() }
@@ -71,4 +71,4 @@ fun Item.toAbandonmentPublicEntity() = AbandonmentPublicResultEntity(
     chargeNm,
     officetel
 )
-fun List<Item>.toAbandonmentPublicsEntity() = map { it.toAbandonmentPublicEntity() }
+fun List<Item>.toAbandonmentPublicEntities() = map { it.toAbandonmentPublicEntity() }
