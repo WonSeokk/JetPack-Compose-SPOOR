@@ -14,18 +14,40 @@ import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterEntity
 class AbandonedPetsMapper {
 
     fun mapRegionResponse(commonResponse: CommonResponse): Record<RegionEntity> {
-        return Record(RegionEntity(commonResponse.response.body.items.item.toRegionsEntity()), null)
+        return commonResponse.response.body.items.run {
+            if(item != null)
+                Record(RegionEntity(item.toRegionsEntity()), null)
+            else
+                Record(RegionEntity(emptyList()), null)
+        }
+
     }
 
     fun mapShelterResponse(commonResponse: CommonResponse): Record<ShelterEntity> {
-        return Record(ShelterEntity(commonResponse.response.body.items.item.toSheltersEntity()), null)
+        return commonResponse.response.body.items.run {
+            if(item != null)
+                Record(ShelterEntity(item.toSheltersEntity()), null)
+            else
+                Record(ShelterEntity(emptyList()), null)
+
+        }
     }
 
     fun mapKindResponse(commonResponse: CommonResponse): Record<KindEntity> {
-        return Record(KindEntity(commonResponse.response.body.items.item.toKindsEntity()), null)
+        return commonResponse.response.body.items.run {
+            if(item != null)
+                Record(KindEntity(item.toKindsEntity()), null)
+            else
+                Record(KindEntity(emptyList()), null)
+        }
     }
 
     fun mapAbandonmentPublicResponse(commonResponse: CommonResponse): Record<AbandonmentPublicEntity> {
-        return Record(AbandonmentPublicEntity(commonResponse.response.body.items.item.toAbandonmentPublicEntities()), null)
+        return commonResponse.response.body.items.run {
+            if(item != null)
+                Record(AbandonmentPublicEntity(item.toAbandonmentPublicEntities()), null)
+            else
+                Record(AbandonmentPublicEntity(emptyList()), null)
+        }
     }
 }

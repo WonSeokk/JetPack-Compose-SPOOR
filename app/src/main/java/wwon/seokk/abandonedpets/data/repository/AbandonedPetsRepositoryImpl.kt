@@ -24,6 +24,7 @@ class AbandonedPetsRepositoryImpl @Inject constructor(private val abandonedPetsD
     private val errorMapper = ErrorMapper()
 
     override suspend fun getSido(): Record<RegionEntity> {
+
         return try {
             abandonedPetsDataSource.getSido().run {
                 abandonedPetsMapper.mapRegionResponse(this)

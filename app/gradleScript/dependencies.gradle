@@ -22,7 +22,7 @@ dependencies {
     def jetpack_compose_viewmodel_version = "2.5.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$jetpack_compose_viewmodel_version"
 
-    def jetpack_navigation_version = "2.5.1"
+    def jetpack_navigation_version = "2.5.0-alpha03"
     implementation "androidx.navigation:navigation-compose:$jetpack_navigation_version"
 
     def jetpack_lifecycle_version = "2.5.1"

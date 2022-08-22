@@ -13,8 +13,8 @@ class GetSigunguUseCase @Inject constructor(private val abandonedPetsRepository:
     BaseUseCase<GetSigunguUseCase.RequestValue, Record<RegionEntity>>() {
 
     override suspend fun run(request: RequestValue): Record<RegionEntity> {
-        return abandonedPetsRepository.getSigungu(request.sido)
+        return abandonedPetsRepository.getSigungu(request.uprCd)
     }
 
-    data class RequestValue(val sido: String)
+    data class RequestValue(val uprCd: String)
 }

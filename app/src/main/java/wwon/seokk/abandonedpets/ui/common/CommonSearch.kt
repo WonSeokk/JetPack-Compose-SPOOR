@@ -1,18 +1,23 @@
 package wwon.seokk.abandonedpets.ui.common
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.AndroidViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import wwon.seokk.abandonedpets.ui.region.PetRegionState
+import wwon.seokk.abandonedpets.ui.region.PetRegionViewModel
+import wwon.seokk.abandonedpets.ui.region.SheetField
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
 /**
@@ -32,22 +37,55 @@ fun NoticeTitle(contentText: String) {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DropDownTextField(
-    labelText: String
+    labelText: String,
+    value: String,
+    bottomState: ModalBottomSheetState?,
+    field: SheetField,
+    state: Any?,
+    viewModel: Any?
 ) {
+    val scope = rememberCoroutineScope()
+    fun openBottomSheet() {
+        scope.launch { bottomState?.show() }
+    }
+
     TextField(
-        value = "",
+        value = value,
         onValueChange = { },
         label = { Text(text = labelText) },
         readOnly = true,
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = Color.Transparent,
-            focusedIndicatorColor = Color.Red
+            disabledLabelColor = AbandonedPetsTheme.colors.primaryColor,
+            disabledIndicatorColor = AbandonedPetsTheme.colors.primaryColor,
+            disabledTextColor = Color.Black
         ),
         trailingIcon = { Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "") },
         modifier = Modifier
             .padding(0.dp, 0.dp, 0.dp, 20.dp)
             .fillMaxWidth()
+            .clickable(
+                onClick = {
+                    when(field) {
+                        SheetField.UprRegion -> {
+                            (viewModel as PetRegionViewModel).getSido()
+                            openBottomSheet()
+                        }
+                        SheetField.OrgRegion -> {
+                            (viewModel as PetRegionViewModel).getSigungu()
+                            if((state as PetRegionState).selectedUprRegion.value.orgCd.isNotBlank())
+                                openBottomSheet()
+                        }
+                        SheetField.Shelter -> {
+                            (viewModel as PetRegionViewModel).getShelter()
+                            if((state as PetRegionState).selectedOrgRegion.value.orgCd.isNotBlank())
+                                openBottomSheet()
+                        }
+                    }
+                }),
+        enabled = false
     )
 }

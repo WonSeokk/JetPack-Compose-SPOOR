@@ -51,6 +51,11 @@ fun AbandonedPetsTheme(content: @Composable () -> Unit) {
             fontSize = 16.sp,
             lineHeight = 21.6.sp,
             fontWeight = FontWeight.W400
+        ),
+        body3 = TextStyle(
+            fontSize = 18.sp,
+            lineHeight = 24.3.sp,
+            fontWeight = FontWeight.W400
         )
     )
 

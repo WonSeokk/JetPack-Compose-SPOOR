@@ -11,7 +11,8 @@ data class AbandonedPetsTypography(
     val title1: TextStyle,
     val title2: TextStyle,
     val body1: TextStyle,
-    val body2: TextStyle
+    val body2: TextStyle,
+    val body3: TextStyle
 )
 
 val LocalAbandonedPetsTypography = staticCompositionLocalOf {
@@ -19,6 +20,7 @@ val LocalAbandonedPetsTypography = staticCompositionLocalOf {
         title1 = TextStyle.Default,
         title2 = TextStyle.Default,
         body1 = TextStyle.Default,
-        body2 = TextStyle.Default
+        body2 = TextStyle.Default,
+        body3 = TextStyle.Default
     )
 }

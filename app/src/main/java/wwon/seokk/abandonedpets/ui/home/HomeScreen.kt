@@ -30,8 +30,10 @@ import coil.request.ImageRequest
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.SnackBarView
 import wwon.seokk.abandonedpets.R
+import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.ui.common.HomeAppBar
+import wwon.seokk.abandonedpets.ui.common.ScreenLoading
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
 /**
@@ -41,7 +43,7 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 @Composable
 fun HomeScreen(
     widthSize: WindowWidthSizeClass,
-    openPetRegionSearch: () -> Unit,
+    openPetRegionSearch: (GetAbandonmentPublicRequest) -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed)
@@ -71,7 +73,7 @@ fun HomeScreen(
             HomeAppBar("SPOOR")
         },
         backLayerContent = {
-            PetSearchContent(widthSize, openPetRegionSearch)
+            PetSearchContent(widthSize, homeViewModel ,openPetRegionSearch)
         },
         frontLayerContent = {
             HomeContent(homeViewModel = homeViewModel)
@@ -122,10 +124,10 @@ fun PetListing(homeViewModel: HomeViewModel) {
                     petItems.apply {
                         when {
                             loadState.refresh is LoadState.Loading -> {
-                                item { FullScreenLoading() }
+                                item {  ScreenLoading() }
                             }
                             loadState.append is LoadState.Loading -> {
-                                item { FullScreenLoading() }
+                                item { ScreenLoading() }
                             }
                             loadState.refresh is LoadState.Error -> {
 //                                homeViewModel.handlePaginationDataError()
@@ -148,17 +150,6 @@ private fun PetListDivider() {
         modifier = Modifier.padding(horizontal = 14.dp),
         color = MaterialTheme.colors.onSurface.copy(alpha = 0.08f)
     )
-}
-
-@Composable
-private fun FullScreenLoading() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.Center)
-    ) {
-        CircularProgressIndicator()
-    }
 }
 
 @Composable

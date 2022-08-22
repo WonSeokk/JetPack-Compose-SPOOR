@@ -21,7 +21,7 @@ data class CommonResponse(
             val items: Items
         ) {
             data class Items(
-                val item: List<Item>
+                val item: List<Item>?
             )
         }
     }

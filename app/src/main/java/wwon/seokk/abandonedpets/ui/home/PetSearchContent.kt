@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import wwon.seokk.abandonedpets.R
+import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 /**
  * Created by WonSeok on 2022.08.15
@@ -27,7 +28,8 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 @Composable
 fun PetSearchContent(
     widthSize: WindowWidthSizeClass,
-    openPetRegionSearch: () -> Unit
+    homeViewModel: HomeViewModel,
+    openPetRegionSearch: (GetAbandonmentPublicRequest) -> Unit
 ) {
     val columns = when (widthSize) {
         WindowWidthSizeClass.Compact -> 1
@@ -40,13 +42,13 @@ fun PetSearchContent(
         columns = columns,
         content = {
             item {
-                SearchInput("지역", openPetRegionSearch)
+                SearchInput("지역", homeViewModel, openPetRegionSearch)
             }
             item {
-                SearchInput("품종", openPetRegionSearch)
+                SearchInput("품종", homeViewModel, openPetRegionSearch)
             }
             item {
-                SearchInput("", openPetRegionSearch)
+                SearchInput("", homeViewModel, openPetRegionSearch)
             }
         }
     )
@@ -56,14 +58,17 @@ fun PetSearchContent(
 @Composable
 private fun SearchInput(
     title: String,
-    openScreen: () -> Unit
+    homeViewModel: HomeViewModel?,
+    openScreen: (GetAbandonmentPublicRequest) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp)
             .clip(AbandonedPetsTheme.shapes.mediumRoundCornerShape),
-        onClick = {openScreen.invoke()}
+        onClick = {
+            homeViewModel?.requestQuery?.let { openScreen(it) }
+        }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -114,7 +119,5 @@ private fun PetSearch(
 @Preview(showBackground = true)
 @Composable
 private fun SearchInputPreview() {
-    SearchInput("지역") {
-
-    }
+    SearchInput("지역", null) { }
 }

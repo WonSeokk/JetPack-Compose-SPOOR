@@ -33,7 +33,7 @@ class AbandonedPetsDataSourceImpl @Inject constructor(
 
     override suspend fun getAbandonmentPublic(getAbandonmentPublicRequest: GetAbandonmentPublicRequest): CommonResponse {
         return getAbandonmentPublicRequest.run {
-            abandonedPetsService.getAbandonmentPublic(startDate, endDate, upkind, kind, uprCd, orgCd, careRegNo, nextPage, numRow)
+            abandonedPetsService.getAbandonmentPublic(startDate, endDate, upkind, kind.kindCd, upr.orgCd, org.orgCd, shelter.careRegNo, nextPage, numRow)
         }
     }
 
