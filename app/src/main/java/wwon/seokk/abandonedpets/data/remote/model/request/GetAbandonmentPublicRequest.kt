@@ -14,8 +14,8 @@ import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterResultEntity
 data class GetAbandonmentPublicRequest (
     val startDate: String,
     val endDate: String,
-    val upkind: String,
-    val kind: KindResultEntity,
+    var upKind: KindResultEntity,
+    var kind: KindResultEntity,
     var upr: RegionResultEntity,
     var org: RegionResultEntity,
     var shelter: ShelterResultEntity,
@@ -23,6 +23,6 @@ data class GetAbandonmentPublicRequest (
     val numRow: Int = ApiConstants.NUM_ROW
 ): Parcelable {
     companion object {
-        val EMPTY = GetAbandonmentPublicRequest("", "", "", KindResultEntity.BASE, RegionResultEntity.BASE, RegionResultEntity.BASE, ShelterResultEntity.BASE, 1)
+        val EMPTY = GetAbandonmentPublicRequest("", "",  KindResultEntity.BASE, KindResultEntity.BASE, RegionResultEntity.BASE, RegionResultEntity.BASE, ShelterResultEntity.BASE, 1)
     }
 }

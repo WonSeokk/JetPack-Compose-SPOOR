@@ -1,4 +1,4 @@
-package wwon.seokk.abandonedpets.ui.region
+package wwon.seokk.abandonedpets.ui.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -16,15 +16,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import wwon.seokk.abandonedpets.domain.entity.kind.KindEntity
+import wwon.seokk.abandonedpets.domain.entity.kind.KindResultEntity
 import wwon.seokk.abandonedpets.domain.entity.region.RegionEntity
 import wwon.seokk.abandonedpets.domain.entity.region.RegionResultEntity
 import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterEntity
 import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterResultEntity
+import wwon.seokk.abandonedpets.ui.kind.PetKindState
+import wwon.seokk.abandonedpets.ui.region.PetRegionState
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
 
 enum class SheetField {
-    UprRegion, OrgRegion, Shelter
+    UprRegion, OrgRegion, Shelter, UpKind, Kind
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -121,6 +125,59 @@ fun SheetItem(
     ) {
         Text(
             text = shelter.careNm,
+            style = AbandonedPetsTheme.typography.body3,
+            color = textColor
+        )
+    }
+}
+
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun SheetItem(
+    uiState: PetKindState,
+    listState: LazyListState,
+    bottomState: ModalBottomSheetState,
+    index: Int,
+    kinds: KindEntity,
+    onSelectKind: (KindResultEntity, SheetField) -> Unit,
+    filed: SheetField
+) {
+    val scope = rememberCoroutineScope()
+    fun hideBottomSheet() {
+        scope.launch {
+            bottomState.hide()
+        }
+    }
+    fun scrollToItem() {
+        scope.launch {
+            listState.animateScrollToItem(index)
+        }
+    }
+    val kind = kinds.kindEntities[index]
+    val kindCd =  if(filed == SheetField.UprRegion) uiState.selectedUpKind.value.kindCd else uiState.selectedKind.value.kindCd
+    val textColor = if(kind.kindCd == kindCd) AbandonedPetsTheme.colors.primaryColor else Color.LightGray
+    if(kind.kindCd == kindCd) scrollToItem()
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48.dp)
+            .clip(AbandonedPetsTheme.shapes.smallRoundCornerShape)
+            .clickable(
+                enabled = true,
+                onClick = {
+                    if(filed == SheetField.UpKind)
+                        uiState.selectedUpKind.value = kind
+                    else if (filed == SheetField.Kind)
+                        uiState.selectedKind.value = kind
+                    onSelectKind.invoke(kind, filed)
+                    hideBottomSheet()
+                }),
+    ) {
+        Text(
+            text = kind.knm,
             style = AbandonedPetsTheme.typography.body3,
             color = textColor
         )

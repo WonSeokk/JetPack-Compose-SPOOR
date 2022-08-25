@@ -44,9 +44,17 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 fun HomeScreen(
     widthSize: WindowWidthSizeClass,
     openPetRegionSearch: (GetAbandonmentPublicRequest) -> Unit,
+    openPetKindSearch: (GetAbandonmentPublicRequest) -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed)
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val stateFlow = homeViewModel.uiState()
+    val stateLifecycleAware = remember(lifecycleOwner, stateFlow) {
+        stateFlow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+    }
+    val state by stateLifecycleAware.collectAsState(initial = homeViewModel.createInitialState())
 
     LaunchedEffect(homeViewModel.uiSideEffect()) {
         val messageHost = SnackBarView(this)
@@ -73,38 +81,32 @@ fun HomeScreen(
             HomeAppBar("SPOOR")
         },
         backLayerContent = {
-            PetSearchContent(widthSize, homeViewModel ,openPetRegionSearch)
+            PetSearchContent(widthSize, state, openPetRegionSearch, openPetKindSearch)
         },
         frontLayerContent = {
-            HomeContent(homeViewModel = homeViewModel)
+            HomeContent(uiState = state)
         }
     )
 }
 
 @Composable
-fun HomeContent(homeViewModel: HomeViewModel) {
+fun HomeContent(uiState: HomeState) {
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White, shape = AbandonedPetsTheme.shapes.bottomSheetShape) {
         Column {
             SearchScreen("전체","전체","전체","2022.08.01 ~ 2022.08.30")
             Spacer(Modifier.height(8.dp))
-            PetListing(homeViewModel = homeViewModel)
+            PetListing(uiState = uiState)
         }
     }
 }
 
 
 @Composable
-fun PetListing(homeViewModel: HomeViewModel) {
+fun PetListing(uiState: HomeState) {
     val errorMessage: String = stringResource(id = R.string.home_screen_scroll_error)
     val action: String = stringResource(id = R.string.all_ok)
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val stateFlow = homeViewModel.uiState()
-    val stateLifecycleAware = remember(lifecycleOwner, stateFlow) {
-        stateFlow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-    }
-    val state by stateLifecycleAware.collectAsState(initial = homeViewModel.createInitialState())
 
-    when (state.screenState) {
+    when (uiState.screenState) {
         is ScreenState.Loading -> {
             //do nothing
         }
@@ -112,7 +114,7 @@ fun PetListing(homeViewModel: HomeViewModel) {
 //            GetGamesError { homeViewModel.initData() }
         }
         is ScreenState.Success -> {
-            val lazyPetItems = state.abandonedPets?.collectAsLazyPagingItems()
+            val lazyPetItems = uiState.abandonedPets?.collectAsLazyPagingItems()
             lazyPetItems?.let { petItems ->
                 LazyColumn {
                     items(petItems.itemCount) { index ->

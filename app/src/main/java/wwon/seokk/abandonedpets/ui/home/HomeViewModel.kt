@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.ui.home
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -30,10 +31,9 @@ class HomeViewModel @Inject constructor(
     private val abandonedPetsRepository: AbandonedPetsRepository
 ) : BaseViewModel<HomeState, HomeSideEffect>(savedStateHandle) {
 
-    var requestQuery = GetAbandonmentPublicRequest.EMPTY
     private val requestQueryFlow: MutableSharedFlow<GetAbandonmentPublicRequest> = MutableSharedFlow()
 
-    override fun createInitialState(): HomeState = HomeState(ScreenState.Loading, null, null)
+    override fun createInitialState(): HomeState = HomeState(ScreenState.Loading, mutableStateOf(GetAbandonmentPublicRequest.EMPTY), null, null)
 
     override fun initData() {
         handleSearch()
@@ -50,14 +50,18 @@ class HomeViewModel @Inject constructor(
     }
 
     fun requestPets(query: GetAbandonmentPublicRequest? = null) = intent {
-        query?.let { requestQuery =  it }
-        requestQuery.nextPage = 1
-        requestQueryFlow.emit(query ?: requestQuery)
+        query?.let {
+            it.nextPage = 1
+            uiState().value.requestQuery.value =  it
+            it
+        }.run {
+            requestQueryFlow.emit(this ?: uiState().value.requestQuery.value )
+        }
     }
 
     private fun getPets(): Pager<Int, AbandonmentPublicResultEntity> {
         return Pager(PagingConfig(ApiConstants.NUM_ROW)) {
-            PetsSource(abandonedPetsRepository, requestQuery)
+            PetsSource(abandonedPetsRepository, uiState().value.requestQuery.value)
         }
     }
 }

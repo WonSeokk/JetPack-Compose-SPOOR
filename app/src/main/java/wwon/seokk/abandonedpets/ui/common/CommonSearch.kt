@@ -12,18 +12,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.AndroidViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import wwon.seokk.abandonedpets.ui.kind.PetKindState
+import wwon.seokk.abandonedpets.ui.kind.PetKindViewModel
 import wwon.seokk.abandonedpets.ui.region.PetRegionState
 import wwon.seokk.abandonedpets.ui.region.PetRegionViewModel
-import wwon.seokk.abandonedpets.ui.region.SheetField
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
 /**
  * Created by WonSeok on 2022.08.18
  **/
-
 @Composable
 fun NoticeTitle(contentText: String) {
     Row{
@@ -82,6 +80,15 @@ fun DropDownTextField(
                         SheetField.Shelter -> {
                             (viewModel as PetRegionViewModel).getShelter()
                             if((state as PetRegionState).selectedOrgRegion.value.orgCd.isNotBlank())
+                                openBottomSheet()
+                        }
+                        SheetField.UpKind -> {
+                            (viewModel as PetKindViewModel).getUpKind()
+                            openBottomSheet()
+                        }
+                        SheetField.Kind -> {
+                            (viewModel as PetKindViewModel).getKind()
+                            if((state as PetKindState).selectedUpKind.value.kindCd.isNotBlank())
                                 openBottomSheet()
                         }
                     }

@@ -26,11 +26,12 @@ object PetRequestArgs {
 class Actions(navHostController: NavHostController) {
     val openPetRegionSearch: (GetAbandonmentPublicRequest) -> Unit = {
         val request = Uri.encode(Gson().toJson(it))
-        navHostController.navigate("$PetRegion/$request")
+        navHostController.navigate("$PetRegion?petRequest=$request")
     }
 
-    val openPetKindSearch: () -> Unit = {
-        navHostController.navigate(PetKind)
+    val openPetKindSearch: (GetAbandonmentPublicRequest) -> Unit = {
+        val request = Uri.encode(Gson().toJson(it))
+        navHostController.navigate("$PetKind?petRequest=$request")
     }
 
     val backHomeWithArg: (GetAbandonmentPublicRequest) -> Unit = {

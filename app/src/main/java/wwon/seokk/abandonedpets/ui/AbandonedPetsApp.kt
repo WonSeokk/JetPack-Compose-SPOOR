@@ -9,10 +9,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import wwon.seokk.abandonedpets.ui.Destinations.Home
+import wwon.seokk.abandonedpets.ui.Destinations.PetKind
 import wwon.seokk.abandonedpets.ui.Destinations.PetRegion
 import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetRequest
 import wwon.seokk.abandonedpets.ui.home.HomeScreen
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
+import wwon.seokk.abandonedpets.ui.kind.PetKindScreen
+import wwon.seokk.abandonedpets.ui.kind.PetKindViewModel
 import wwon.seokk.abandonedpets.ui.region.PetRegionScreen
 
 /**
@@ -26,10 +29,11 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
         composable(Home) {
             HomeScreen(
                 widthSize = widthSize,
-                openPetRegionSearch = actions.openPetRegionSearch
+                openPetRegionSearch = actions.openPetRegionSearch,
+                openPetKindSearch = actions.openPetKindSearch
             )
         }
-        composable("$PetRegion/{$PetRequest}",
+        composable("$PetRegion?petRequest={$PetRequest}",
             arguments = listOf(
                 navArgument(PetRequest) {
                     type = AbandonmentPublicRequestNavType()
@@ -38,6 +42,19 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
             val parentEntry = remember { navController.getBackStackEntry(Home)  }
             val parentViewModel = hiltViewModel<HomeViewModel>(parentEntry)
             PetRegionScreen(
+                parentViewModel = parentViewModel,
+                navigateBack = actions.navigateBack
+            )
+        }
+        composable("$PetKind?petRequest={$PetRequest}",
+            arguments = listOf(
+                navArgument(PetRequest) {
+                    type = AbandonmentPublicRequestNavType()
+                }
+            )) {
+            val parentEntry = remember { navController.getBackStackEntry(Home)  }
+            val parentViewModel = hiltViewModel<HomeViewModel>(parentEntry)
+            PetKindScreen(
                 parentViewModel = parentViewModel,
                 navigateBack = actions.navigateBack
             )

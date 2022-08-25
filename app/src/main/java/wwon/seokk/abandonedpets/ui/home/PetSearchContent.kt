@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
+import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 /**
  * Created by WonSeok on 2022.08.15
@@ -28,8 +30,9 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 @Composable
 fun PetSearchContent(
     widthSize: WindowWidthSizeClass,
-    homeViewModel: HomeViewModel,
-    openPetRegionSearch: (GetAbandonmentPublicRequest) -> Unit
+    uiState: HomeState,
+    openPetRegionSearch: (GetAbandonmentPublicRequest) -> Unit,
+    openPetKindSearch: (GetAbandonmentPublicRequest) -> Unit
 ) {
     val columns = when (widthSize) {
         WindowWidthSizeClass.Compact -> 1
@@ -42,13 +45,13 @@ fun PetSearchContent(
         columns = columns,
         content = {
             item {
-                SearchInput("지역", homeViewModel, openPetRegionSearch)
+                SearchInput("지역", uiState, openPetRegionSearch)
             }
             item {
-                SearchInput("품종", homeViewModel, openPetRegionSearch)
+                SearchInput("품종", uiState, openPetKindSearch)
             }
             item {
-                SearchInput("", homeViewModel, openPetRegionSearch)
+                SearchInput("", uiState, openPetRegionSearch)
             }
         }
     )
@@ -58,7 +61,7 @@ fun PetSearchContent(
 @Composable
 private fun SearchInput(
     title: String,
-    homeViewModel: HomeViewModel?,
+    uiState: HomeState?,
     openScreen: (GetAbandonmentPublicRequest) -> Unit
 ) {
     Card(
@@ -67,7 +70,7 @@ private fun SearchInput(
             .height(50.dp)
             .clip(AbandonedPetsTheme.shapes.mediumRoundCornerShape),
         onClick = {
-            homeViewModel?.requestQuery?.let { openScreen(it) }
+            openScreen.invoke(uiState!!.requestQuery.value)
         }
     ) {
         Row(
@@ -89,7 +92,7 @@ private fun SearchInput(
                     .weight(0.5f),
                 horizontalArrangement = Arrangement.End
             ){
-                Text("test", style = AbandonedPetsTheme.typography.body1)
+                SearchTextFieldText(title, uiState!!.requestQuery.value)
             }
             Image(
                 painter = painterResource(id = R.drawable.ic_arrow_right),
@@ -100,6 +103,17 @@ private fun SearchInput(
             )
         }
     }
+}
+
+@Composable
+private fun SearchTextFieldText(title: String, request: GetAbandonmentPublicRequest) {
+    Text(
+        text = when(title) {
+            "지역" -> "${request.upr.orgNm} · ${request.org.orgNm} · ${request.shelter.careNm}"
+            "품종" -> "${request.upKind.knm} · ${request.kind.knm}"
+            else -> "" },
+        style = AbandonedPetsTheme.typography.body1
+    )
 }
 
 @Composable
@@ -119,5 +133,6 @@ private fun PetSearch(
 @Preview(showBackground = true)
 @Composable
 private fun SearchInputPreview() {
-    SearchInput("지역", null) { }
+    val testUiState = HomeState(ScreenState.Loading, mutableStateOf(GetAbandonmentPublicRequest.EMPTY), null, null)
+    SearchInput("지역", testUiState) { }
 }
