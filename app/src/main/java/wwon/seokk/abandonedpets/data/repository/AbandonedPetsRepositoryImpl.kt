@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.data.repository
 
+import wwon.seokk.abandonedpets.data.Result
 import wwon.seokk.abandonedpets.data.remote.RemoteException
 import wwon.seokk.abandonedpets.data.remote.datasource.AbandonedPetsDataSource
 import wwon.seokk.abandonedpets.data.remote.mapper.AbandonedPetsMapper
@@ -24,10 +25,12 @@ class AbandonedPetsRepositoryImpl @Inject constructor(private val abandonedPetsD
     private val errorMapper = ErrorMapper()
 
     override suspend fun getSido(): Record<RegionEntity> {
-
         return try {
             abandonedPetsDataSource.getSido().run {
-                abandonedPetsMapper.mapRegionResponse(this)
+                when(this) {
+                    is Result.Success -> abandonedPetsMapper.mapRegionResponse(data)
+                    is Result.Error -> throw exception
+                }
             }
         } catch (e: RemoteException) {
             errorMapper.mapErrorRecord(e)
@@ -37,7 +40,10 @@ class AbandonedPetsRepositoryImpl @Inject constructor(private val abandonedPetsD
     override suspend fun getSigungu(uprCd: String): Record<RegionEntity> {
         return try {
             abandonedPetsDataSource.getSigungu(GetSigunguRequest(uprCd)).run {
-                abandonedPetsMapper.mapRegionResponse(this)
+                when(this) {
+                    is Result.Success -> abandonedPetsMapper.mapRegionResponse(data)
+                    is Result.Error -> throw exception
+                }
             }
         } catch (e: RemoteException) {
             errorMapper.mapErrorRecord(e)
@@ -47,7 +53,10 @@ class AbandonedPetsRepositoryImpl @Inject constructor(private val abandonedPetsD
     override suspend fun getShelter(uprCd: String, orgCd: String): Record<ShelterEntity> {
         return try {
             abandonedPetsDataSource.getShelter(GetShelterRequest(uprCd, orgCd)).run {
-                abandonedPetsMapper.mapShelterResponse(this)
+                when(this) {
+                    is Result.Success -> abandonedPetsMapper.mapShelterResponse(data)
+                    is Result.Error -> throw exception
+                }
             }
         } catch (e: RemoteException) {
             errorMapper.mapErrorRecord(e)
@@ -57,7 +66,10 @@ class AbandonedPetsRepositoryImpl @Inject constructor(private val abandonedPetsD
     override suspend fun getKind(kindCd: String): Record<KindEntity> {
         return try {
             abandonedPetsDataSource.getKind(GetKindRequest(kindCd)).run {
-                abandonedPetsMapper.mapKindResponse(this)
+                when(this) {
+                    is Result.Success -> abandonedPetsMapper.mapKindResponse(data)
+                    is Result.Error -> throw exception
+                }
             }
         } catch (e: RemoteException) {
             errorMapper.mapErrorRecord(e)
@@ -67,7 +79,10 @@ class AbandonedPetsRepositoryImpl @Inject constructor(private val abandonedPetsD
     override suspend fun getAbandonmentPublic(getAbandonmentPublicRequest: GetAbandonmentPublicRequest): Record<AbandonmentPublicEntity> {
         return try {
             abandonedPetsDataSource.getAbandonmentPublic(getAbandonmentPublicRequest.copy()).run {
-                 abandonedPetsMapper.mapAbandonmentPublicResponse(this)
+                when(this) {
+                    is Result.Success -> abandonedPetsMapper.mapAbandonmentPublicResponse(data)
+                    is Result.Error -> throw exception
+                }
             }
         } catch (e: RemoteException) {
             errorMapper.mapErrorRecord(e)

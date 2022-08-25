@@ -1,8 +1,5 @@
 package wwon.seokk.abandonedpets.util
 
-import android.icu.util.Calendar
-import androidx.compose.ui.res.stringResource
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
