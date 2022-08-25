@@ -3,4 +3,8 @@
     <string name="all_ok">OK</string>
     <string name="home_screen_scroll_error">Not able to get more results. Please try later.</string>
     <string name="pet_image_description">Pet Image</string>
+    <string name="all">전체</string>
+    <string name="end_notice_format">공고 종료 %1$s일 전</string>
+    <string name="end_state_format">종료 · %1$s</string>
+    <string name="sex_age_format">%1$s%2$s세 (%3$s)</string>
 </resources>

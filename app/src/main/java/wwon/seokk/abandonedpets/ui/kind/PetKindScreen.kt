@@ -88,7 +88,7 @@ fun BottomContent(
             .fillMaxHeight(0.5f)
     ) {
         Column {
-            NoticeTitle(contentText = "지역을 선택하세요")
+            NoticeTitle(contentText = "품종을 선택하세요")
             SelectListing(uiState, bottomState, onSelectKind)
         }
     }

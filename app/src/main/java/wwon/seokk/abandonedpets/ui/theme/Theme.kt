@@ -20,7 +20,6 @@ fun AbandonedPetsTheme(content: @Composable () -> Unit) {
         primaryColor = PrimaryColor,
         surfaceColor = SurfaceColor,
         surfaceVariantColor = SurfaceVariantColor,
-        greenColor = GreenColor,
         redColor = RedColor
     )
 
@@ -28,7 +27,8 @@ fun AbandonedPetsTheme(content: @Composable () -> Unit) {
         bottomSheetShape = BottomSheetShape,
         smallRoundCornerShape = RoundedCornerShape(6.dp),
         mediumRoundCornerShape = RoundedCornerShape(8.dp),
-        largeRoundCornerShape = RoundedCornerShape(10.dp)
+        largeRoundCornerShape = RoundedCornerShape(10.dp),
+        circleRoundCornerShape = RoundedCornerShape(20.dp)
     )
 
     val localAbandonedPetsTypography = AbandonedPetsTypography(
@@ -48,8 +48,8 @@ fun AbandonedPetsTheme(content: @Composable () -> Unit) {
             fontWeight = FontWeight.W400
         ),
         body2 = TextStyle(
-            fontSize = 16.sp,
-            lineHeight = 21.6.sp,
+            fontSize = 12.sp,
+            lineHeight = 14.6.sp,
             fontWeight = FontWeight.W400
         ),
         body3 = TextStyle(

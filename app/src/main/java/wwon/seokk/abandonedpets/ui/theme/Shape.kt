@@ -24,6 +24,7 @@ data class AbandonedPetsShapes(
     val smallRoundCornerShape: Shape,
     val mediumRoundCornerShape: Shape,
     val largeRoundCornerShape: Shape,
+    val circleRoundCornerShape: Shape
 )
 
 val LocalAbandonedPetsShapes = staticCompositionLocalOf {
@@ -31,6 +32,7 @@ val LocalAbandonedPetsShapes = staticCompositionLocalOf {
         bottomSheetShape = RoundedCornerShape(ZeroCornerSize),
         smallRoundCornerShape = RoundedCornerShape(ZeroCornerSize),
         mediumRoundCornerShape = RoundedCornerShape(ZeroCornerSize),
-        largeRoundCornerShape = RoundedCornerShape(ZeroCornerSize)
+        largeRoundCornerShape = RoundedCornerShape(ZeroCornerSize),
+        circleRoundCornerShape = RoundedCornerShape(ZeroCornerSize)
     )
 }

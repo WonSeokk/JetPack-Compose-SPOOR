@@ -155,7 +155,7 @@ fun SheetItem(
         }
     }
     val kind = kinds.kindEntities[index]
-    val kindCd =  if(filed == SheetField.UprRegion) uiState.selectedUpKind.value.kindCd else uiState.selectedKind.value.kindCd
+    val kindCd =  if(filed == SheetField.UpKind) uiState.selectedUpKind.value.kindCd else uiState.selectedKind.value.kindCd
     val textColor = if(kind.kindCd == kindCd) AbandonedPetsTheme.colors.primaryColor else Color.LightGray
     if(kind.kindCd == kindCd) scrollToItem()
 
