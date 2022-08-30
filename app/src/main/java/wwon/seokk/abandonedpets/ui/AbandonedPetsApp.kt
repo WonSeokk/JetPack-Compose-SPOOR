@@ -8,10 +8,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import wwon.seokk.abandonedpets.ui.Destinations.Calendar
 import wwon.seokk.abandonedpets.ui.Destinations.Home
 import wwon.seokk.abandonedpets.ui.Destinations.PetKind
 import wwon.seokk.abandonedpets.ui.Destinations.PetRegion
 import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetRequest
+import wwon.seokk.abandonedpets.ui.calendar.CalendarScreen
 import wwon.seokk.abandonedpets.ui.home.HomeScreen
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
 import wwon.seokk.abandonedpets.ui.kind.PetKindScreen
@@ -30,7 +32,8 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
             HomeScreen(
                 widthSize = widthSize,
                 openPetRegionSearch = actions.openPetRegionSearch,
-                openPetKindSearch = actions.openPetKindSearch
+                openPetKindSearch = actions.openPetKindSearch,
+                openCalendar = actions.openCalendar
             )
         }
         composable("$PetRegion?petRequest={$PetRequest}",
@@ -55,6 +58,19 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
             val parentEntry = remember { navController.getBackStackEntry(Home)  }
             val parentViewModel = hiltViewModel<HomeViewModel>(parentEntry)
             PetKindScreen(
+                parentViewModel = parentViewModel,
+                navigateBack = actions.navigateBack
+            )
+        }
+        composable("$Calendar?petRequest={$PetRequest}",
+            arguments = listOf(
+                navArgument(PetRequest) {
+                    type = AbandonmentPublicRequestNavType()
+                }
+            )) {
+            val parentEntry = remember { navController.getBackStackEntry(Home)  }
+            val parentViewModel = hiltViewModel<HomeViewModel>(parentEntry)
+            CalendarScreen(
                 parentViewModel = parentViewModel,
                 navigateBack = actions.navigateBack
             )

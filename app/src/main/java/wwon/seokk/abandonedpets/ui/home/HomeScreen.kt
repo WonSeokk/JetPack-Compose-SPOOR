@@ -45,6 +45,7 @@ fun HomeScreen(
     widthSize: WindowWidthSizeClass,
     openPetRegionSearch: (GetAbandonmentPublicRequest) -> Unit,
     openPetKindSearch: (GetAbandonmentPublicRequest) -> Unit,
+    openCalendar: (GetAbandonmentPublicRequest) -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed)
@@ -81,7 +82,7 @@ fun HomeScreen(
             HomeAppBar("SPOOR")
         },
         backLayerContent = {
-            PetSearchContent(widthSize, state, openPetRegionSearch, openPetKindSearch)
+            PetSearchContent(widthSize, state, openPetRegionSearch, openPetKindSearch, openCalendar)
         },
         frontLayerContent = {
             HomeContent(uiState = state)
@@ -93,7 +94,7 @@ fun HomeScreen(
 fun HomeContent(uiState: HomeState) {
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White, shape = AbandonedPetsTheme.shapes.bottomSheetShape) {
         Column {
-            SearchScreen("전체","전체","전체","2022.08.01 ~ 2022.08.30")
+//            SearchScreen("전체","전체","전체","2022.08.01 ~ 2022.08.30")
             Spacer(Modifier.height(8.dp))
             PetListing(uiState = uiState)
         }

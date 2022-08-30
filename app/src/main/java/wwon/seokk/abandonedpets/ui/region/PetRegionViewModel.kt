@@ -46,9 +46,11 @@ class PetRegionViewModel @Inject constructor(
 
     override fun initData() {
         requestQuery = savedStateHandle[PetRequest]!!
-        uiState().value.selectedUprRegion.value = requestQuery.upr
-        uiState().value.selectedOrgRegion.value = requestQuery.org
-        uiState().value.selectedShelter.value = requestQuery.shelter
+        uiState().value.run {
+            selectedUprRegion.value = requestQuery.upr
+            selectedOrgRegion.value = requestQuery.org
+            selectedShelter.value = requestQuery.shelter
+        }
     }
 
     private fun resetOrg() {

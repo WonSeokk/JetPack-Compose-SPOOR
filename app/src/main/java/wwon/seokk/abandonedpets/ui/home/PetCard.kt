@@ -87,9 +87,8 @@ private fun PetNotice(pet: AbandonmentPublicResultEntity) {
                     stringResource(id = R.string.end_notice_format, calculateNoticeDate(pet.noticeEdt))
                 else
                     stringResource(id = R.string.end_state_format, endStateText(pet.processState)),
-                style = AbandonedPetsTheme.typography.body2,
-                modifier = Modifier.padding(10.dp, 5.dp, 10.dp, 5.dp),
-                color = Color.White
+                style = AbandonedPetsTheme.typography.body2.copy(color = Color.White),
+                modifier = Modifier.padding(10.dp, 5.dp, 10.dp, 5.dp)
             )
         }
     }
@@ -124,8 +123,7 @@ private fun PetInfo2(pet: AbandonmentPublicResultEntity) {
 @Composable
 private fun PetShelter(pet: AbandonmentPublicResultEntity) {
     Text(text = pet.careNm,
-        style = AbandonedPetsTheme.typography.body2,
-        color = Color.Gray
+        style = AbandonedPetsTheme.typography.body2.copy(color = Color.Gray)
     )
 }
 

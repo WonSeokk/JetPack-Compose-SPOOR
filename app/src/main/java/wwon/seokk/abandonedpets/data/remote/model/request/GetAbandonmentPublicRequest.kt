@@ -6,23 +6,25 @@ import wwon.seokk.abandonedpets.data.remote.ApiConstants
 import wwon.seokk.abandonedpets.domain.entity.kind.KindResultEntity
 import wwon.seokk.abandonedpets.domain.entity.region.RegionResultEntity
 import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterResultEntity
+import wwon.seokk.abandonedpets.util.toFormat
+import java.time.LocalDate
 
 /**
  * Created by WonSeok on 2022.08.02
  **/
 @Parcelize
 data class GetAbandonmentPublicRequest (
-    val startDate: String,
-    val endDate: String,
-    var upKind: KindResultEntity,
-    var kind: KindResultEntity,
-    var upr: RegionResultEntity,
-    var org: RegionResultEntity,
-    var shelter: ShelterResultEntity,
-    var nextPage: Int,
+    var startDate: String = LocalDate.now().minusDays(7).toFormat(),
+    var endDate: String = LocalDate.now().toFormat(),
+    var upKind: KindResultEntity = KindResultEntity.BASE,
+    var kind: KindResultEntity = KindResultEntity.BASE,
+    var upr: RegionResultEntity = RegionResultEntity.BASE,
+    var org: RegionResultEntity = RegionResultEntity.BASE,
+    var shelter: ShelterResultEntity = ShelterResultEntity.BASE,
+    var nextPage: Int = 1,
     val numRow: Int = ApiConstants.NUM_ROW
 ): Parcelable {
     companion object {
-        val EMPTY = GetAbandonmentPublicRequest("", "",  KindResultEntity.BASE, KindResultEntity.BASE, RegionResultEntity.BASE, RegionResultEntity.BASE, ShelterResultEntity.BASE, 1)
+        val EMPTY = GetAbandonmentPublicRequest()
     }
 }

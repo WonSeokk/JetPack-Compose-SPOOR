@@ -7,4 +7,8 @@
     <string name="end_notice_format">공고 종료 %1$s일 전</string>
     <string name="end_state_format">종료 · %1$s</string>
     <string name="sex_age_format">%1$s%2$s세 (%3$s)</string>
+
+    <string name="click_label_select">select</string>
+    <string name="state_descr_selected">Selected</string>
+    <string name="state_descr_not_selected">Not selected</string>
 </resources>

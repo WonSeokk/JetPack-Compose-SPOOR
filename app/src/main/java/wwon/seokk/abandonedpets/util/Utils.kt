@@ -1,9 +1,12 @@
 package wwon.seokk.abandonedpets.util
 
+import wwon.seokk.abandonedpets.ui.calendar.CALENDAR_STARTS_ON
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.time.temporal.WeekFields
 
 /**
  * Created by WonSeok on 2022.08.15
@@ -18,6 +21,16 @@ fun noticeDateFormatter(noticeSdt: String, noticeEdt: String): String {
     val reSdt = localFormatter.format(sDate)
     val reEdt = localFormatter.format(eDate)
     return "$reSdt ~ $reEdt"
+}
+
+fun LocalDate.toFormat(): String {
+    val basicFormatter = DateTimeFormatter.BASIC_ISO_DATE
+    return basicFormatter.format(this)?: basicFormatter.format(LocalDate.now())
+}
+
+fun String.toFormat(): LocalDate {
+    val basicFormatter = DateTimeFormatter.BASIC_ISO_DATE
+    return LocalDate.parse(this, basicFormatter)
 }
 
 fun calculateNoticeDate(noticeEdt: String): String {
@@ -36,4 +49,10 @@ fun calculateAge(birth: String): String {
     val now = LocalDateTime.now()
     val year = LocalDate.parse(birth.plus("0101"), basicFormatter)
     return ChronoUnit.YEARS.between(year, now).plus(1).toString().replace("-","")
+}
+
+fun YearMonth.getNumberWeeks(weekFields: WeekFields = CALENDAR_STARTS_ON): Int {
+    val firstWeekNumber = this.atDay(1)[weekFields.weekOfMonth()]
+    val lastWeekNumber = this.atEndOfMonth()[weekFields.weekOfMonth()]
+    return lastWeekNumber - firstWeekNumber + 1 // Both weeks inclusive
 }

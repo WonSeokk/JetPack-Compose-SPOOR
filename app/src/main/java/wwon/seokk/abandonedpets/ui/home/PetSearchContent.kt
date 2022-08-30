@@ -24,6 +24,8 @@ import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
+import wwon.seokk.abandonedpets.util.noticeDateFormatter
+
 /**
  * Created by WonSeok on 2022.08.15
  **/
@@ -32,7 +34,8 @@ fun PetSearchContent(
     widthSize: WindowWidthSizeClass,
     uiState: HomeState,
     openPetRegionSearch: (GetAbandonmentPublicRequest) -> Unit,
-    openPetKindSearch: (GetAbandonmentPublicRequest) -> Unit
+    openPetKindSearch: (GetAbandonmentPublicRequest) -> Unit,
+    openCalendar: (GetAbandonmentPublicRequest) -> Unit
 ) {
     val columns = when (widthSize) {
         WindowWidthSizeClass.Compact -> 1
@@ -51,7 +54,7 @@ fun PetSearchContent(
                 SearchInput("품종", uiState, openPetKindSearch)
             }
             item {
-                SearchInput("", uiState, openPetRegionSearch)
+                SearchInput("날짜", uiState, openCalendar)
             }
         }
     )
@@ -81,10 +84,11 @@ private fun SearchInput(
                     .padding(24.dp, 0.dp, 0.dp, 0.dp)
                     .weight(0.5f),
                 text = title,
-                style = AbandonedPetsTheme.typography.title1,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Left,
-                fontSize = 18.sp,
+                style = AbandonedPetsTheme.typography.title1.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Left
+                )
             )
             Row(
                 modifier = Modifier
@@ -111,6 +115,7 @@ private fun SearchTextFieldText(title: String, request: GetAbandonmentPublicRequ
         text = when(title) {
             "지역" -> "${request.upr.orgNm} · ${request.org.orgNm} · ${request.shelter.careNm}"
             "품종" -> "${request.upKind.knm} · ${request.kind.knm}"
+            "날짜" -> noticeDateFormatter(request.startDate, request.endDate)
             else -> "" },
         style = AbandonedPetsTheme.typography.body1
     )

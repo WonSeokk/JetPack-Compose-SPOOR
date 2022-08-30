@@ -77,8 +77,7 @@ fun SheetItem(
     ) {
         Text(
             text = region.orgNm,
-            style = AbandonedPetsTheme.typography.body3,
-            color = textColor
+            style = AbandonedPetsTheme.typography.body3.copy(color = textColor)
         )
     }
 }
@@ -102,7 +101,7 @@ fun SheetItem(
     }
     fun scrollToItem() {
         scope.launch {
-            listState.scrollToItem(index)
+            listState.animateScrollToItem(index)
         }
     }
     val shelter = shelters.shelterEntities[index]
@@ -125,8 +124,7 @@ fun SheetItem(
     ) {
         Text(
             text = shelter.careNm,
-            style = AbandonedPetsTheme.typography.body3,
-            color = textColor
+            style = AbandonedPetsTheme.typography.body3.copy(color = textColor)
         )
     }
 }
@@ -178,8 +176,7 @@ fun SheetItem(
     ) {
         Text(
             text = kind.knm,
-            style = AbandonedPetsTheme.typography.body3,
-            color = textColor
+            style = AbandonedPetsTheme.typography.body3.copy(color = textColor)
         )
     }
 }
