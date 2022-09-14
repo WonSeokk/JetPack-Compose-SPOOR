@@ -1,11 +1,13 @@
 package wwon.seokk.abandonedpets.ui.activity
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import wwon.seokk.abandonedpets.ui.AbandonedPetsApp
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
@@ -18,6 +20,7 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         installSplashScreen()
         setContent {
             AbandonedPetsTheme{

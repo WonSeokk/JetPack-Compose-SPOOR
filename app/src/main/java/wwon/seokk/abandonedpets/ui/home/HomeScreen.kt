@@ -27,6 +27,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.SnackBarView
 import wwon.seokk.abandonedpets.R
@@ -46,8 +47,14 @@ fun HomeScreen(
     openPetRegionSearch: (GetAbandonmentPublicRequest) -> Unit,
     openPetKindSearch: (GetAbandonmentPublicRequest) -> Unit,
     openCalendar: (GetAbandonmentPublicRequest) -> Unit,
+    openPetDetail: (AbandonmentPublicResultEntity) -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(
+        darkIcons = true,
+        color = Color.Transparent
+    )
     val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed)
 
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -72,6 +79,7 @@ fun HomeScreen(
     }
 
     BackdropScaffold(
+        modifier = Modifier.statusBarsPadding(),
         scaffoldState = scaffoldState,
         backLayerBackgroundColor = AbandonedPetsTheme.colors.surfaceVariantColor,
         frontLayerShape = AbandonedPetsTheme.shapes.bottomSheetShape,
@@ -85,25 +93,34 @@ fun HomeScreen(
             PetSearchContent(widthSize, state, openPetRegionSearch, openPetKindSearch, openCalendar)
         },
         frontLayerContent = {
-            HomeContent(uiState = state)
+            HomeContent(uiState = state, openPetDetail = openPetDetail)
         }
     )
 }
 
 @Composable
-fun HomeContent(uiState: HomeState) {
-    Surface(modifier = Modifier.fillMaxSize(), color = Color.White, shape = AbandonedPetsTheme.shapes.bottomSheetShape) {
+fun HomeContent(
+    uiState: HomeState,
+    openPetDetail: (AbandonmentPublicResultEntity) -> Unit
+) {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = Color.White,
+        shape = AbandonedPetsTheme.shapes.bottomSheetShape) {
         Column {
 //            SearchScreen("전체","전체","전체","2022.08.01 ~ 2022.08.30")
             Spacer(Modifier.height(8.dp))
-            PetListing(uiState = uiState)
+            PetListing(uiState = uiState, openPetDetail = openPetDetail)
         }
     }
 }
 
 
 @Composable
-fun PetListing(uiState: HomeState) {
+fun PetListing(
+    uiState: HomeState,
+    openPetDetail: (AbandonmentPublicResultEntity) -> Unit
+) {
     val errorMessage: String = stringResource(id = R.string.home_screen_scroll_error)
     val action: String = stringResource(id = R.string.all_ok)
 
@@ -119,8 +136,12 @@ fun PetListing(uiState: HomeState) {
             lazyPetItems?.let { petItems ->
                 LazyColumn {
                     items(petItems.itemCount) { index ->
-                        petItems[index]?.let {
-                            PetCard(pet = it, petClick = {} )
+                        petItems[index]?.let { petInfo ->
+                            PetCard(
+                                pet = petInfo,
+                                petClick = {
+                                openPetDetail.invoke(petInfo)
+                                } )
                             PetListDivider()
                         }
                     }

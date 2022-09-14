@@ -18,12 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.YearMonth
 import java.time.temporal.TemporalAdjusters
 import java.time.temporal.WeekFields
 
@@ -121,7 +118,7 @@ private fun LazyListScope.itemsCalendarMonth(
 
 internal val CALENDAR_STARTS_ON = WeekFields.ISO
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun DayPreview() {
     AbandonedPetsTheme {

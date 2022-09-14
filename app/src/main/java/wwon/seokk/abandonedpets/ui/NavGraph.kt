@@ -5,8 +5,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import com.google.gson.Gson
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
+import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.ui.Destinations.Calendar
 import wwon.seokk.abandonedpets.ui.Destinations.Home
+import wwon.seokk.abandonedpets.ui.Destinations.PetDetail
 import wwon.seokk.abandonedpets.ui.Destinations.PetKind
 import wwon.seokk.abandonedpets.ui.Destinations.PetRegion
 import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetRequest
@@ -19,10 +21,12 @@ object Destinations {
     const val PetRegion = "petRegion"
     const val PetKind = "petKind"
     const val Calendar = "calendar"
+    const val PetDetail = "petDetail"
 }
 
 object PetRequestArgs {
     const val PetRequest = "petRequest"
+    const val PetInfo = "petInfo"
 }
 
 class Actions(navHostController: NavHostController) {
@@ -41,6 +45,10 @@ class Actions(navHostController: NavHostController) {
         navHostController.navigate("$Calendar?petRequest=$request")
     }
 
+    val openPetDetail: (AbandonmentPublicResultEntity) -> Unit = {
+        val request = Uri.encode(Gson().toJson(it))
+        navHostController.navigate("$PetDetail?petInfo=$request")
+    }
     val navigateBack: () -> Unit = {
         navHostController.popBackStack()
     }

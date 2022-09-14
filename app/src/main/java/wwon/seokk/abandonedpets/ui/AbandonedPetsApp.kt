@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.ui
 
+import android.view.Window
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -10,10 +11,13 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import wwon.seokk.abandonedpets.ui.Destinations.Calendar
 import wwon.seokk.abandonedpets.ui.Destinations.Home
+import wwon.seokk.abandonedpets.ui.Destinations.PetDetail
 import wwon.seokk.abandonedpets.ui.Destinations.PetKind
 import wwon.seokk.abandonedpets.ui.Destinations.PetRegion
+import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetInfo
 import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetRequest
 import wwon.seokk.abandonedpets.ui.calendar.CalendarScreen
+import wwon.seokk.abandonedpets.ui.details.PetDetailsScreen
 import wwon.seokk.abandonedpets.ui.home.HomeScreen
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
 import wwon.seokk.abandonedpets.ui.kind.PetKindScreen
@@ -33,7 +37,8 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
                 widthSize = widthSize,
                 openPetRegionSearch = actions.openPetRegionSearch,
                 openPetKindSearch = actions.openPetKindSearch,
-                openCalendar = actions.openCalendar
+                openCalendar = actions.openCalendar,
+                openPetDetail = actions.openPetDetail
             )
         }
         composable("$PetRegion?petRequest={$PetRequest}",
@@ -72,6 +77,17 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
             val parentViewModel = hiltViewModel<HomeViewModel>(parentEntry)
             CalendarScreen(
                 parentViewModel = parentViewModel,
+                navigateBack = actions.navigateBack
+            )
+        }
+
+        composable("$PetDetail?petInfo={$PetInfo}",
+            arguments = listOf(
+                navArgument(PetInfo) {
+                    type = AbandonmentPublicResultNavType()
+                }
+            )) {
+            PetDetailsScreen(
                 navigateBack = actions.navigateBack
             )
         }

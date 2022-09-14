@@ -2,6 +2,7 @@ package wwon.seokk.abandonedpets.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -20,7 +21,7 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 @Composable
 fun HomeAppBar(
     title: String,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     TopAppBar(
         title = {

@@ -47,6 +47,7 @@ fun PetKindScreen(
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden, skipHalfExpanded = true)
 
     ModalBottomSheetLayout(
+        modifier = Modifier.statusBarsPadding(),
         sheetState = bottomState,
         sheetShape =  AbandonedPetsTheme.shapes.bottomSheetShape,
         sheetBackgroundColor = Color.White,

@@ -12,8 +12,9 @@
 
         <item name="colorSurfaceVariant">@color/surfaceVariantColor</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorSurfaceVariant</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>

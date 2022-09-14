@@ -1,7 +1,6 @@
 package wwon.seokk.abandonedpets.ui.calendar
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -33,10 +32,10 @@ fun CalendarScreen(
     val state by stateLifecycleAware.collectAsState(initial = calendarViewModel.createInitialState())
 
     CalendarContent(
-    calendarState = state,
-    onDayClicked = { dateClicked ->
-        calendarViewModel.setSelectedDay(parentViewModel, dateClicked)
-    },
+        calendarState = state,
+        onDayClicked = { dateClicked ->
+            calendarViewModel.setSelectedDay(parentViewModel, dateClicked)
+        },
         onBackPressed = navigateBack
     )
 }
@@ -49,9 +48,9 @@ private fun CalendarContent(
     onBackPressed: () -> Unit
 ) {
     Scaffold(
-        modifier = Modifier.windowInsetsPadding(
-            WindowInsets.navigationBars.only(WindowInsetsSides.Start + WindowInsetsSides.End)
-        ),
+        modifier = Modifier
+            .statusBarsPadding()
+            .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Start + WindowInsetsSides.End)),
         backgroundColor = AbandonedPetsTheme.colors.surfaceColor,
 //        topBar = {
 //            CalendarTopAppBar(calendarState, onBackPressed)

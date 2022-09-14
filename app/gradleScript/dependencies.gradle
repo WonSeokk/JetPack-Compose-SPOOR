@@ -71,6 +71,12 @@ dependencies {
     def leakcanary_version = "2.8.1"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
 
+    def toolbar_compose_version = "2.3.4"
+    implementation "me.onebone:toolbar-compose:$toolbar_compose_version"
+
+    def accompanist_version = "0.17.0"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+
     //test dependencies
     def junit_version = "4.13.2"
     testImplementation "junit:junit:$junit_version"

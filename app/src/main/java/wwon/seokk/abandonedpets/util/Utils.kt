@@ -37,7 +37,7 @@ fun calculateNoticeDate(noticeEdt: String): String {
     val basicFormatter = DateTimeFormatter.BASIC_ISO_DATE
     val now = LocalDateTime.now()
     val endDate= LocalDate.parse(noticeEdt, basicFormatter)
-    return ChronoUnit.DAYS.between(endDate, now).toString().replace("-","")
+        return ChronoUnit.DAYS.between(endDate, now).toString().replace("-","")
 }
 
 fun endStateText(text: String) =
