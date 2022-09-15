@@ -2,6 +2,8 @@ package wwon.seokk.abandonedpets.domain.entity.abandonmentpublic
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import wwon.seokk.abandonedpets.util.toFormat
+import java.time.LocalDate
 
 /**
  * Created by WonSeok on 2022.08.02
@@ -10,15 +12,15 @@ import kotlinx.parcelize.Parcelize
 data class AbandonmentPublicResultEntity (
     val desertionNo: String = "",
     val filename: String = "",
-    val happenDt: String = "",
+    val happenDt: String = LocalDate.now().toFormat(),
     val happenPlace: String = "",
     val kindCd: String = "",
     val colorCd: String = "",
     val age: String = "",
     val weight: String = "",
     val noticeNo: String = "",
-    val noticeSdt: String = "",
-    val noticeEdt: String = "",
+    val noticeSdt: String = LocalDate.now().toFormat(),
+    val noticeEdt: String = LocalDate.now().toFormat(),
     val popfile: String = "",
     val processState: String = "",
     val sexCd: String = "",

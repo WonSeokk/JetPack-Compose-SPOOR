@@ -45,10 +45,11 @@ fun endStateText(text: String) =
 
 
 fun calculateAge(birth: String): String {
+    val year = birth.ifBlank { LocalDate.now().year.toString() }
     val basicFormatter = DateTimeFormatter.BASIC_ISO_DATE
     val now = LocalDateTime.now()
-    val year = LocalDate.parse(birth.plus("0101"), basicFormatter)
-    return ChronoUnit.YEARS.between(year, now).plus(1).toString().replace("-","")
+    val compareDate = LocalDate.parse("${year}0101", basicFormatter)
+    return ChronoUnit.YEARS.between(compareDate, now).plus(1).toString().replace("-","")
 }
 
 fun YearMonth.getNumberWeeks(weekFields: WeekFields = CALENDAR_STARTS_ON): Int {

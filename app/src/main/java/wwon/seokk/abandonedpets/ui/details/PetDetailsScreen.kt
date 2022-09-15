@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,7 +44,13 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 import me.onebone.toolbar.*
 import wwon.seokk.abandonedpets.R
+import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
+import wwon.seokk.abandonedpets.ui.common.BottomDivider
+import wwon.seokk.abandonedpets.ui.common.PetNoticeSurface
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
+import wwon.seokk.abandonedpets.util.calculateAge
+import wwon.seokk.abandonedpets.util.noticeDateFormatter
+import wwon.seokk.abandonedpets.util.toFormat
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -66,7 +73,7 @@ fun PetDetailsScreen(
         stateFlow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
     }
     val uiState by stateLifecycleAware.collectAsState(initial = petDetailsViewModel.createInitialState())
-    val petDetail = uiState.petDetail.value
+    val pet = uiState.petDetail.value
 
     Box {
         systemUiController.setStatusBarColor(
@@ -78,7 +85,7 @@ fun PetDetailsScreen(
             state = state,
             toolbar = {
                 AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-                    .data(petDetail.popfile)
+                    .data(pet.popfile)
                     .crossfade(true)
                     .build(),
                     contentScale = ContentScale.Crop,
@@ -86,7 +93,7 @@ fun PetDetailsScreen(
                     contentDescription = stringResource(id = R.string.pet_image_description),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(350.dp)
+                        .height(400.dp)
                         .road(Alignment.BottomCenter, Alignment.TopCenter)
                 )
                 val test = if(isScroll) 80.dp else 0.dp
@@ -121,29 +128,96 @@ fun PetDetailsScreen(
             },
             scrollStrategy = ScrollStrategy.ExitUntilCollapsed
         ) {
-            Body(state.toolbarState)
+            Body(pet)
         }
         BottomBar(modifier = Modifier.align(Alignment.BottomCenter))
     }
 }
 
 @Composable
-private fun Body(
-    state: CollapsingToolbarState
-) {
-    val maxHeight = remember { state.maxHeight }
-    val scope = rememberCoroutineScope()
+private fun Body(pet: AbandonmentPublicResultEntity) {
     val scroll = rememberScrollState(0)
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scroll)
+            .padding(20.dp)
+            .verticalScroll(scroll),
     ){
-//        Text(text = scroll.isScrollInProgress.toString())
-        Text(text = state.height.toString())
-        Text(text = state.minHeight.toString())
-        Text(text = state.maxHeight.toString())
+        PetDetailTitle(pet)
+        BottomDivider()
+        PetDetailContent(pet)
     }
+}
+
+@Composable
+private fun PetDetailTitle(pet: AbandonmentPublicResultEntity) {
+    PetNoticeSurface(pet)
+    Spacer(Modifier.height(5.dp))
+    DetailTitleText(pet.noticeNo)
+    DetailBodyText("공고 기간",noticeDateFormatter(pet.noticeSdt, pet.noticeEdt))
+}
+
+@Composable
+private fun PetDetailContent(pet: AbandonmentPublicResultEntity) {
+    Spacer(Modifier.height(15.dp))
+    DetailTitleText("유기동물 특징")
+    Spacer(Modifier.height(10.dp))
+    DetailBodyText("품종",pet.kindCd)
+    DetailBodyText("색상",pet.colorCd)
+    DetailBodyText("성별",when(pet.sexCd) {
+        "M" -> "남"
+        "F" -> "여"
+        else -> "모름"
+    })
+    DetailBodyText("나이", calculateAge(pet.age.replace("(년생)", "")))
+    DetailBodyText("체중", pet.weight)
+    DetailBodyText("중성화", when(pet.neuterYn) {
+        "N" -> "X"
+        "Y" -> "O"
+        else -> "모름"
+    })
+    DetailBodyText("특징", pet.specialMark)
+    DetailBodyText("구조 된 날", pet.happenDt.toFormat().toFormat())
+    DetailBodyText("구조 장소", pet.happenPlace)
+    Spacer(Modifier.height(15.dp))
+    DetailTitleText("동물보호기관")
+    Spacer(Modifier.height(10.dp))
+    DetailBodyText("기관명", pet.careNm)
+    DetailBodyText("연락처", pet.careTel)
+    DetailBodyText("위치", pet.careAddr)
+}
+
+@Composable
+private fun DetailTitleText(text: String) {
+    Text(
+        text = text,
+        style = AbandonedPetsTheme.typography.title1.copy(
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp
+        )
+    )
+    Spacer(Modifier.height(5.dp))
+}
+
+@Composable
+private fun DetailBodyText(title: String, content: String) {
+    Row {
+        Text(
+            modifier = Modifier.weight(0.25f),
+            text = title,
+            style = AbandonedPetsTheme.typography.body1.copy(
+                fontSize = 13.sp
+            )
+        )
+        Text(
+            modifier = Modifier.weight(1f),
+            text = content,
+            style = AbandonedPetsTheme.typography.body1.copy(
+                fontSize = 14.sp
+            )
+        )
+    }
+    Spacer(Modifier.height(5.dp))
 }
 
 @Composable
@@ -172,25 +246,12 @@ private fun BottomBar(modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun BottomDivider(
-    modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f),
-    thickness: Dp = 1.dp,
-    startIndent: Dp = 0.dp
-) {
-    Divider(
-        modifier = modifier,
-        color = color,
-        thickness = thickness,
-        startIndent = startIndent
-    )
-}
 
 @Preview(showBackground = true)
 @Composable
 private fun PetDetailsPreView() {
     AbandonedPetsTheme {
-        PetDetailsScreen {}
+//        PetDetailsScreen {}
+        Body(AbandonmentPublicResultEntity.EMPTY)
     }
 }

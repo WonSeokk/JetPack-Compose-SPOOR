@@ -21,11 +21,13 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
+import wwon.seokk.abandonedpets.ui.common.PetNoticeSurface
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.calculateAge
 import wwon.seokk.abandonedpets.util.calculateNoticeDate
 import wwon.seokk.abandonedpets.util.endStateText
 import wwon.seokk.abandonedpets.util.noticeDateFormatter
+import java.time.LocalDate
 
 /**
  * Created by WonSeok on 2022.08.15
@@ -54,7 +56,7 @@ fun PetCard(
                     .weight(1f)
                     .padding(20.dp, 5.dp, 5.dp, 5.dp)
             ) {
-                PetNotice(pet)
+                PetNoticeSurface(pet)
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -71,29 +73,6 @@ fun PetCard(
         }
     }
 }
-
-@Composable
-private fun PetNotice(pet: AbandonmentPublicResultEntity) {
-    Surface(
-        shape = AbandonedPetsTheme.shapes.circleRoundCornerShape,
-        color = if(pet.processState == "보호중") 
-            AbandonedPetsTheme.colors.primaryColor 
-        else 
-            AbandonedPetsTheme.colors.redColor
-    ) {
-        Row{
-            Text(
-                text = if(pet.processState == "보호중")
-                    stringResource(id = R.string.end_notice_format, calculateNoticeDate(pet.noticeEdt))
-                else
-                    stringResource(id = R.string.end_state_format, endStateText(pet.processState)),
-                style = AbandonedPetsTheme.typography.body2.copy(color = Color.White),
-                modifier = Modifier.padding(10.dp, 5.dp, 10.dp, 5.dp)
-            )
-        }
-    }
-}
-
 
 @Composable
 private fun PetInfo(pet: AbandonmentPublicResultEntity) {
@@ -160,11 +139,6 @@ private fun PetImage(pet: AbandonmentPublicResultEntity) {
 @Composable
 private fun PetCardPreview() {
     AbandonedPetsTheme{
-        PetCard(
-            AbandonmentPublicResultEntity("","","","",
-                "","","","","","20220809","20220905","","보호중",
-                "","","","","","","","",""),
-            petClick ={ }
-        )
+        PetCard(AbandonmentPublicResultEntity.EMPTY){ }
     }
 }

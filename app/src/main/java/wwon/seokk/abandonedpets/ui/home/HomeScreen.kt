@@ -34,6 +34,7 @@ import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.ui.common.HomeAppBar
+import wwon.seokk.abandonedpets.ui.common.PetListDivider
 import wwon.seokk.abandonedpets.ui.common.ScreenLoading
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
@@ -166,14 +167,6 @@ fun PetListing(
             }
         }
     }
-}
-
-@Composable
-private fun PetListDivider() {
-    Divider(
-        modifier = Modifier.padding(horizontal = 14.dp),
-        color = MaterialTheme.colors.onSurface.copy(alpha = 0.08f)
-    )
 }
 
 @Composable
