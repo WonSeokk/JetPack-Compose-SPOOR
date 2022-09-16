@@ -10,6 +10,7 @@ import javax.annotation.concurrent.Immutable
 val PrimaryColor = Color(0xFF87C580)
 val SurfaceColor = Color(0xFFFFFFFF)
 val SurfaceVariantColor = Color(0xFFF2F4F6)
+val SurfaceOppositeColor = Color(0xFF000000)
 val RedColor = Color(0xFFE16D6D)
 
 @Immutable
@@ -17,6 +18,7 @@ data class AbandonedPetsColors(
     val primaryColor: Color,
     val surfaceColor: Color,
     val surfaceVariantColor: Color,
+    val surfaceOppositeColor: Color,
     val redColor: Color
 )
 
@@ -25,6 +27,7 @@ val LocalAbandonedPetsColors = staticCompositionLocalOf {
         primaryColor = Color.Blue,
         surfaceColor = Color.White,
         surfaceVariantColor = Color.LightGray,
+        surfaceOppositeColor = Color.Black,
         redColor = Color.Red
     )
 }

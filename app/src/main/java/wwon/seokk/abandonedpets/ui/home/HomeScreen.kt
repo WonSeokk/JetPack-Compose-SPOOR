@@ -1,23 +1,18 @@
 package wwon.seokk.abandonedpets.ui.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,8 +20,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.SnackBarView
@@ -37,6 +30,7 @@ import wwon.seokk.abandonedpets.ui.common.HomeAppBar
 import wwon.seokk.abandonedpets.ui.common.PetListDivider
 import wwon.seokk.abandonedpets.ui.common.ScreenLoading
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
+import wwon.seokk.abandonedpets.util.setStatusBar
 
 /**
  * Created by WonSeok on 2022.08.05
@@ -52,10 +46,7 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(
-        darkIcons = true,
-        color = Color.Transparent
-    )
+    systemUiController.setStatusBar(true)
     val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed)
 
     val lifecycleOwner = LocalLifecycleOwner.current

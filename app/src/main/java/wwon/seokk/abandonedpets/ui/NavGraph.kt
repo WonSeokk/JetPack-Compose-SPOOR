@@ -8,6 +8,7 @@ import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRe
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.ui.Destinations.Calendar
 import wwon.seokk.abandonedpets.ui.Destinations.Home
+import wwon.seokk.abandonedpets.ui.Destinations.Image
 import wwon.seokk.abandonedpets.ui.Destinations.PetDetail
 import wwon.seokk.abandonedpets.ui.Destinations.PetKind
 import wwon.seokk.abandonedpets.ui.Destinations.PetRegion
@@ -22,11 +23,13 @@ object Destinations {
     const val PetKind = "petKind"
     const val Calendar = "calendar"
     const val PetDetail = "petDetail"
+    const val Image = "image"
 }
 
 object PetRequestArgs {
     const val PetRequest = "petRequest"
     const val PetInfo = "petInfo"
+    const val ImageUri = "imageUri"
 }
 
 class Actions(navHostController: NavHostController) {
@@ -49,6 +52,11 @@ class Actions(navHostController: NavHostController) {
         val request = Uri.encode(Gson().toJson(it))
         navHostController.navigate("$PetDetail?petInfo=$request")
     }
+
+    val openImagePerView: (String) -> Unit = {
+        navHostController.navigate("$Image?uri=$it")
+    }
+
     val navigateBack: () -> Unit = {
         navHostController.popBackStack()
     }
