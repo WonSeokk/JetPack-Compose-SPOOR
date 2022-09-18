@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.region.RegionResultEntity
@@ -91,6 +92,7 @@ private fun MainContent(
     petRegionViewModel: PetRegionViewModel?,
     navigateBack: () -> Unit
 ) {
+    val scope = rememberCoroutineScope()
     Column(
         modifier = Modifier
             .padding(15.dp)
@@ -123,6 +125,7 @@ private fun MainContent(
         TextButton(
             onClick = {
                 parentViewModel?.requestPets(petRegionViewModel!!.requestQuery)
+                scope.launch { delay(500) }
                 navigateBack.invoke()
             },
             modifier = Modifier

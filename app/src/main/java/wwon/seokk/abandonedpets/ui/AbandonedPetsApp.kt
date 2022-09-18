@@ -1,6 +1,5 @@
 package wwon.seokk.abandonedpets.ui
 
-import android.view.Window
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -25,7 +24,6 @@ import wwon.seokk.abandonedpets.ui.details.PetDetailsScreen
 import wwon.seokk.abandonedpets.ui.home.HomeScreen
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
 import wwon.seokk.abandonedpets.ui.kind.PetKindScreen
-import wwon.seokk.abandonedpets.ui.kind.PetKindViewModel
 import wwon.seokk.abandonedpets.ui.region.PetRegionScreen
 
 /**

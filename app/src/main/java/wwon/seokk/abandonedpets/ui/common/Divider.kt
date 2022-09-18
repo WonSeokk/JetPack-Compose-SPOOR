@@ -9,6 +9,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+/**
+ * Created by WonSeok on 2022.09.15
+ **/
 @Composable
 fun PetListDivider() {
     Divider(

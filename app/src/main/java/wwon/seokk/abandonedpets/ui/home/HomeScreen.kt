@@ -1,8 +1,11 @@
 package wwon.seokk.abandonedpets.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
@@ -22,14 +25,12 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import wwon.seokk.abandonedpets.ui.base.ScreenState
-import wwon.seokk.abandonedpets.ui.common.SnackBarView
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
-import wwon.seokk.abandonedpets.ui.common.HomeAppBar
-import wwon.seokk.abandonedpets.ui.common.PetListDivider
-import wwon.seokk.abandonedpets.ui.common.ScreenLoading
+import wwon.seokk.abandonedpets.ui.common.*
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
+import wwon.seokk.abandonedpets.util.rememberLazyListState
 import wwon.seokk.abandonedpets.util.setStatusBar
 
 /**
@@ -47,8 +48,8 @@ fun HomeScreen(
 ) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBar(true)
-    val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed)
 
+    val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed)
     val lifecycleOwner = LocalLifecycleOwner.current
     val stateFlow = homeViewModel.uiState()
     val stateLifecycleAware = remember(lifecycleOwner, stateFlow) {
@@ -85,24 +86,28 @@ fun HomeScreen(
             PetSearchContent(widthSize, state, openPetRegionSearch, openPetKindSearch, openCalendar)
         },
         frontLayerContent = {
-            HomeContent(uiState = state, openPetDetail = openPetDetail)
+            HomeContent(homeViewModel = homeViewModel, uiState = state, openPetDetail = openPetDetail)
         }
     )
 }
 
 @Composable
 fun HomeContent(
+    homeViewModel: HomeViewModel,
     uiState: HomeState,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 5.dp)
+            .wrapContentSize(Alignment.Center),
         color = Color.White,
         shape = AbandonedPetsTheme.shapes.bottomSheetShape) {
         Column {
 //            SearchScreen("전체","전체","전체","2022.08.01 ~ 2022.08.30")
             Spacer(Modifier.height(8.dp))
-            PetListing(uiState = uiState, openPetDetail = openPetDetail)
+            PetListing(homeViewModel = homeViewModel, uiState = uiState, openPetDetail = openPetDetail)
         }
     }
 }
@@ -110,23 +115,24 @@ fun HomeContent(
 
 @Composable
 fun PetListing(
+    homeViewModel: HomeViewModel,
     uiState: HomeState,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit
 ) {
-    val errorMessage: String = stringResource(id = R.string.home_screen_scroll_error)
+    val errorMessage: String = ""
     val action: String = stringResource(id = R.string.all_ok)
 
     when (uiState.screenState) {
         is ScreenState.Loading -> {
-            //do nothing
         }
         is ScreenState.Error -> {
-//            GetGamesError { homeViewModel.initData() }
+            GetPetsError { homeViewModel.initData() }
         }
         is ScreenState.Success -> {
             val lazyPetItems = uiState.abandonedPets?.collectAsLazyPagingItems()
             lazyPetItems?.let { petItems ->
-                LazyColumn {
+                val listState: LazyListState = lazyPetItems.rememberLazyListState()
+                LazyColumn(state = listState) {
                     items(petItems.itemCount) { index ->
                         petItems[index]?.let { petInfo ->
                             PetCard(
@@ -146,14 +152,13 @@ fun PetListing(
                                 item { ScreenLoading() }
                             }
                             loadState.refresh is LoadState.Error -> {
-//                                homeViewModel.handlePaginationDataError()
+                                homeViewModel.handlePaginationDataError()
                             }
                             loadState.append is LoadState.Error -> {
-//                                homeViewModel.handlePaginationAppendError(errorMessage, action)
+                                homeViewModel.handlePaginationDataError()
                             }
                         }
                     }
-
                 }
             }
         }
@@ -168,8 +173,9 @@ fun SearchScreen(
     date: String
 ) {
     Row(
-        modifier = Modifier.height(32.dp)
-            .padding(start=10.dp, top=10.dp, end=10.dp, bottom=0.dp)
+        modifier = Modifier
+            .height(32.dp)
+            .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 0.dp)
     ) {
         Column(
             Modifier

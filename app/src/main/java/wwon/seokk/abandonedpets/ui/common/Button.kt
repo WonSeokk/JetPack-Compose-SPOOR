@@ -4,16 +4,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.Cancel
-import androidx.compose.material.icons.outlined.CancelPresentation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
-
+/**
+ * Created by WonSeok on 2022.09.16
+ **/
 @Composable
 fun FavoriteButton(
     isLiked: Boolean,

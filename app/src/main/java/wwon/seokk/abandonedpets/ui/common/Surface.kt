@@ -15,6 +15,9 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.calculateNoticeDate
 import wwon.seokk.abandonedpets.util.endStateText
 
+/**
+ * Created by WonSeok on 2022.09.16
+ **/
 @Composable
 fun PetNoticeSurface(pet: AbandonmentPublicResultEntity) {
     Surface(

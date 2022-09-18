@@ -1,6 +1,11 @@
 package wwon.seokk.abandonedpets.util
 
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.systemuicontroller.SystemUiController
 import wwon.seokk.abandonedpets.ui.calendar.CALENDAR_STARTS_ON
 import java.time.LocalDate
@@ -64,4 +69,19 @@ fun SystemUiController.setStatusBar(darkMode: Boolean) {
         darkIcons = darkMode,
         color = Color.Transparent
     )
+}
+
+@Composable
+fun <T : Any> LazyPagingItems<T>.rememberLazyListState(): LazyListState {
+    // After recreation, LazyPagingItems first return 0 items, then the cached items.
+    // This behavior/issue is resetting the LazyListState scroll position.
+    // Below is a workaround. More info: https://issuetracker.google.com/issues/177245496.
+    return when (itemCount) {
+        // Return a different LazyListState instance.
+        0 -> remember(this) { LazyListState(0, 0) }
+        // Return rememberLazyListState (normal case).
+        else -> {
+            androidx.compose.foundation.lazy.rememberLazyListState()
+        }
+    }
 }
