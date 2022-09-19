@@ -21,7 +21,8 @@ fun AbandonedPetsTheme(content: @Composable () -> Unit) {
         surfaceColor = SurfaceColor,
         surfaceVariantColor = SurfaceVariantColor,
         surfaceOppositeColor = SurfaceOppositeColor,
-        redColor = RedColor
+        redColor = RedColor,
+        orangeColor = OrangeColor
     )
 
     val localAbandonedPetsShapes = AbandonedPetsShapes(

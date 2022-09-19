@@ -128,7 +128,7 @@ private fun PetImage(pet: AbandonmentPublicResultEntity) {
             .crossfade(true)
             .build(),
             contentScale = ContentScale.FillBounds,
-            placeholder = painterResource(R.drawable.ic_pets),
+            placeholder = painterResource(R.drawable.ic_spoor),
             contentDescription = stringResource(id = R.string.pet_image_description),
         )
     }

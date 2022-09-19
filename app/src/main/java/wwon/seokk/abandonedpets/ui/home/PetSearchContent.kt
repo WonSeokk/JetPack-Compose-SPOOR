@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.ui.base.ScreenState
+import wwon.seokk.abandonedpets.ui.common.ArrowIcon
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.noticeDateFormatter
 
@@ -98,13 +99,7 @@ private fun SearchInput(
             ){
                 SearchTextFieldText(title, uiState!!.requestQuery.value)
             }
-            Image(
-                painter = painterResource(id = R.drawable.ic_arrow_right),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .padding(0.dp, 0.dp, 12.dp, 0.dp)
-            )
+            ArrowIcon()
         }
     }
 }

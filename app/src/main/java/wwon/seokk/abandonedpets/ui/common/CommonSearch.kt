@@ -29,7 +29,7 @@ fun NoticeTitle(contentText: String) {
             style = AbandonedPetsTheme.typography.title1,
             modifier = Modifier
                 .weight(0.5f)
-                .padding(0.dp, 20.dp, 0.dp, 30.dp)
+                .padding(0.dp, 0.dp, 0.dp, 30.dp)
         )
         Row(modifier = Modifier.weight(0.5f)){}
     }

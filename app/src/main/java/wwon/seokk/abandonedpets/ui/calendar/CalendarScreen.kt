@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
+import wwon.seokk.abandonedpets.ui.common.NavigateUpAppBar
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import java.time.LocalDate
@@ -36,7 +37,7 @@ fun CalendarScreen(
         onDayClicked = { dateClicked ->
             calendarViewModel.setSelectedDay(parentViewModel, dateClicked)
         },
-        onBackPressed = navigateBack
+        navigateBack = navigateBack
     )
 }
 
@@ -45,16 +46,16 @@ fun CalendarScreen(
 private fun CalendarContent(
     calendarState: CalendarState,
     onDayClicked: (LocalDate) -> Unit,
-    onBackPressed: () -> Unit
+    navigateBack: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier
             .statusBarsPadding()
             .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Start + WindowInsetsSides.End)),
         backgroundColor = AbandonedPetsTheme.colors.surfaceColor,
-//        topBar = {
-//            CalendarTopAppBar(calendarState, onBackPressed)
-//        }
+        topBar = {
+            NavigateUpAppBar(navigateBack, AbandonedPetsTheme.colors.surfaceOppositeColor)
+        },
     ) { contentPadding ->
         Calendar(
             calendarState = calendarState,

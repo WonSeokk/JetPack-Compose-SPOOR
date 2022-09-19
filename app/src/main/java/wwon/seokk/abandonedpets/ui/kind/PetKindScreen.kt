@@ -61,6 +61,9 @@ fun PetKindScreen(
     ) {
         Scaffold(
             scaffoldState = scaffoldState,
+            topBar = {
+                NavigateUpAppBar(navigateBack, AbandonedPetsTheme.colors.surfaceOppositeColor)
+            },
             content = {
                 MainContent(
                     uiState = state,

@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
@@ -33,8 +34,9 @@ fun GetPetsError(buttonClick: () -> Unit) {
             modifier = Modifier.padding(8.dp),
             text = stringResource(id = R.string.home_screen_error_message),
             style = AbandonedPetsTheme.typography.body1.copy(
-                color = AbandonedPetsTheme.colors.surfaceOppositeColor,
-                textAlign = TextAlign.Center
+                color = Color.LightGray,
+                textAlign = TextAlign.Center,
+                fontSize = 16.sp
             )
         )
 
@@ -50,8 +52,31 @@ fun GetPetsError(buttonClick: () -> Unit) {
     }
 }
 
+@Composable
+fun EmptyResult() {
+    Text(
+        modifier = Modifier.padding(8.dp),
+        text = stringResource(id = R.string.home_screen_empty_message),
+        style = AbandonedPetsTheme.typography.body1.copy(
+            color = Color.LightGray,
+            textAlign = TextAlign.Center,
+            fontSize = 24.sp
+        )
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 fun ErrorItemPreview() {
-    GetPetsError { }
+    AbandonedPetsTheme {
+        GetPetsError { }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun EmptyResultPreview() {
+    AbandonedPetsTheme {
+        EmptyResult()
+    }
 }

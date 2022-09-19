@@ -20,17 +20,27 @@ import wwon.seokk.abandonedpets.util.endStateText
  **/
 @Composable
 fun PetNoticeSurface(pet: AbandonmentPublicResultEntity) {
+    val remainDay = calculateNoticeDate(pet.noticeEdt).toInt()
     Surface(
         shape = AbandonedPetsTheme.shapes.circleRoundCornerShape,
-        color = if(pet.processState == "보호중")
-            AbandonedPetsTheme.colors.primaryColor
+        color = if(pet.processState == "보호중") {
+            when {
+                remainDay < 7 -> AbandonedPetsTheme.colors.orangeColor
+                else -> AbandonedPetsTheme.colors.primaryColor
+            }
+        }
+
         else
             AbandonedPetsTheme.colors.redColor
     ) {
         Row{
             Text(
-                text = if(pet.processState == "보호중")
-                    stringResource(id = R.string.end_notice_format, calculateNoticeDate(pet.noticeEdt))
+                text = if(pet.processState == "보호중") {
+                    when (remainDay) {
+                        0 -> stringResource(id = R.string.end_today_format, remainDay)
+                        else -> stringResource(id = R.string.end_notice_format, remainDay)
+                    }
+                }
                 else
                     stringResource(id = R.string.end_state_format, endStateText(pet.processState)),
                 style = AbandonedPetsTheme.typography.body2.copy(color = Color.White),

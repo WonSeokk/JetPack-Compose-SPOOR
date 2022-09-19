@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.ui.home
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -34,7 +35,7 @@ class HomeViewModel @Inject constructor(
 
     override fun initData() {
         handleSearch()
-        requestPets()
+        requestPets(uiState().value.requestQuery.value)
     }
 
     private fun handleSearch() = intent {
@@ -43,27 +44,22 @@ class HomeViewModel @Inject constructor(
             reduce {
                 state.copy(
                     screenState = ScreenState.Success,
-                    abandonedPets = result,
+                    abandonedPets = result.flow.cachedIn(viewModelScope),
                     error = null
                 )
             }
         }
     }
 
-    fun requestPets(query: GetAbandonmentPublicRequest? = null) = intent {
-        query?.let {
-            it.nextPage = 1
-            uiState().value.requestQuery.value = it
-            it
-        }.run {
-            requestQueryFlow.emit(this ?: uiState().value.requestQuery.value )
-        }
+    fun requestPets(query: GetAbandonmentPublicRequest = GetAbandonmentPublicRequest.EMPTY) = intent {
+        uiState().value.requestQuery.value = query
+        requestQueryFlow.emit(query)
     }
 
-    private fun getPets(): Flow<PagingData<AbandonmentPublicResultEntity>> {
+    private fun getPets(): Pager<Int, AbandonmentPublicResultEntity> {
         return Pager(PagingConfig(ApiConstants.NUM_ROW)) {
             PetsSource(abandonedPetsRepository, uiState().value.requestQuery.value)
-        }.flow.cachedIn(viewModelScope)
+        }
     }
 
     fun handlePaginationDataError() = intent {

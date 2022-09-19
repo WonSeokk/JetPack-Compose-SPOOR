@@ -12,6 +12,7 @@ val SurfaceColor = Color(0xFFFFFFFF)
 val SurfaceVariantColor = Color(0xFFF2F4F6)
 val SurfaceOppositeColor = Color(0xFF000000)
 val RedColor = Color(0xFFE16D6D)
+val OrangeColor= Color(0xFFED7739)
 
 @Immutable
 data class AbandonedPetsColors(
@@ -19,7 +20,8 @@ data class AbandonedPetsColors(
     val surfaceColor: Color,
     val surfaceVariantColor: Color,
     val surfaceOppositeColor: Color,
-    val redColor: Color
+    val redColor: Color,
+    val orangeColor: Color
 )
 
 val LocalAbandonedPetsColors = staticCompositionLocalOf {
@@ -28,6 +30,7 @@ val LocalAbandonedPetsColors = staticCompositionLocalOf {
         surfaceColor = Color.White,
         surfaceVariantColor = Color.LightGray,
         surfaceOppositeColor = Color.Black,
-        redColor = Color.Red
+        redColor = Color.Red,
+        orangeColor = Color.Yellow
     )
 }

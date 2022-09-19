@@ -21,8 +21,10 @@ import androidx.compose.ui.unit.dp
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.format.TextStyle
 import java.time.temporal.TemporalAdjusters
 import java.time.temporal.WeekFields
+import java.util.*
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -79,7 +81,7 @@ private fun LazyListScope.itemsCalendarMonth(
     item(month.yearMonth.month.name + month.yearMonth.year + "header") {
         MonthHeader(
             modifier = Modifier.padding(start = 32.dp, end = 32.dp, top = 32.dp),
-            month = month.yearMonth.month.name,
+            month = month.yearMonth.month.getDisplayName(TextStyle.FULL, Locale.KOREA),
             year = month.yearMonth.year.toString()
         )
     }

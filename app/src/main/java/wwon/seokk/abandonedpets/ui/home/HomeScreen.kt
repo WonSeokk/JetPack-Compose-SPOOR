@@ -16,18 +16,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.launch
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.R
+import wwon.seokk.abandonedpets.data.remote.ApiConstants
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
+import wwon.seokk.abandonedpets.domain.interatctor.PetsSource
 import wwon.seokk.abandonedpets.ui.common.*
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.rememberLazyListState
@@ -80,36 +85,47 @@ fun HomeScreen(
         frontLayerScrimColor = Color.Unspecified,
         frontLayerElevation = 0.dp,
         appBar = {
-            HomeAppBar("SPOOR")
+            HomeAppBar()
         },
         backLayerContent = {
             PetSearchContent(widthSize, state, openPetRegionSearch, openPetKindSearch, openCalendar)
         },
         frontLayerContent = {
-            HomeContent(homeViewModel = homeViewModel, uiState = state, openPetDetail = openPetDetail)
+            HomeContent(scaffoldState = scaffoldState, homeViewModel = homeViewModel, uiState = state, openPetDetail = openPetDetail)
         }
     )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeContent(
+    scaffoldState: BackdropScaffoldState,
     homeViewModel: HomeViewModel,
     uiState: HomeState,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit
 ) {
-    Surface(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 5.dp)
-            .wrapContentSize(Alignment.Center),
-        color = Color.White,
-        shape = AbandonedPetsTheme.shapes.bottomSheetShape) {
-        Column {
-//            SearchScreen("전체","전체","전체","2022.08.01 ~ 2022.08.30")
-            Spacer(Modifier.height(8.dp))
-            PetListing(homeViewModel = homeViewModel, uiState = uiState, openPetDetail = openPetDetail)
+    Column {
+        HeaderScreen(
+            scaffoldState = scaffoldState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(35.dp)
+                .padding(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 0.dp)
+        )
+        Spacer(Modifier.height(12.dp))
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 5.dp)
+                .wrapContentSize(Alignment.Center),
+            color = Color.White,
+            shape = AbandonedPetsTheme.shapes.bottomSheetShape) {
+            Column {
+                PetListing(homeViewModel = homeViewModel, uiState = uiState, openPetDetail = openPetDetail)
+            }
         }
     }
+
 }
 
 
@@ -119,8 +135,7 @@ fun PetListing(
     uiState: HomeState,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit
 ) {
-    val errorMessage: String = ""
-    val action: String = stringResource(id = R.string.all_ok)
+    val isLoading = remember { mutableStateOf(false)}
 
     when (uiState.screenState) {
         is ScreenState.Loading -> {
@@ -131,15 +146,17 @@ fun PetListing(
         is ScreenState.Success -> {
             val lazyPetItems = uiState.abandonedPets?.collectAsLazyPagingItems()
             lazyPetItems?.let { petItems ->
-                val listState: LazyListState = lazyPetItems.rememberLazyListState()
+                val listState: LazyListState =
+                    if(petItems.itemCount <= ApiConstants.NUM_ROW && isLoading.value)
+                        rememberLazyListState()
+                    else
+                        petItems.rememberLazyListState()
                 LazyColumn(state = listState) {
                     items(petItems.itemCount) { index ->
                         petItems[index]?.let { petInfo ->
                             PetCard(
                                 pet = petInfo,
-                                petClick = {
-                                openPetDetail.invoke(petInfo)
-                                } )
+                                petClick = { openPetDetail.invoke(petInfo) } )
                             PetListDivider()
                         }
                     }
@@ -149,13 +166,26 @@ fun PetListing(
                                 item {  ScreenLoading() }
                             }
                             loadState.append is LoadState.Loading -> {
+                                isLoading.value = true
                                 item { ScreenLoading() }
                             }
                             loadState.refresh is LoadState.Error -> {
-                                homeViewModel.handlePaginationDataError()
+                                val msg = (loadState.refresh as LoadState.Error).error.message
+                                if(msg == PetsSource.EMPTY_LIST)
+                                    item { EmptyResult() }
+                                else
+                                    homeViewModel.handlePaginationDataError()
                             }
                             loadState.append is LoadState.Error -> {
-                                homeViewModel.handlePaginationDataError()
+                                val msg = (loadState.append as LoadState.Error).error.message
+                                if(msg != PetsSource.EMPTY_LIST)
+                                    homeViewModel.handlePaginationDataError()
+                            }
+                            loadState.append is LoadState.NotLoading -> {
+                                isLoading.value = false
+                                if(loadState.append.endOfPaginationReached && itemCount == 0) {
+                                    homeViewModel.handlePaginationDataError()
+                                }
                             }
                         }
                     }
@@ -165,44 +195,35 @@ fun PetListing(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SearchScreen(
-    sido: String,
-    sigungu: String,
-    shelter: String,
-    date: String
-) {
-    Row(
-        modifier = Modifier
-            .height(32.dp)
-            .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 0.dp)
-    ) {
-        Column(
-            Modifier
-                .weight(1f)
-                .align(Alignment.CenterVertically)) {
-            Text(
-                text = "$sido | $sigungu | $shelter | $date",
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier
-                    .padding(start = 8.dp)
+fun HeaderScreen(scaffoldState: BackdropScaffoldState, modifier: Modifier) {
+    Box(modifier = modifier) {
+        val scope = rememberCoroutineScope()
+        Text(
+            text = "🐾 도움이 필요한 아이들",
+            style = AbandonedPetsTheme.typography.title1.copy(
+                fontSize = 18.sp
             )
-        }
-        Image(
-            painter = painterResource(id = R.drawable.ic_search),
-            contentDescription = null,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier.align(Alignment.CenterVertically)
         )
+        BackdropButton(
+            isRevealed = scaffoldState.isRevealed,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+        ) {
+            scope.launch {
+                if(scaffoldState.isRevealed) scaffoldState.conceal() else scaffoldState.reveal()
+            }
+        }
     }
 }
 
 
 
 
-@Preview(showBackground = true)
-@Composable
-fun SearchTitlePreview() {
-    SearchScreen("전체","전체","전체","2022.07.01 ~ 2022.07.30")
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SearchTitlePreview() {
+//    SearchScreen("전체","전체","전체","2022.07.01 ~ 2022.07.30")
+//}
 
