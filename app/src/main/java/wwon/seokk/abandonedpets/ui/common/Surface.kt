@@ -23,26 +23,24 @@ fun PetNoticeSurface(pet: AbandonmentPublicResultEntity) {
     val remainDay = calculateNoticeDate(pet.noticeEdt).toInt()
     Surface(
         shape = AbandonedPetsTheme.shapes.circleRoundCornerShape,
-        color = if(pet.processState == "보호중") {
+        color = if(pet.processState == stringResource(id = R.string.common_caring))
             when {
                 remainDay < 7 -> AbandonedPetsTheme.colors.orangeColor
                 else -> AbandonedPetsTheme.colors.primaryColor
             }
-        }
-
         else
             AbandonedPetsTheme.colors.redColor
     ) {
         Row{
             Text(
-                text = if(pet.processState == "보호중") {
+                text = if(pet.processState == stringResource(id = R.string.common_caring)) {
                     when (remainDay) {
-                        0 -> stringResource(id = R.string.end_today_format, remainDay)
-                        else -> stringResource(id = R.string.end_notice_format, remainDay)
+                        0 -> stringResource(id = R.string.format_end_today, remainDay)
+                        else -> stringResource(id = R.string.format_end_notice, remainDay)
                     }
                 }
                 else
-                    stringResource(id = R.string.end_state_format, endStateText(pet.processState)),
+                    stringResource(id = R.string.format_end_state, endStateText(pet.processState)),
                 style = AbandonedPetsTheme.typography.body2.copy(color = Color.White),
                 modifier = Modifier.padding(10.dp, 5.dp, 10.dp, 5.dp)
             )

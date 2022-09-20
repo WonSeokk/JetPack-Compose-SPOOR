@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -16,6 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.region.RegionResultEntity
 import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterResultEntity
@@ -101,25 +103,25 @@ private fun MainContent(
             .padding(15.dp)
             .fillMaxSize()
     ) {
-        NoticeTitle(contentText = "찾고 있는 지역이\n어디인가요?")
+        NoticeTitle(contentText = stringResource(id = R.string.region_screen_questions_message))
         DropDownTextField(
-            labelText = "시/도",
-            value = uiState?.selectedUprRegion?.value?.orgNm ?: "전체",
+            labelText = stringResource(id = R.string.region_screen_sido),
+            value = uiState?.selectedUprRegion?.value?.orgNm ?: stringResource(id = R.string.common_all),
             bottomState = bottomState,
             field = SheetField.UprRegion,
             state = uiState,
             viewModel = petRegionViewModel
         )
-        DropDownTextField(labelText = "시/군/구",
-            value = uiState?.selectedOrgRegion?.value?.orgNm ?: "전체",
+        DropDownTextField(labelText = stringResource(id = R.string.region_screen_sigungu),
+            value = uiState?.selectedOrgRegion?.value?.orgNm ?: stringResource(id = R.string.common_all),
             bottomState = bottomState,
             field = SheetField.OrgRegion,
             state = uiState,
             viewModel = petRegionViewModel
         )
         DropDownTextField(
-            labelText = "보호소",
-            value = uiState?.selectedShelter?.value?.careNm ?: "전체",
+            labelText = stringResource(id = R.string.region_screen_shelter),
+            value = uiState?.selectedShelter?.value?.careNm ?: stringResource(id = R.string.common_all),
             bottomState = bottomState,
             field = SheetField.Shelter,
             state = uiState,
@@ -138,7 +140,7 @@ private fun MainContent(
                 contentColor = Color.White,
                 backgroundColor = AbandonedPetsTheme.colors.primaryColor
         )) {
-            Text(text = "확인")
+            Text(text = stringResource(id = R.string.common_confirm))
         }
     }
 }
@@ -158,7 +160,7 @@ private fun BottomContent(
             .fillMaxHeight(0.5f)
     ) {
         Column {
-            NoticeTitle(contentText = "지역을 선택하세요")
+            NoticeTitle(contentText = stringResource(id = R.string.region_screen_select_message))
             SelectListing(uiState, bottomState, onSelectRegion, onSelectShelter)
         }
     }

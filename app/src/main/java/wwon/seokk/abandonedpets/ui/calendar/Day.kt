@@ -56,9 +56,6 @@ private fun DayContainer(
     onClickLabel: String? = null,
     content: @Composable () -> Unit
 ) {
-    val stateDescriptionLabel = stringResource(
-        if (selected) R.string.state_descr_selected else R.string.state_descr_not_selected
-    )
     Box(
         modifier = modifier
             .size(width = CELL_SIZE, height = CELL_SIZE)
@@ -70,7 +67,6 @@ private fun DayContainer(
             .then(
                 if (onClickEnabled) {
                     modifier.semantics {
-                        stateDescription = stateDescriptionLabel
                         onClick(label = onClickLabel, action = null)
                     }
                 } else {
@@ -98,8 +94,7 @@ internal fun Day(
             dayStatusProperty = selected
         },
         selected = selected,
-        onClick = { onDayClicked(day) },
-        onClickLabel = stringResource(id = R.string.click_label_select)
+        onClick = { onDayClicked(day) }
     ) {
 
         Text(

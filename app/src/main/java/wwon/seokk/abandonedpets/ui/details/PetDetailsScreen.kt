@@ -121,37 +121,38 @@ private fun PetDetailTitle(pet: AbandonmentPublicResultEntity) {
     PetNoticeSurface(pet)
     Spacer(Modifier.height(5.dp))
     DetailTitleText(pet.noticeNo)
-    DetailBodyText("공고 기간",noticeDateFormatter(pet.noticeSdt, pet.noticeEdt))
+    DetailBodyText(stringResource(id = R.string.detail_screen_notice_date) ,noticeDateFormatter(pet.noticeSdt, pet.noticeEdt))
 }
 
 @Composable
 private fun PetDetailContent(pet: AbandonmentPublicResultEntity) {
     Spacer(Modifier.height(15.dp))
-    DetailTitleText("유기동물 특징")
+    DetailTitleText(stringResource(id = R.string.detail_screen_pet_feature))
     Spacer(Modifier.height(10.dp))
-    DetailBodyText("품종",pet.kindCd)
-    DetailBodyText("색상",pet.colorCd)
-    DetailBodyText("성별",when(pet.sexCd) {
-        "M" -> "남"
-        "F" -> "여"
-        else -> "모름"
-    })
-    DetailBodyText("나이", calculateAge(pet.age.replace("(년생)", "")))
-    DetailBodyText("체중", pet.weight)
-    DetailBodyText("중성화", when(pet.neuterYn) {
+    DetailBodyText(stringResource(id = R.string.common_kinds), pet.kindCd)
+    DetailBodyText(stringResource(id = R.string.detail_screen_color) ,pet.colorCd)
+    DetailBodyText(stringResource(id = R.string.detail_screen_sex),
+        when(pet.sexCd) {
+            "M" -> stringResource(id = R.string.common_male)
+            "F" -> stringResource(id = R.string.common_female)
+            else -> stringResource(id = R.string.common_unknown)
+        })
+    DetailBodyText(stringResource(id = R.string.detail_screen_age), calculateAge(pet.age.replace(stringResource(id = R.string.common_age_year), "")))
+    DetailBodyText(stringResource(id = R.string.detail_screen_weight), pet.weight)
+    DetailBodyText(stringResource(id = R.string.detail_screen_neuter), when(pet.neuterYn) {
         "N" -> "X"
         "Y" -> "O"
-        else -> "모름"
+        else -> stringResource(id = R.string.common_unknown)
     })
-    DetailBodyText("특징", pet.specialMark)
-    DetailBodyText("구조 날짜", pet.happenDt.toFormat().toFormat(DateTimeFormatter.ISO_LOCAL_DATE))
-    DetailBodyText("구조 장소", pet.happenPlace)
+    DetailBodyText(stringResource(id = R.string.detail_screen_feature), pet.specialMark)
+    DetailBodyText(stringResource(id = R.string.detail_screen_happen_date), pet.happenDt.toFormat().toFormat(DateTimeFormatter.ISO_LOCAL_DATE))
+    DetailBodyText(stringResource(id = R.string.detail_screen_happen_place), pet.happenPlace)
     Spacer(Modifier.height(15.dp))
-    DetailTitleText("동물보호기관")
+    DetailTitleText(stringResource(id = R.string.detail_screen_shelter))
     Spacer(Modifier.height(10.dp))
-    DetailBodyText("기관명", pet.careNm)
-    DetailBodyText("연락처", pet.careTel)
-    DetailBodyText("위치", pet.careAddr)
+    DetailBodyText(stringResource(id = R.string.detail_screen_shelter_name), pet.careNm)
+    DetailBodyText(stringResource(id = R.string.detail_screen_tel), pet.careTel)
+    DetailBodyText(stringResource(id = R.string.detail_screen_address), pet.careAddr)
 }
 
 @Composable
@@ -197,8 +198,9 @@ private fun BottomBar(modifier: Modifier = Modifier) {
                 .padding(vertical = 10.dp)
                 .height(56.dp)
         ) {
-            FavoriteButton(isLiked = true,
-            modifier = Modifier.padding(5.dp)) {}
+            FavoriteButton(isLiked = false, modifier = Modifier.padding(5.dp)) {
+
+            }
             TextButton(
                 onClick = { },
                 modifier = Modifier
@@ -209,7 +211,7 @@ private fun BottomBar(modifier: Modifier = Modifier) {
                     contentColor = Color.White,
                     backgroundColor = AbandonedPetsTheme.colors.primaryColor
                 )) {
-                Text(text = "보호소 연락하기")
+                Text(text = stringResource(id = R.string.detail_screen_tel_shelter))
             }
             Spacer(Modifier.width(30.dp))
         }

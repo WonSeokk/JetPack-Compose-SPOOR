@@ -11,11 +11,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
+import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.domain.entity.kind.KindResultEntity
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.*
@@ -92,7 +94,7 @@ fun BottomContent(
             .fillMaxHeight(0.5f)
     ) {
         Column {
-            NoticeTitle(contentText = "품종을 선택하세요")
+            NoticeTitle(contentText = stringResource(id = R.string.kind_screen_select_message))
             SelectListing(uiState, bottomState, onSelectKind)
         }
     }
@@ -113,18 +115,18 @@ private fun MainContent(
             .padding(15.dp)
             .fillMaxSize()
     ) {
-        NoticeTitle(contentText = "찾고 있는 품종이\n무엇인가요?")
+        NoticeTitle(contentText = stringResource(id = R.string.kind_screen_questions_message))
         DropDownTextField(
-            labelText = "동물",
-            value = uiState?.selectedUpKind?.value?.knm ?: "전체",
+            labelText = stringResource(id = R.string.kind_screen_animals),
+            value = uiState?.selectedUpKind?.value?.knm ?: stringResource(id = R.string.common_all),
             bottomState = bottomState,
             field = SheetField.UpKind,
             state = uiState,
             viewModel = petKindViewModel
         )
         DropDownTextField(
-            labelText = "품종",
-            value = uiState?.selectedKind?.value?.knm ?: "전체",
+            labelText = stringResource(id = R.string.common_kinds),
+            value = uiState?.selectedKind?.value?.knm ?: stringResource(id = R.string.common_all),
             bottomState = bottomState,
             field = SheetField.Kind,
             state = uiState,
@@ -142,7 +144,7 @@ private fun MainContent(
                 contentColor = Color.White,
                 backgroundColor = AbandonedPetsTheme.colors.primaryColor
             )) {
-            Text(text = "확인")
+            Text(text = stringResource(id = R.string.common_confirm))
         }
     }
 }

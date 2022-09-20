@@ -1,19 +1,52 @@
 <resources>
     <string name="app_name">SPOOR</string>
-    <string name="all_ok">OK</string>
     <string name="pet_image_description">Pet Image</string>
 
-    <string name="all">전체</string>
-    <string name="end_notice_format">공고 종료 %1$d일 전</string>
-    <string name="end_state_format">종료 · %1$s</string>
-    <string name="end_today_format">오늘 종료 😿</string>
-    <string name="sex_age_format">%1$s%2$s세 (%3$s)</string>
+    <string name="common_all">전체</string>
+    <string name="common_confirm">확인</string>
+    <string name="common_male">남</string>
+    <string name="common_female">여</string>
+    <string name="common_unknown">모름</string>
+    <string name="common_age_year">(년생)</string>
+    <string name="common_region">지역</string>
+    <string name="common_kinds">품종</string>
+    <string name="common_date">날짜</string>
+    <string name="common_caring">보호중</string>
 
-    <string name="click_label_select">select</string>
-    <string name="state_descr_selected">Selected</string>
-    <string name="state_descr_not_selected">Not selected</string>
+    <string name="format_end_notice">공고 종료 %1$d일 전</string>
+    <string name="format_end_state">종료 · %1$s</string>
+    <string name="format_end_today">오늘 종료 😿</string>
+    <string name="format_sex_age">%1$s%2$s세 (%3$s)</string>
 
+    <string name="home_screen_header_text">🐾 도움이 필요한 아이들</string>
     <string name="home_screen_error_message">서버와 연결에 실패했어요!</string>
     <string name="home_screen_empty_message">결과가 없어요!</string>
     <string name="home_screen_retry">재시도</string>
+
+    <string name="kind_screen_select_message">품종을 선택하세요</string>
+    <string name="kind_screen_questions_message">찾고 있는 품종이\n무엇인가요?</string>
+    <string name="kind_screen_animals">동물</string>
+
+    <string name="region_screen_select_message">"지역을 선택하세요"</string>
+    <string name="region_screen_questions_message">"찾고 있는 지역이\n어디인가요?"</string>
+    <string name="region_screen_sido">시/도</string>
+    <string name="region_screen_sigungu">시/군/구</string>
+    <string name="region_screen_shelter">보호소</string>
+
+    <string name="detail_screen_notice_date">공고 기간</string>
+    <string name="detail_screen_pet_feature">유기동물 특징</string>
+    <string name="detail_screen_color">색상</string>
+    <string name="detail_screen_sex">성별</string>
+    <string name="detail_screen_age">나이</string>
+    <string name="detail_screen_weight">무게</string>
+    <string name="detail_screen_neuter">중성화</string>
+    <string name="detail_screen_feature">특징</string>
+    <string name="detail_screen_happen_date">구조 날짜</string>
+    <string name="detail_screen_happen_place">구조 장소</string>
+    <string name="detail_screen_shelter">동물보호기관</string>
+    <string name="detail_screen_shelter_name">기관명</string>
+    <string name="detail_screen_tel">연락처</string>
+    <string name="detail_screen_address">위치</string>
+    <string name="detail_screen_tel_shelter">보호소 연락하기</string>
+
 </resources>

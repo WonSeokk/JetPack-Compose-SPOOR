@@ -3,7 +3,6 @@ package wwon.seokk.abandonedpets.ui.home
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,10 +23,6 @@ import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPubli
 import wwon.seokk.abandonedpets.ui.common.PetNoticeSurface
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.calculateAge
-import wwon.seokk.abandonedpets.util.calculateNoticeDate
-import wwon.seokk.abandonedpets.util.endStateText
-import wwon.seokk.abandonedpets.util.noticeDateFormatter
-import java.time.LocalDate
 
 /**
  * Created by WonSeok on 2022.08.15
@@ -86,14 +81,14 @@ private fun PetInfo(pet: AbandonmentPublicResultEntity) {
 private fun PetInfo2(pet: AbandonmentPublicResultEntity) {
     val petSex = if(pet.sexCd.isNotBlank()) {
         when(pet.sexCd) {
-            "M" -> "남"
-            "F" -> "여"
-            else -> "모름"
+            "M" -> stringResource(id = R.string.common_male)
+            "F" -> stringResource(id = R.string.common_female)
+            else -> stringResource(id = R.string.common_unknown)
         }.plus(" · ")
     } else ""
-    val birthYear = pet.age.replace("(년생)", "")
+    val birthYear = pet.age.replace(stringResource(id = R.string.common_age_year), "")
     val petAge = calculateAge(birthYear)
-    Text(text = stringResource(id = R.string.sex_age_format, petSex, petAge, birthYear),
+    Text(text = stringResource(id = R.string.format_sex_age, petSex, petAge, birthYear),
         style = AbandonedPetsTheme.typography.body1,
         modifier = Modifier.padding(bottom = 3.dp)
     )

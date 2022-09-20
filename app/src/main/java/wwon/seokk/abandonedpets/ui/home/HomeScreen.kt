@@ -201,7 +201,7 @@ fun HeaderScreen(scaffoldState: BackdropScaffoldState, modifier: Modifier) {
     Box(modifier = modifier) {
         val scope = rememberCoroutineScope()
         Text(
-            text = "🐾 도움이 필요한 아이들",
+            text = stringResource(id = R.string.home_screen_header_text),
             style = AbandonedPetsTheme.typography.title1.copy(
                 fontSize = 18.sp
             )
