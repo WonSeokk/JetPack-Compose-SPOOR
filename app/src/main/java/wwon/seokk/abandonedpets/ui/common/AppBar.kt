@@ -34,7 +34,15 @@ fun HomeAppBar(modifier: Modifier = Modifier) {
         },
         modifier = modifier,
         backgroundColor = AbandonedPetsTheme.colors.surfaceVariantColor,
-        elevation = 0.dp
+        elevation = 0.dp,
+        actions = {
+            FavoriteButton(isLiked = true, tint = AbandonedPetsTheme.colors.iconColor) {
+
+            }
+            SettingButton {
+
+            }
+        }
     )
 }
 

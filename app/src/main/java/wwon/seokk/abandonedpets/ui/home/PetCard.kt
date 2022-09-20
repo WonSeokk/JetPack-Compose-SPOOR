@@ -20,6 +20,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
+import wwon.seokk.abandonedpets.ui.common.FavoriteButton
 import wwon.seokk.abandonedpets.ui.common.PetNoticeSurface
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.calculateAge
@@ -48,14 +49,12 @@ fun PetCard(
             PetImage(pet)
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxSize()
                     .padding(20.dp, 5.dp, 5.dp, 5.dp)
             ) {
                 PetNoticeSurface(pet)
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 10.dp),
+                    modifier = Modifier.padding(top = 10.dp),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.Start
                 ) {
@@ -63,6 +62,10 @@ fun PetCard(
                     PetInfo2(pet)
                     PetShelter(pet)
                     PetPlace(pet)
+                }
+                FavoriteButton(isLiked = false,
+                    modifier = Modifier.align(Alignment.End)) {
+
                 }
             }
         }

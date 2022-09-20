@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.ui.home
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
@@ -61,7 +62,7 @@ fun PetSearchContent(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun SearchInput(
-    titleRes: Int,
+    @StringRes titleRes: Int,
     uiState: HomeState?,
     openScreen: (GetAbandonmentPublicRequest) -> Unit
 ) {
@@ -102,7 +103,7 @@ private fun SearchInput(
 }
 
 @Composable
-private fun SearchTextFieldText(title: Int, request: GetAbandonmentPublicRequest) {
+private fun SearchTextFieldText(@StringRes title: Int, request: GetAbandonmentPublicRequest) {
     Text(
         text = when(title) {
             R.string.common_region -> "${request.upr.orgNm} · ${request.org.orgNm} · ${request.shelter.careNm}"

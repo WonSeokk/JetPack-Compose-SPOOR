@@ -18,17 +18,20 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 fun FavoriteButton(
     isLiked: Boolean,
     modifier: Modifier = Modifier,
+    tint: Color = AbandonedPetsTheme.colors.redColor,
     contentAlpha: Float = ContentAlpha.high,
     onClick: () -> Unit
 ) {
+
     CompositionLocalProvider(LocalContentAlpha provides contentAlpha) {
         IconToggleButton(
             checked = isLiked,
+            modifier = modifier,
             onCheckedChange = { onClick() }
         ) {
             Icon(
                 imageVector = if (isLiked) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                tint = AbandonedPetsTheme.colors.redColor,
+                tint = if (isLiked) tint else AbandonedPetsTheme.colors.iconColor,
                 contentDescription = null
             )
         }
@@ -52,6 +55,18 @@ fun ShareButton(onClick: () -> Unit) {
         Icon(
             imageVector = Icons.Filled.Share,
             tint = AbandonedPetsTheme.colors.surfaceColor,
+            contentDescription = null
+        )
+    }
+}
+
+
+@Composable
+fun SettingButton(onClick: () -> Unit) {
+    IconButton(onClick = onClick) {
+        Icon(
+            imageVector = Icons.Filled.Settings,
+            tint = AbandonedPetsTheme.colors.iconColor,
             contentDescription = null
         )
     }

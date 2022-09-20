@@ -21,6 +21,7 @@ fun AbandonedPetsTheme(content: @Composable () -> Unit) {
         surfaceColor = SurfaceColor,
         surfaceVariantColor = SurfaceVariantColor,
         surfaceOppositeColor = SurfaceOppositeColor,
+        iconColor = IconColor,
         redColor = RedColor,
         orangeColor = OrangeColor
     )
