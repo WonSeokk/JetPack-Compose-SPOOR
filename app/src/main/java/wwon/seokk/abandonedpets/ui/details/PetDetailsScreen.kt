@@ -4,10 +4,6 @@ package wwon.seokk.abandonedpets.ui.details
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +36,7 @@ import java.time.format.DateTimeFormatter
 /**
  * Created by WonSeok on 2022.08.31
  **/
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PetDetailsScreen(
     petDetailsViewModel: PetDetailsViewModel = hiltViewModel(),
@@ -51,6 +48,7 @@ fun PetDetailsScreen(
     val isScroll = state.toolbarState.minHeight + 250 >= state.toolbarState.height
 
     val lifecycleOwner = LocalLifecycleOwner.current
+    val scaffoldState = rememberScaffoldState()
     val stateFlow = petDetailsViewModel.uiState()
     val stateLifecycleAware = remember(lifecycleOwner, stateFlow) {
         stateFlow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
@@ -58,46 +56,69 @@ fun PetDetailsScreen(
     val uiState by stateLifecycleAware.collectAsState(initial = petDetailsViewModel.createInitialState())
     val pet = uiState.petDetail.value
 
-    Box {
-        systemUiController.setStatusBar(false)
-        CollapsingToolbarScaffold(
-            modifier = Modifier.fillMaxSize(),
-            state = state,
-            toolbar = {
-                AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-                    .data(pet.popfile)
-                    .crossfade(true)
-                    .build(),
-                    contentScale = ContentScale.Crop,
-                    placeholder = painterResource(R.drawable.ic_spoor),
-                    contentDescription = stringResource(id = R.string.pet_image_description),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(400.dp)
-                        .road(Alignment.BottomCenter, Alignment.TopCenter)
-                        .clickable { openImage.invoke(pet.popfile) }
-                )
-                val test = if(isScroll) 80.dp else 0.dp
-                Spacer(
-                    modifier = Modifier
-                        .height(test)
-                        .fillMaxWidth()
-                        .background(AbandonedPetsTheme.colors.primaryColor)
-                )
-                Row(modifier = Modifier.statusBarsPadding()){
-                    BackButton { navigateBack() }
-                    Spacer(modifier = Modifier.weight(1f))
-                    ShareButton { }
+    val featurePrepareMsg = stringResource(id = R.string.common_prepare_message)
+    val action = stringResource(id = R.string.common_confirm)
+
+    LaunchedEffect(petDetailsViewModel.uiSideEffect()) {
+        val messageHost = SnackBarView(this)
+        petDetailsViewModel.uiSideEffect().collect { uiSideEffect ->
+            when (uiSideEffect) {
+                is PetDetailSideEffect.ShowSnackBar -> {
+                    messageHost.showSnackBar(
+                        snackBarHostState = scaffoldState.snackbarHostState,
+                        message = uiSideEffect.message
+                    )
                 }
-            },
-            scrollStrategy = ScrollStrategy.ExitUntilCollapsed
-        ) {
-            Body(pet)
+            }
         }
-        BottomBar(modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .background(AbandonedPetsTheme.colors.surfaceColor)
-        )
+    }
+
+    Scaffold(scaffoldState = scaffoldState) {
+        Box {
+            systemUiController.setStatusBar(false)
+            CollapsingToolbarScaffold(
+                modifier = Modifier.fillMaxSize(),
+                state = state,
+                toolbar = {
+                    AsyncImage(model = ImageRequest.Builder(LocalContext.current)
+                        .data(pet.popfile)
+                        .crossfade(true)
+                        .build(),
+                        contentScale = ContentScale.Crop,
+                        placeholder = painterResource(R.drawable.ic_spoor),
+                        contentDescription = stringResource(id = R.string.pet_image_description),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(400.dp)
+                            .road(Alignment.BottomCenter, Alignment.TopCenter)
+                            .clickable { openImage.invoke(pet.popfile) }
+                    )
+                    val test = if(isScroll) 80.dp else 0.dp
+                    Spacer(
+                        modifier = Modifier
+                            .height(test)
+                            .fillMaxWidth()
+                            .background(AbandonedPetsTheme.colors.primaryColor)
+                    )
+                    Row(modifier = Modifier.statusBarsPadding()){
+                        BackButton { navigateBack() }
+                        Spacer(modifier = Modifier.weight(1f))
+                        ShareButton {
+                            petDetailsViewModel.handleSnackBar(featurePrepareMsg, action)
+                        }
+                    }
+                },
+                scrollStrategy = ScrollStrategy.ExitUntilCollapsed
+            ) {
+                Body(pet)
+            }
+            BottomBar(modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .background(AbandonedPetsTheme.colors.surfaceColor)
+            ) {
+                petDetailsViewModel.handleSnackBar(featurePrepareMsg, action)
+            }
+        }
     }
 }
 
@@ -189,7 +210,7 @@ private fun DetailBodyText(title: String, content: String) {
 }
 
 @Composable
-private fun BottomBar(modifier: Modifier = Modifier) {
+private fun BottomBar(modifier: Modifier = Modifier, favoriteClick: () -> Unit) {
     Box(modifier = modifier) {
         BottomDivider()
         Row(
@@ -199,7 +220,7 @@ private fun BottomBar(modifier: Modifier = Modifier) {
                 .height(56.dp)
         ) {
             FavoriteButton(isLiked = false, modifier = Modifier.padding(5.dp)) {
-
+                favoriteClick.invoke()
             }
             TextButton(
                 onClick = { },

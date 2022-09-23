@@ -32,7 +32,7 @@ fun GetPetsError(buttonClick: () -> Unit) {
     ) {
         Text(
             modifier = Modifier.padding(8.dp),
-            text = stringResource(id = R.string.home_screen_error_message),
+            text = stringResource(id = R.string.common_network_error_message),
             style = AbandonedPetsTheme.typography.body1.copy(
                 color = Color.LightGray,
                 textAlign = TextAlign.Center,

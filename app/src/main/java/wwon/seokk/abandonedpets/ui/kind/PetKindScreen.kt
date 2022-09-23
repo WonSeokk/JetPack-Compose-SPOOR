@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -21,6 +18,7 @@ import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.domain.entity.kind.KindResultEntity
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.*
+import wwon.seokk.abandonedpets.ui.details.PetDetailSideEffect
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
@@ -47,6 +45,29 @@ fun PetKindScreen(
 
     val scaffoldState = rememberScaffoldState()
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden, skipHalfExpanded = true)
+
+    val errorMsg = stringResource(id = R.string.common_network_error_message)
+
+    LaunchedEffect(petKindViewModel.uiSideEffect()) {
+        val messageHost = SnackBarView(this)
+        petKindViewModel.uiSideEffect().collect { uiSideEffect ->
+            when (uiSideEffect) {
+                is PetKindSideEffect.ShowSnackBar -> {
+                    messageHost.showSnackBar(
+                        snackBarHostState = scaffoldState.snackbarHostState,
+                        message = uiSideEffect.message
+                    )
+                }
+                is PetKindSideEffect.ShowNetworkError -> {
+                    messageHost.showSnackBar(
+                        snackBarHostState = scaffoldState.snackbarHostState,
+                        message = errorMsg
+                    )
+                    bottomState.hide()
+                }
+            }
+        }
+    }
 
     ModalBottomSheetLayout(
         modifier = Modifier.statusBarsPadding(),

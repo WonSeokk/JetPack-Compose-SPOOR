@@ -12,6 +12,9 @@
     <string name="common_kinds">품종</string>
     <string name="common_date">날짜</string>
     <string name="common_caring">보호중</string>
+    <string name="common_prepare_message">준비 중인 기능입니다.</string>
+    <string name="common_select_message">상위 항목을 먼저 선택해주세요.</string>
+    <string name="common_network_error_message">서버와 연결에 실패했어요!</string>
 
     <string name="format_end_notice">공고 종료 %1$d일 전</string>
     <string name="format_end_state">종료 · %1$s</string>
@@ -19,7 +22,6 @@
     <string name="format_sex_age">%1$s%2$s세 (%3$s)</string>
 
     <string name="home_screen_header_text">🐾 도움이 필요한 아이들</string>
-    <string name="home_screen_error_message">서버와 연결에 실패했어요!</string>
     <string name="home_screen_empty_message">결과가 없어요!</string>
     <string name="home_screen_retry">재시도</string>
 

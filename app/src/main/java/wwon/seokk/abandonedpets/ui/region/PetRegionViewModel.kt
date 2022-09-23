@@ -18,6 +18,7 @@ import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetRequest
 import wwon.seokk.abandonedpets.ui.base.BaseViewModel
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.SheetField
+import wwon.seokk.abandonedpets.ui.kind.PetKindSideEffect
 import javax.inject.Inject
 
 /**
@@ -111,7 +112,7 @@ class PetRegionViewModel @Inject constructor(
                         error = record.error
                     )
                 }
-                postSideEffect(PetRegionSideEffect.ShowRegionErrorToast)
+                postSideEffect(PetRegionSideEffect.ShowNetworkError)
             }
         }
     }
@@ -147,7 +148,7 @@ class PetRegionViewModel @Inject constructor(
                             error = record.error
                         )
                     }
-                    postSideEffect(PetRegionSideEffect.ShowRegionErrorToast)
+                    postSideEffect(PetRegionSideEffect.ShowNetworkError)
                 }
             }
         }
@@ -186,10 +187,13 @@ class PetRegionViewModel @Inject constructor(
                             error = record.error
                         )
                     }
-                    postSideEffect(PetRegionSideEffect.ShowRegionErrorToast)
+                    postSideEffect(PetRegionSideEffect.ShowNetworkError)
                 }
             }
         }
     }
 
+    fun handleSnackBar(message: String) = intent {
+        postSideEffect(PetRegionSideEffect.ShowSnackBar(message = message))
+    }
 }

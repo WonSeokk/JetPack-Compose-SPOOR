@@ -5,6 +5,6 @@ package wwon.seokk.abandonedpets.ui.region
  **/
 
 sealed class PetRegionSideEffect {
-    data class ShowSnackBar(val message: String, val action: String): PetRegionSideEffect()
-    object ShowRegionErrorToast: PetRegionSideEffect()
+    data class ShowSnackBar(val message: String): PetRegionSideEffect()
+    object ShowNetworkError: PetRegionSideEffect()
 }

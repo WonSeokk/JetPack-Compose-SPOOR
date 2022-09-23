@@ -62,6 +62,9 @@ fun HomeScreen(
     }
     val state by stateLifecycleAware.collectAsState(initial = homeViewModel.createInitialState())
 
+    val featurePrepareMsg = stringResource(id = R.string.common_prepare_message)
+    val action = stringResource(id = R.string.common_confirm)
+
     LaunchedEffect(homeViewModel.uiSideEffect()) {
         val messageHost = SnackBarView(this)
         homeViewModel.uiSideEffect().collect { uiSideEffect ->
@@ -85,13 +88,14 @@ fun HomeScreen(
         frontLayerScrimColor = Color.Unspecified,
         frontLayerElevation = 0.dp,
         appBar = {
-            HomeAppBar()
+            HomeAppBar { homeViewModel.handleSnackBar(featurePrepareMsg, action) }
         },
         backLayerContent = {
             PetSearchContent(widthSize, state, openPetRegionSearch, openPetKindSearch, openCalendar)
         },
         frontLayerContent = {
-            HomeContent(scaffoldState = scaffoldState, homeViewModel = homeViewModel, uiState = state, openPetDetail = openPetDetail)
+            HomeContent(scaffoldState = scaffoldState, homeViewModel = homeViewModel, uiState = state, favoriteClick = { homeViewModel.handleSnackBar(featurePrepareMsg, action) },
+                openPetDetail = openPetDetail)
         }
     )
 }
@@ -102,6 +106,7 @@ fun HomeContent(
     scaffoldState: BackdropScaffoldState,
     homeViewModel: HomeViewModel,
     uiState: HomeState,
+    favoriteClick: () -> Unit,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit
 ) {
     Column {
@@ -121,7 +126,7 @@ fun HomeContent(
             color = Color.White,
             shape = AbandonedPetsTheme.shapes.bottomSheetShape) {
             Column {
-                PetListing(homeViewModel = homeViewModel, uiState = uiState, openPetDetail = openPetDetail)
+                PetListing(homeViewModel = homeViewModel, uiState = uiState, favoriteClick = favoriteClick, openPetDetail = openPetDetail)
             }
         }
     }
@@ -133,6 +138,7 @@ fun HomeContent(
 fun PetListing(
     homeViewModel: HomeViewModel,
     uiState: HomeState,
+    favoriteClick: () -> Unit,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit
 ) {
     val isLoading = remember { mutableStateOf(false)}
@@ -156,6 +162,7 @@ fun PetListing(
                         petItems[index]?.let { petInfo ->
                             PetCard(
                                 pet = petInfo,
+                                favoriteClick = favoriteClick,
                                 petClick = { openPetDetail.invoke(petInfo) } )
                             PetListDivider()
                         }

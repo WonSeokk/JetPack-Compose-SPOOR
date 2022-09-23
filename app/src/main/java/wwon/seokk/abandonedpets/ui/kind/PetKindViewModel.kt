@@ -19,6 +19,7 @@ import wwon.seokk.abandonedpets.ui.PetRequestArgs
 import wwon.seokk.abandonedpets.ui.base.BaseViewModel
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.SheetField
+import wwon.seokk.abandonedpets.ui.home.HomeSideEffect
 import wwon.seokk.abandonedpets.ui.region.PetRegionSideEffect
 import javax.inject.Inject
 
@@ -112,9 +113,13 @@ class PetKindViewModel @Inject constructor(
                             error = record.error
                         )
                     }
-                    postSideEffect(PetKindSideEffect.ShowRegionErrorToast)
+                    postSideEffect(PetKindSideEffect.ShowNetworkError)
                 }
             }
         }
+    }
+
+    fun handleSnackBar(message: String) = intent {
+        postSideEffect(PetKindSideEffect.ShowSnackBar(message = message))
     }
 }

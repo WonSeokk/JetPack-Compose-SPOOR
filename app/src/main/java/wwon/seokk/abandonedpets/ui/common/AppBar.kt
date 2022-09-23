@@ -22,7 +22,7 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
  * Created by WonSeok on 2022.08.15
  **/
 @Composable
-fun HomeAppBar(modifier: Modifier = Modifier) {
+fun HomeAppBar(modifier: Modifier = Modifier, favorite: () -> Unit) {
     TopAppBar(
         title = {
             Image(
@@ -37,7 +37,7 @@ fun HomeAppBar(modifier: Modifier = Modifier) {
         elevation = 0.dp,
         actions = {
             FavoriteButton(isLiked = true, tint = AbandonedPetsTheme.colors.iconColor) {
-
+                favorite.invoke()
             }
             SettingButton {
 
@@ -58,6 +58,6 @@ fun NavigateUpAppBar(
 @Composable
 fun HomeAppBarPreview() {
     AbandonedPetsTheme{
-        HomeAppBar()
+        HomeAppBar { }
     }
 }

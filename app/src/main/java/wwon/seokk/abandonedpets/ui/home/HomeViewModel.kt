@@ -9,6 +9,7 @@ import androidx.paging.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import wwon.seokk.abandonedpets.data.remote.ApiConstants
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
@@ -69,5 +70,9 @@ class HomeViewModel @Inject constructor(
                 error = ErrorRecord.ServerError
             )
         }
+    }
+
+    fun handleSnackBar(message: String, action: String) = intent {
+        postSideEffect(HomeSideEffect.ShowSnackBar(message = message, action = action))
     }
 }

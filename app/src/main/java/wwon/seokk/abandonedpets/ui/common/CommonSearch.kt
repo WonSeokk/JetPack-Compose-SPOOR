@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.ui.common
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.ui.kind.PetKindState
 import wwon.seokk.abandonedpets.ui.kind.PetKindViewModel
 import wwon.seokk.abandonedpets.ui.region.PetRegionState
@@ -45,6 +48,7 @@ fun DropDownTextField(
     state: Any?,
     viewModel: Any?
 ) {
+    val selectMsg = stringResource(id = R.string.common_select_message)
     val scope = rememberCoroutineScope()
     fun openBottomSheet() {
         scope.launch { bottomState?.show() }
@@ -67,20 +71,24 @@ fun DropDownTextField(
             .fillMaxWidth()
             .clickable(
                 onClick = {
-                    when(field) {
+                    when (field) {
                         SheetField.UprRegion -> {
                             (viewModel as PetRegionViewModel).getSido()
                             openBottomSheet()
                         }
                         SheetField.OrgRegion -> {
                             (viewModel as PetRegionViewModel).getSigungu()
-                            if((state as PetRegionState).selectedUprRegion.value.orgCd.isNotBlank())
+                            if ((state as PetRegionState).selectedUprRegion.value.orgCd.isNotBlank())
                                 openBottomSheet()
+                            else
+                                viewModel.handleSnackBar(selectMsg)
                         }
                         SheetField.Shelter -> {
                             (viewModel as PetRegionViewModel).getShelter()
-                            if((state as PetRegionState).selectedOrgRegion.value.orgCd.isNotBlank())
+                            if ((state as PetRegionState).selectedOrgRegion.value.orgCd.isNotBlank())
                                 openBottomSheet()
+                            else
+                                viewModel.handleSnackBar(selectMsg)
                         }
                         SheetField.UpKind -> {
                             (viewModel as PetKindViewModel).getUpKind()
@@ -88,8 +96,10 @@ fun DropDownTextField(
                         }
                         SheetField.Kind -> {
                             (viewModel as PetKindViewModel).getKind()
-                            if((state as PetKindState).selectedUpKind.value.kindCd.isNotBlank())
+                            if ((state as PetKindState).selectedUpKind.value.kindCd.isNotBlank())
                                 openBottomSheet()
+                            else
+                                viewModel.handleSnackBar(selectMsg)
                         }
                     }
                 }),

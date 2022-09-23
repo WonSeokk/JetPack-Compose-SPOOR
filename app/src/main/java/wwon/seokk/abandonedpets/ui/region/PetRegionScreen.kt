@@ -24,6 +24,7 @@ import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterResultEntity
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.*
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
+import wwon.seokk.abandonedpets.ui.kind.PetKindSideEffect
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
 /**
@@ -54,6 +55,30 @@ fun PetRegionScreen(
 
     val scaffoldState = rememberScaffoldState()
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden, skipHalfExpanded = true)
+
+    val errorMsg = stringResource(id = R.string.common_network_error_message)
+
+    LaunchedEffect(petRegionViewModel.uiSideEffect()) {
+        val messageHost = SnackBarView(this)
+        petRegionViewModel.uiSideEffect().collect { uiSideEffect ->
+            when (uiSideEffect) {
+                is PetRegionSideEffect.ShowSnackBar -> {
+                    messageHost.showSnackBar(
+                        snackBarHostState = scaffoldState.snackbarHostState,
+                        message = uiSideEffect.message
+                    )
+                }
+                is PetRegionSideEffect.ShowNetworkError -> {
+                    messageHost.showSnackBar(
+                        snackBarHostState = scaffoldState.snackbarHostState,
+                        message = errorMsg
+                    )
+                    bottomState.hide()
+                }
+            }
+        }
+    }
+
     ModalBottomSheetLayout(
         modifier = Modifier.statusBarsPadding(),
         sheetState = bottomState,
