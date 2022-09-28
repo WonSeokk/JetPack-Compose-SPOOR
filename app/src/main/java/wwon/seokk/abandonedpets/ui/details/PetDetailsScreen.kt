@@ -1,6 +1,8 @@
 package wwon.seokk.abandonedpets.ui.details
 
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -16,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -114,7 +117,8 @@ fun PetDetailsScreen(
             }
             BottomBar(modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .background(AbandonedPetsTheme.colors.surfaceColor)
+                .background(AbandonedPetsTheme.colors.surfaceColor),
+                pet = pet
             ) {
                 petDetailsViewModel.handleSnackBar(featurePrepareMsg, action)
             }
@@ -210,7 +214,8 @@ private fun DetailBodyText(title: String, content: String) {
 }
 
 @Composable
-private fun BottomBar(modifier: Modifier = Modifier, favoriteClick: () -> Unit) {
+private fun BottomBar(modifier: Modifier = Modifier, pet: AbandonmentPublicResultEntity, favoriteClick: () -> Unit) {
+    val context = LocalContext.current
     Box(modifier = modifier) {
         BottomDivider()
         Row(
@@ -223,7 +228,9 @@ private fun BottomBar(modifier: Modifier = Modifier, favoriteClick: () -> Unit) 
                 favoriteClick.invoke()
             }
             TextButton(
-                onClick = { },
+                onClick = {
+                    context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:${pet.careTel.replace("","-")}")))
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
