@@ -2,9 +2,9 @@ package wwon.seokk.abandonedpets.util
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.core.text.isDigitsOnly
 import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.systemuicontroller.SystemUiController
 import wwon.seokk.abandonedpets.ui.calendar.CALENDAR_STARTS_ON
@@ -54,7 +54,7 @@ fun calculateAge(birth: String): String {
     val year = birth.ifBlank { LocalDate.now().year.toString() }
     val basicFormatter = DateTimeFormatter.BASIC_ISO_DATE
     val now = LocalDateTime.now()
-    val compareDate = LocalDate.parse("${year}0101", basicFormatter)
+    val compareDate = if(year.isDigitsOnly().not()) now else LocalDate.parse("${year}0101", basicFormatter)
     return ChronoUnit.YEARS.between(compareDate, now).plus(1).toString().replace("-","")
 }
 
