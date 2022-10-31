@@ -12,9 +12,11 @@ import androidx.navigation.navArgument
 import wwon.seokk.abandonedpets.ui.Destinations.Calendar
 import wwon.seokk.abandonedpets.ui.Destinations.Home
 import wwon.seokk.abandonedpets.ui.Destinations.Image
+import wwon.seokk.abandonedpets.ui.Destinations.Libs
 import wwon.seokk.abandonedpets.ui.Destinations.PetDetail
 import wwon.seokk.abandonedpets.ui.Destinations.PetKind
 import wwon.seokk.abandonedpets.ui.Destinations.PetRegion
+import wwon.seokk.abandonedpets.ui.Destinations.Settings
 import wwon.seokk.abandonedpets.ui.PetRequestArgs.ImageUri
 import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetInfo
 import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetRequest
@@ -25,6 +27,8 @@ import wwon.seokk.abandonedpets.ui.home.HomeScreen
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
 import wwon.seokk.abandonedpets.ui.kind.PetKindScreen
 import wwon.seokk.abandonedpets.ui.region.PetRegionScreen
+import wwon.seokk.abandonedpets.ui.settings.LibrariesScreen
+import wwon.seokk.abandonedpets.ui.settings.SettingsScreen
 
 /**
  * Created by WonSeok on 2022.08.02
@@ -40,7 +44,8 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
                 openPetRegionSearch = actions.openPetRegionSearch,
                 openPetKindSearch = actions.openPetKindSearch,
                 openCalendar = actions.openCalendar,
-                openPetDetail = actions.openPetDetail
+                openPetDetail = actions.openPetDetail,
+                openSettings = actions.openSettings
             )
         }
         composable("$PetRegion?petRequest={$PetRequest}",
@@ -106,6 +111,12 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
                 uri = uri,
                 navigateBack = actions.navigateBack
             )
+        }
+        composable(Settings) {
+            SettingsScreen(openLibs = actions.openLibs, navigateBack = actions.navigateBack)
+        }
+        composable(Libs) {
+            LibrariesScreen(navigateBack = actions.navigateBack)
         }
     }
 }

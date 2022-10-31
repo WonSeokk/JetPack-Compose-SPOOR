@@ -77,6 +77,10 @@ dependencies {
     def accompanist_version = "0.17.0"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 
+    def about_lib_version = "10.5.1"
+    implementation "com.mikepenz:aboutlibraries-core:$about_lib_version"
+    implementation "com.mikepenz:aboutlibraries-compose:$about_lib_version"
+
     //test dependencies
     def junit_version = "4.13.2"
     testImplementation "junit:junit:$junit_version"

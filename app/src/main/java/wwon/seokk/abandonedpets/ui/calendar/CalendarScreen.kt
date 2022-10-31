@@ -54,7 +54,7 @@ private fun CalendarContent(
             .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Start + WindowInsetsSides.End)),
         backgroundColor = AbandonedPetsTheme.colors.surfaceColor,
         topBar = {
-            NavigateUpAppBar(navigateBack, AbandonedPetsTheme.colors.surfaceOppositeColor)
+            NavigateUpAppBar(navigateBack = navigateBack)
         },
     ) { contentPadding ->
         Calendar(

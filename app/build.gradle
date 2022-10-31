@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
+    id 'com.mikepenz.aboutlibraries.plugin'
 }
 
 apply from: './gradleScript/dependencies.gradle'
@@ -11,15 +12,15 @@ apply from: './gradleScript/dependencies.gradle'
 android {
     def file = rootProject.file("local.properties")
 
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "wwon.seokk.abandonedpets"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField 'String', 'BASE_URL', "\"http://apis.data.go.kr/1543061/abandonmentPublicSrvc/\""

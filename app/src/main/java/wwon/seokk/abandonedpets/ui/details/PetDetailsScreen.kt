@@ -18,7 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
-import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -39,7 +38,6 @@ import java.time.format.DateTimeFormatter
 /**
  * Created by WonSeok on 2022.08.31
  **/
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PetDetailsScreen(
     petDetailsViewModel: PetDetailsViewModel = hiltViewModel(),

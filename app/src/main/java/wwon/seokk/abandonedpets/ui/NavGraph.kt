@@ -2,17 +2,16 @@ package wwon.seokk.abandonedpets.ui
 
 import android.net.Uri
 import androidx.navigation.NavHostController
-import androidx.navigation.NavOptions
 import com.google.gson.Gson
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.ui.Destinations.Calendar
-import wwon.seokk.abandonedpets.ui.Destinations.Home
 import wwon.seokk.abandonedpets.ui.Destinations.Image
+import wwon.seokk.abandonedpets.ui.Destinations.Libs
 import wwon.seokk.abandonedpets.ui.Destinations.PetDetail
 import wwon.seokk.abandonedpets.ui.Destinations.PetKind
 import wwon.seokk.abandonedpets.ui.Destinations.PetRegion
-import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetRequest
+import wwon.seokk.abandonedpets.ui.Destinations.Settings
 
 /**
  * Created by WonSeok on 2022.08.02
@@ -24,6 +23,8 @@ object Destinations {
     const val Calendar = "calendar"
     const val PetDetail = "petDetail"
     const val Image = "image"
+    const val Settings = "settings"
+    const val Libs = "libs"
 }
 
 object PetRequestArgs {
@@ -56,6 +57,10 @@ class Actions(navHostController: NavHostController) {
     val openImagePerView: (String) -> Unit = {
         navHostController.navigate("$Image?uri=$it")
     }
+
+    val openSettings = { navHostController.navigate(Settings) }
+
+    val openLibs = { navHostController.navigate(Libs) }
 
     val navigateBack: () -> Unit = {
         navHostController.navigateUp()

@@ -128,6 +128,7 @@ private fun PetImage(pet: AbandonmentPublicResultEntity) {
             contentScale = ContentScale.FillBounds,
             placeholder = painterResource(R.drawable.ic_spoor),
             contentDescription = stringResource(id = R.string.pet_image_description),
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }

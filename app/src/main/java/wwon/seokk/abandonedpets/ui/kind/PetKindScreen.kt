@@ -18,7 +18,6 @@ import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.domain.entity.kind.KindResultEntity
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.*
-import wwon.seokk.abandonedpets.ui.details.PetDetailSideEffect
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
@@ -85,7 +84,7 @@ fun PetKindScreen(
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                NavigateUpAppBar(navigateBack, AbandonedPetsTheme.colors.surfaceOppositeColor)
+                NavigateUpAppBar(navigateBack = navigateBack)
             },
             content = {
                 MainContent(

@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -18,13 +17,11 @@ import androidx.lifecycle.flowWithLifecycle
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import wwon.seokk.abandonedpets.R
-import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.region.RegionResultEntity
 import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterResultEntity
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.*
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
-import wwon.seokk.abandonedpets.ui.kind.PetKindSideEffect
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
 /**
@@ -96,7 +93,7 @@ fun PetRegionScreen(
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                NavigateUpAppBar(navigateBack, AbandonedPetsTheme.colors.surfaceOppositeColor)
+                NavigateUpAppBar(navigateBack = navigateBack)
             },
             content = {
                 MainContent(
