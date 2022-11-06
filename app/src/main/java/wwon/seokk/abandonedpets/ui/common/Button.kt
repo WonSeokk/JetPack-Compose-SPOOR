@@ -4,8 +4,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -20,14 +19,17 @@ fun FavoriteButton(
     modifier: Modifier = Modifier,
     tint: Color = AbandonedPetsTheme.colors.redColor,
     contentAlpha: Float = ContentAlpha.high,
-    onClick: () -> Unit
+    state: MutableState<Boolean> = remember { mutableStateOf(isLiked) },
+    onClick: () -> Unit,
 ) {
-
     CompositionLocalProvider(LocalContentAlpha provides contentAlpha) {
         IconToggleButton(
             checked = isLiked,
             modifier = modifier,
-            onCheckedChange = { onClick() }
+            onCheckedChange = {
+                state!!.value = state.value.not()
+                onClick()
+            }
         ) {
             Icon(
                 imageVector = if (isLiked) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,

@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,7 +33,7 @@ import wwon.seokk.abandonedpets.util.calculateAge
 @Composable
 fun PetCard(
     pet: AbandonmentPublicResultEntity,
-    favoriteClick: () -> Unit,
+    favoriteClick: (AbandonmentPublicResultEntity) -> Unit,
     petClick: (AbandonmentPublicResultEntity) -> Unit
 ) {
     Card(
@@ -64,8 +66,9 @@ fun PetCard(
                     PetShelter(pet)
                     PetPlace(pet)
                 }
-                FavoriteButton(isLiked = false, modifier = Modifier.align(Alignment.End)) {
-                    favoriteClick.invoke()
+                FavoriteButton(isLiked = pet.isLike, modifier = Modifier.align(Alignment.End)) {
+                    pet.isLike = pet.isLike.not()
+                    favoriteClick.invoke(pet)
                 }
             }
         }

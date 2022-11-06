@@ -6,6 +6,7 @@ import androidx.paging.PagingState
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.domain.repository.AbandonedPetsRepository
+import wwon.seokk.abandonedpets.domain.repository.LocalRepository
 import javax.inject.Inject
 
 /**
@@ -13,6 +14,7 @@ import javax.inject.Inject
  **/
 class PetsSource @Inject constructor(
     private val abandonedPetsRepository: AbandonedPetsRepository,
+    private val localRepository: LocalRepository,
     private val getAbandonmentPublicRequest: GetAbandonmentPublicRequest
 ): PagingSource<Int, AbandonmentPublicResultEntity>() {
     companion object {
@@ -36,12 +38,19 @@ class PetsSource @Inject constructor(
         } else {
             if(petsResponse.data.abandonmentPublicEntities.isEmpty())
                 LoadResult.Error(Exception(EMPTY_LIST))
-            else
+            else {
+                val likeList = localRepository.getPets().map { it.desertionNo }
+                val data = petsResponse.data.abandonmentPublicEntities.map {
+                    it.isLike = likeList.contains(it.desertionNo)
+                    it
+                }
                 LoadResult.Page(
-                    data = petsResponse.data.abandonmentPublicEntities,
+                    data = data,
                     prevKey = if (nextPage == 1) null else nextPage-1,
                     nextKey = nextPage.plus(1)
                 )
+            }
+
         }
     }
 }

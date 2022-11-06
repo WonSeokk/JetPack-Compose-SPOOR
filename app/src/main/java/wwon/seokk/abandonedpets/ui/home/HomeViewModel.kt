@@ -1,22 +1,25 @@
 package wwon.seokk.abandonedpets.ui.home
 
-import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
+import wwon.seokk.abandonedpets.data.local.entities.Pet
 import wwon.seokk.abandonedpets.data.remote.ApiConstants
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
+import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.toPet
 import wwon.seokk.abandonedpets.domain.entity.base.ErrorRecord
+import wwon.seokk.abandonedpets.domain.interatctor.LikePetUseCase
 import wwon.seokk.abandonedpets.domain.interatctor.PetsSource
 import wwon.seokk.abandonedpets.domain.repository.AbandonedPetsRepository
+import wwon.seokk.abandonedpets.domain.repository.LocalRepository
 import wwon.seokk.abandonedpets.ui.base.BaseViewModel
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import javax.inject.Inject
@@ -27,7 +30,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val abandonedPetsRepository: AbandonedPetsRepository
+    private val abandonedPetsRepository: AbandonedPetsRepository,
+    private val localRepository: LocalRepository,
+    private val likePetUseCase: LikePetUseCase
 ) : BaseViewModel<HomeState, HomeSideEffect>(savedStateHandle) {
 
     private val requestQueryFlow: MutableSharedFlow<GetAbandonmentPublicRequest> = MutableSharedFlow()
@@ -59,7 +64,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getPets(): Pager<Int, AbandonmentPublicResultEntity> {
         return Pager(PagingConfig(ApiConstants.NUM_ROW)) {
-            PetsSource(abandonedPetsRepository, uiState().value.requestQuery.value)
+            PetsSource(abandonedPetsRepository, localRepository, uiState().value.requestQuery.value)
         }
     }
 
@@ -69,6 +74,15 @@ class HomeViewModel @Inject constructor(
                 abandonedPets = null,
                 error = ErrorRecord.ServerError
             )
+        }
+    }
+
+    fun handleLikePet(pet: AbandonmentPublicResultEntity) {
+        viewModelScope.launch {
+            val request = LikePetUseCase.RequestValue(pet.toPet(), pet.isLike)
+            likePetUseCase.invoke(request).collect{
+                it
+            }
         }
     }
 

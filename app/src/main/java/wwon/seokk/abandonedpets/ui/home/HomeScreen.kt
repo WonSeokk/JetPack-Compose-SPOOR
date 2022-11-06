@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.ui.home
 
+import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -20,6 +21,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.R
@@ -27,6 +29,7 @@ import wwon.seokk.abandonedpets.data.remote.ApiConstants
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.domain.interatctor.PetsSource
+import wwon.seokk.abandonedpets.ui.Destinations
 import wwon.seokk.abandonedpets.ui.common.*
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.rememberLazyListState
@@ -46,6 +49,11 @@ fun HomeScreen(
     openSettings: () -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
+
+    val favoriteClick: (AbandonmentPublicResultEntity) -> Unit = {
+         homeViewModel.handleLikePet(it)
+    }
+
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBar(true)
 
@@ -89,7 +97,7 @@ fun HomeScreen(
             PetSearchContent(widthSize, state, openPetRegionSearch, openPetKindSearch, openCalendar)
         },
         frontLayerContent = {
-            HomeContent(scaffoldState = scaffoldState, homeViewModel = homeViewModel, uiState = state, favoriteClick = { homeViewModel.handleSnackBar(featurePrepareMsg, action) },
+            HomeContent(scaffoldState = scaffoldState, homeViewModel = homeViewModel, uiState = state, favoriteClick = favoriteClick,
                 openPetDetail = openPetDetail)
         }
     )
@@ -101,7 +109,7 @@ fun HomeContent(
     scaffoldState: BackdropScaffoldState,
     homeViewModel: HomeViewModel,
     uiState: HomeState,
-    favoriteClick: () -> Unit,
+    favoriteClick: (AbandonmentPublicResultEntity) -> Unit,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit
 ) {
     Column {
@@ -133,7 +141,7 @@ fun HomeContent(
 fun PetListing(
     homeViewModel: HomeViewModel,
     uiState: HomeState,
-    favoriteClick: () -> Unit,
+    favoriteClick: (AbandonmentPublicResultEntity) -> Unit,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit
 ) {
     val isLoading = remember { mutableStateOf(false)}
@@ -157,7 +165,7 @@ fun PetListing(
                         petItems[index]?.let { petInfo ->
                             PetCard(
                                 pet = petInfo,
-                                favoriteClick = favoriteClick,
+                                favoriteClick = { favoriteClick.invoke(petInfo) },
                                 petClick = { openPetDetail.invoke(petInfo) } )
                             PetListDivider()
                         }
