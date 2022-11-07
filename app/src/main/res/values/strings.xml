@@ -2,6 +2,9 @@
     <string name="app_name">SPOOR</string>
     <string name="pet_image_description">Pet Image</string>
 
+    <string name="screen_favorite">관심 목록</string>
+    <string name="screen_settings">설정</string>
+
     <string name="common_all">전체</string>
     <string name="common_confirm">확인</string>
     <string name="common_male">남</string>

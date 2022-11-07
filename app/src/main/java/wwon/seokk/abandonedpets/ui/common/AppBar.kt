@@ -22,7 +22,7 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
  * Created by WonSeok on 2022.08.15
  **/
 @Composable
-fun HomeAppBar(settings: () -> Unit, favorite: () -> Unit) {
+fun HomeAppBar(favorite: () -> Unit, settings: () -> Unit) {
     TopAppBar(
         title = {
             Image(

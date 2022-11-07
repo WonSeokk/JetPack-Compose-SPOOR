@@ -26,6 +26,7 @@ import wwon.seokk.abandonedpets.domain.repository.LocalRepository
 import wwon.seokk.abandonedpets.ui.base.BaseViewModel
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.details.PetDetailsViewModel
+import wwon.seokk.abandonedpets.ui.favorite.FavoriteViewModel
 import javax.inject.Inject
 
 /**
@@ -90,29 +91,37 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun handleLikePet(pet: AbandonmentPublicResultEntity, state: MutableState<Boolean>, detail: PetDetailsViewModel? = null) {
+    fun handleLikePet(
+        pet: AbandonmentPublicResultEntity,
+        state: MutableState<Boolean>,
+        detail: PetDetailsViewModel? = null,
+        favorite: FavoriteViewModel? = null
+    ) {
         viewModelScope.launch {
             val request = LikePetUseCase.RequestValue(pet.toPet(), state.value.not())
             likePetUseCase.invoke(request).collect{
                 when(it) {
                     true -> {
                         if(state.value.not())
-                            detail?.handleSnackBar(R.string.common_add_favorite_message,"")
-                                ?: handleSnackBar(R.string.common_add_favorite_message,"")
+                            detail?.handleSnackBar(R.string.common_add_favorite_message,"") ?:
+                            favorite?.handleSnackBar(R.string.common_add_favorite_message,"") ?:
+                            handleSnackBar(R.string.common_add_favorite_message,"")
                         state.value = state.value.not()
                     }
                     else -> {
-                        detail?.handleSnackBar(R.string.common_wait_message,"")
-                            ?: handleSnackBar(R.string.common_wait_message,"")
+                        detail?.handleSnackBar(R.string.common_wait_message,"") ?:
+                        favorite?.handleSnackBar(R.string.common_wait_message,"") ?:
+                        handleSnackBar(R.string.common_wait_message,"")
                     }
                 }
             }
             detail?.getFavorites()
+            favorite?.getFavorites()
             getFavorites()
         }
     }
 
-    fun handleSnackBar(@StringRes message: Int, action: String) = intent {
+    private fun handleSnackBar(@StringRes message: Int, action: String) = intent {
         postSideEffect(HomeSideEffect.ShowSnackBar(message = message, action = action))
     }
 }

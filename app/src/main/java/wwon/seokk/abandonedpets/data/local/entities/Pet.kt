@@ -2,6 +2,7 @@ package wwon.seokk.abandonedpets.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.util.toFormat
 import java.time.LocalDate
 
@@ -33,4 +34,29 @@ data class Pet (
     val orgNm: String = "",
     val chargeNm: String? = null,
     val officetel: String = ""
+)
+
+fun Pet.toPublicResult() = AbandonmentPublicResultEntity(
+    desertionNo,
+    filename,
+    happenDt,
+    happenPlace,
+    kindCd,
+    colorCd,
+    age,
+    weight,
+    noticeNo,
+    noticeSdt,
+    noticeEdt,
+    popfile,
+    processState,
+    sexCd,
+    neuterYn,
+    specialMark,
+    careNm,
+    careTel,
+    careAddr,
+    orgNm,
+    chargeNm,
+    officetel
 )

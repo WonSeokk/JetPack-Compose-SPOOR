@@ -21,7 +21,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.R
@@ -45,6 +44,7 @@ fun HomeScreen(
     openPetKindSearch: (GetAbandonmentPublicRequest) -> Unit,
     openCalendar: (GetAbandonmentPublicRequest) -> Unit,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit,
+    openFavorite: () -> Unit,
     openSettings: () -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -64,7 +64,6 @@ fun HomeScreen(
     }
     val state by stateLifecycleAware.collectAsState(initial = homeViewModel.createInitialState())
 
-    val action = stringResource(id = R.string.common_confirm)
     val context = LocalContext.current
     LaunchedEffect(homeViewModel.uiSideEffect()) {
         val messageHost = SnackBarView(this)
@@ -89,7 +88,7 @@ fun HomeScreen(
         frontLayerScrimColor = Color.Unspecified,
         frontLayerElevation = 0.dp,
         appBar = {
-            HomeAppBar(openSettings) { homeViewModel.handleSnackBar(R.string.common_prepare_message, action) }
+            HomeAppBar(openFavorite, openSettings)
         },
         backLayerContent = {
             PetSearchContent(widthSize, state, openPetRegionSearch, openPetKindSearch, openCalendar)
@@ -122,8 +121,7 @@ fun HomeContent(
         Surface(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 5.dp)
-                .wrapContentSize(Alignment.Center),
+                .padding(top = 5.dp),
             color = Color.White,
             shape = AbandonedPetsTheme.shapes.bottomSheetShape) {
             Column {
@@ -158,7 +156,10 @@ fun PetListing(
                         rememberLazyListState()
                     else
                         petItems.rememberLazyListState()
-                LazyColumn(state = listState) {
+                LazyColumn(
+                    modifier = Modifier.wrapContentSize(if(petItems.itemCount == 0) Alignment.Center else Alignment.TopEnd),
+                    state = listState
+                ) {
                     items(petItems.itemCount) { index ->
                         petItems[index]?.let { petInfo ->
                             PetCard(

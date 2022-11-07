@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -80,7 +81,9 @@ fun PetCard(
 private fun PetInfo(pet: AbandonmentPublicResultEntity) {
     val petKind = if(pet.kindCd.isNotBlank()) "${pet.kindCd} · " else ""
     Text(text = "$petKind${pet.colorCd}",
-        style = AbandonedPetsTheme.typography.body1
+        style = AbandonedPetsTheme.typography.body1,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
     )
 }
 
@@ -97,14 +100,18 @@ private fun PetInfo2(pet: AbandonmentPublicResultEntity) {
     val petAge = calculateAge(birthYear)
     Text(text = stringResource(id = R.string.format_sex_age, petSex, petAge, birthYear),
         style = AbandonedPetsTheme.typography.body1,
-        modifier = Modifier.padding(bottom = 3.dp)
+        modifier = Modifier.padding(bottom = 3.dp),
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
     )
 }
 
 @Composable
 private fun PetShelter(pet: AbandonmentPublicResultEntity) {
     Text(text = pet.careNm,
-        style = AbandonedPetsTheme.typography.body2.copy(color = Color.Gray)
+        style = AbandonedPetsTheme.typography.body2.copy(color = Color.Gray),
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
     )
 }
 
@@ -112,7 +119,9 @@ private fun PetShelter(pet: AbandonmentPublicResultEntity) {
 private fun PetPlace(pet: AbandonmentPublicResultEntity) {
     Text(text = pet.happenPlace,
         fontWeight = FontWeight.Bold,
-        style = AbandonedPetsTheme.typography.body1
+        style = AbandonedPetsTheme.typography.body1,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
     )
 }
 

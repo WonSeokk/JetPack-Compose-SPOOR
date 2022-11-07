@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.ui.Destinations.Calendar
+import wwon.seokk.abandonedpets.ui.Destinations.Favorite
 import wwon.seokk.abandonedpets.ui.Destinations.Image
 import wwon.seokk.abandonedpets.ui.Destinations.Libs
 import wwon.seokk.abandonedpets.ui.Destinations.PetDetail
@@ -23,6 +24,7 @@ object Destinations {
     const val Calendar = "calendar"
     const val PetDetail = "petDetail"
     const val Image = "image"
+    const val Favorite = "favorite"
     const val Settings = "settings"
     const val Libs = "libs"
 }
@@ -57,6 +59,8 @@ class Actions(navHostController: NavHostController) {
     val openImagePerView: (String) -> Unit = {
         navHostController.navigate("$Image?uri=$it")
     }
+
+    val openFavorite = { navHostController.navigate(Favorite) }
 
     val openSettings = { navHostController.navigate(Settings) }
 

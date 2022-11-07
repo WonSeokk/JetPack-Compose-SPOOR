@@ -28,6 +28,7 @@ import me.onebone.toolbar.*
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.ui.common.*
+import wwon.seokk.abandonedpets.ui.favorite.FavoriteViewModel
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.calculateAge
@@ -42,12 +43,13 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun PetDetailsScreen(
     parentViewModel: HomeViewModel,
+    favoriteViewModel: FavoriteViewModel?,
     petDetailsViewModel: PetDetailsViewModel = hiltViewModel(),
     openImage: (String) -> Unit,
     navigateBack: () -> Unit
 ) {
     val favoriteClick: (AbandonmentPublicResultEntity, MutableState<Boolean>) -> Unit = { pet, state ->
-        parentViewModel.handleLikePet(pet, state, petDetailsViewModel)
+        parentViewModel.handleLikePet(pet, state, petDetailsViewModel, favoriteViewModel)
     }
 
     val systemUiController = rememberSystemUiController()
