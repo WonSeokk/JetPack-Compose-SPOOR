@@ -8,5 +8,6 @@ import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPubli
  * Created by WonSeok on 2022.08.31
  **/
 data class PetDetailsState (
-    val petDetail: MutableState<AbandonmentPublicResultEntity> = mutableStateOf(AbandonmentPublicResultEntity.EMPTY)
+    val petDetail: MutableState<AbandonmentPublicResultEntity> = mutableStateOf(AbandonmentPublicResultEntity.EMPTY),
+    val favorites: List<String> = emptyList()
 )

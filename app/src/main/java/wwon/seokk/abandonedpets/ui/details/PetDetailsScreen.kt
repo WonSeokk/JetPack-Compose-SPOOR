@@ -28,6 +28,7 @@ import me.onebone.toolbar.*
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.ui.common.*
+import wwon.seokk.abandonedpets.ui.home.HomeViewModel
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.calculateAge
 import wwon.seokk.abandonedpets.util.noticeDateFormatter
@@ -40,10 +41,15 @@ import java.time.format.DateTimeFormatter
  **/
 @Composable
 fun PetDetailsScreen(
+    parentViewModel: HomeViewModel,
     petDetailsViewModel: PetDetailsViewModel = hiltViewModel(),
     openImage: (String) -> Unit,
     navigateBack: () -> Unit
 ) {
+    val favoriteClick: (AbandonmentPublicResultEntity, MutableState<Boolean>) -> Unit = { pet, state ->
+        parentViewModel.handleLikePet(pet, state, petDetailsViewModel)
+    }
+
     val systemUiController = rememberSystemUiController()
     val state = rememberCollapsingToolbarScaffoldState()
     val isScroll = state.toolbarState.minHeight + 250 >= state.toolbarState.height
@@ -57,9 +63,8 @@ fun PetDetailsScreen(
     val uiState by stateLifecycleAware.collectAsState(initial = petDetailsViewModel.createInitialState())
     val pet = uiState.petDetail.value
 
-    val featurePrepareMsg = stringResource(id = R.string.common_prepare_message)
     val action = stringResource(id = R.string.common_confirm)
-
+    val context = LocalContext.current
     LaunchedEffect(petDetailsViewModel.uiSideEffect()) {
         val messageHost = SnackBarView(this)
         petDetailsViewModel.uiSideEffect().collect { uiSideEffect ->
@@ -67,7 +72,7 @@ fun PetDetailsScreen(
                 is PetDetailSideEffect.ShowSnackBar -> {
                     messageHost.showSnackBar(
                         snackBarHostState = scaffoldState.snackbarHostState,
-                        message = uiSideEffect.message
+                        message = context.getString(uiSideEffect.message)
                     )
                 }
             }
@@ -105,7 +110,7 @@ fun PetDetailsScreen(
                         BackButton { navigateBack() }
                         Spacer(modifier = Modifier.weight(1f))
                         ShareButton {
-                            petDetailsViewModel.handleSnackBar(featurePrepareMsg, action)
+                            petDetailsViewModel.handleSnackBar(R.string.common_prepare_message, action)
                         }
                     }
                 },
@@ -116,10 +121,10 @@ fun PetDetailsScreen(
             BottomBar(modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .background(AbandonedPetsTheme.colors.surfaceColor),
-                pet = pet
-            ) {
-                petDetailsViewModel.handleSnackBar(featurePrepareMsg, action)
-            }
+                pet = pet,
+                isLiked = uiState.favorites.contains(pet.desertionNo),
+                favoriteClick = favoriteClick
+            )
         }
     }
 }
@@ -212,7 +217,7 @@ private fun DetailBodyText(title: String, content: String) {
 }
 
 @Composable
-private fun BottomBar(modifier: Modifier = Modifier, pet: AbandonmentPublicResultEntity, favoriteClick: () -> Unit) {
+private fun BottomBar(modifier: Modifier = Modifier, pet: AbandonmentPublicResultEntity, isLiked: Boolean, favoriteClick: (AbandonmentPublicResultEntity, MutableState<Boolean>) -> Unit) {
     val context = LocalContext.current
     Box(modifier = modifier) {
         BottomDivider()
@@ -222,8 +227,9 @@ private fun BottomBar(modifier: Modifier = Modifier, pet: AbandonmentPublicResul
                 .padding(vertical = 10.dp)
                 .height(56.dp)
         ) {
-            FavoriteButton(isLiked = false, modifier = Modifier.padding(5.dp)) {
-                favoriteClick.invoke()
+            val state = mutableStateOf(isLiked)
+            FavoriteButton(isLiked = isLiked, modifier = Modifier.padding(5.dp), state = state) {
+                favoriteClick.invoke(pet, state)
             }
             TextButton(
                 onClick = {

@@ -12,6 +12,8 @@
     <string name="common_kinds">품종</string>
     <string name="common_date">날짜</string>
     <string name="common_caring">보호중</string>
+    <string name="common_add_favorite_message">관심목록에 추가되었어요.</string>
+    <string name="common_wait_message">잠시 후 다시 시도해주세요.</string>
     <string name="common_prepare_message">준비 중인 기능입니다.</string>
     <string name="common_select_message">상위 항목을 먼저 선택해주세요.</string>
     <string name="common_network_error_message">서버와 연결에 실패했어요!</string>

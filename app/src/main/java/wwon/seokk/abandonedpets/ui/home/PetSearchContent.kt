@@ -131,6 +131,7 @@ private fun PetSearch(
 @Preview(showBackground = true)
 @Composable
 private fun SearchInputPreview() {
-    val testUiState = HomeState(ScreenState.Loading, mutableStateOf(GetAbandonmentPublicRequest.EMPTY), null, null)
+    val testUiState = HomeState(ScreenState.Loading, mutableStateOf(GetAbandonmentPublicRequest.EMPTY), null, emptyList(),
+        null)
     SearchInput(R.string.common_region, testUiState) { }
 }

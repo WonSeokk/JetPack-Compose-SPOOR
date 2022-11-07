@@ -1,10 +1,13 @@
 package wwon.seokk.abandonedpets.ui.details
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import org.orbitmvi.orbit.syntax.simple.reduce
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
+import wwon.seokk.abandonedpets.domain.interatctor.GetLikedPetsUseCase
 import wwon.seokk.abandonedpets.ui.PetRequestArgs
 import wwon.seokk.abandonedpets.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -14,7 +17,8 @@ import javax.inject.Inject
  **/
 @HiltViewModel
 class PetDetailsViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val getLikedPetsUseCase: GetLikedPetsUseCase
 ) : BaseViewModel<PetDetailsState, PetDetailSideEffect>(savedStateHandle) {
 
     override fun createInitialState(): PetDetailsState = PetDetailsState()
@@ -22,9 +26,18 @@ class PetDetailsViewModel @Inject constructor(
     override fun initData() {
         val petDetail: AbandonmentPublicResultEntity = savedStateHandle[PetRequestArgs.PetInfo]!!
         uiState().value.petDetail.value = petDetail
+        getFavorites()
     }
 
-    fun handleSnackBar(message: String, action: String) = intent {
+    fun getFavorites() = intent {
+        getLikedPetsUseCase.invoke(null).collect { pets ->
+            reduce {
+                state.copy(favorites = pets.map { it.desertionNo })
+            }
+        }
+    }
+
+    fun handleSnackBar(@StringRes message: Int, action: String) = intent {
         postSideEffect(PetDetailSideEffect.ShowSnackBar(message = message, action = action))
     }
 

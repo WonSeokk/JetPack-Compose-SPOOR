@@ -94,7 +94,10 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
                     type = AbandonmentPublicResultNavType()
                 }
             )) {
+            val parentEntry = remember { navController.getBackStackEntry(Home)  }
+            val parentViewModel = hiltViewModel<HomeViewModel>(parentEntry)
             PetDetailsScreen(
+                parentViewModel = parentViewModel,
                 openImage = actions.openImagePerView,
                 navigateBack = actions.navigateBack
             )

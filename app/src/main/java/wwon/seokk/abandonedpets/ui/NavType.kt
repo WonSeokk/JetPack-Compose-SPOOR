@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.ui
 
+import android.os.Build.VERSION
 import android.os.Bundle
 import androidx.navigation.NavType
 import com.google.gson.Gson
@@ -11,7 +12,7 @@ import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPubli
  **/
 class AbandonmentPublicRequestNavType : NavType<GetAbandonmentPublicRequest>(isNullableAllowed = false) {
     override fun get(bundle: Bundle, key: String): GetAbandonmentPublicRequest? {
-        return bundle.getParcelable(key)
+        return if(VERSION.SDK_INT >= 33) bundle.getParcelable(key, GetAbandonmentPublicRequest::class.java) else bundle.getParcelable(key)
     }
 
     override fun parseValue(value: String): GetAbandonmentPublicRequest {
@@ -25,7 +26,7 @@ class AbandonmentPublicRequestNavType : NavType<GetAbandonmentPublicRequest>(isN
 
 class AbandonmentPublicResultNavType : NavType<AbandonmentPublicResultEntity>(isNullableAllowed = false) {
     override fun get(bundle: Bundle, key: String): AbandonmentPublicResultEntity? {
-        return bundle.getParcelable(key)
+        return if(VERSION.SDK_INT >= 33) bundle.getParcelable(key, AbandonmentPublicResultEntity::class.java) else bundle.getParcelable(key)
     }
 
     override fun parseValue(value: String): AbandonmentPublicResultEntity {

@@ -1,6 +1,5 @@
 package wwon.seokk.abandonedpets.ui.home
 
-import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -11,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,7 +29,6 @@ import wwon.seokk.abandonedpets.data.remote.ApiConstants
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.domain.interatctor.PetsSource
-import wwon.seokk.abandonedpets.ui.Destinations
 import wwon.seokk.abandonedpets.ui.common.*
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.rememberLazyListState
@@ -50,8 +49,8 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
 
-    val favoriteClick: (AbandonmentPublicResultEntity) -> Unit = {
-         homeViewModel.handleLikePet(it)
+    val favoriteClick: (AbandonmentPublicResultEntity, MutableState<Boolean>) -> Unit = { pet, state ->
+         homeViewModel.handleLikePet(pet, state)
     }
 
     val systemUiController = rememberSystemUiController()
@@ -65,9 +64,8 @@ fun HomeScreen(
     }
     val state by stateLifecycleAware.collectAsState(initial = homeViewModel.createInitialState())
 
-    val featurePrepareMsg = stringResource(id = R.string.common_prepare_message)
     val action = stringResource(id = R.string.common_confirm)
-
+    val context = LocalContext.current
     LaunchedEffect(homeViewModel.uiSideEffect()) {
         val messageHost = SnackBarView(this)
         homeViewModel.uiSideEffect().collect { uiSideEffect ->
@@ -75,7 +73,7 @@ fun HomeScreen(
                 is HomeSideEffect.ShowSnackBar -> {
                     messageHost.showSnackBar(
                         snackBarHostState = scaffoldState.snackbarHostState,
-                        message = uiSideEffect.message
+                        message = context.getString(uiSideEffect.message)
                     )
                 }
             }
@@ -91,7 +89,7 @@ fun HomeScreen(
         frontLayerScrimColor = Color.Unspecified,
         frontLayerElevation = 0.dp,
         appBar = {
-            HomeAppBar(openSettings) { homeViewModel.handleSnackBar(featurePrepareMsg, action) }
+            HomeAppBar(openSettings) { homeViewModel.handleSnackBar(R.string.common_prepare_message, action) }
         },
         backLayerContent = {
             PetSearchContent(widthSize, state, openPetRegionSearch, openPetKindSearch, openCalendar)
@@ -109,7 +107,7 @@ fun HomeContent(
     scaffoldState: BackdropScaffoldState,
     homeViewModel: HomeViewModel,
     uiState: HomeState,
-    favoriteClick: (AbandonmentPublicResultEntity) -> Unit,
+    favoriteClick: (AbandonmentPublicResultEntity, MutableState<Boolean>) -> Unit,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit
 ) {
     Column {
@@ -141,7 +139,7 @@ fun HomeContent(
 fun PetListing(
     homeViewModel: HomeViewModel,
     uiState: HomeState,
-    favoriteClick: (AbandonmentPublicResultEntity) -> Unit,
+    favoriteClick: (AbandonmentPublicResultEntity, MutableState<Boolean>) -> Unit,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit
 ) {
     val isLoading = remember { mutableStateOf(false)}
@@ -165,8 +163,9 @@ fun PetListing(
                         petItems[index]?.let { petInfo ->
                             PetCard(
                                 pet = petInfo,
-                                favoriteClick = { favoriteClick.invoke(petInfo) },
-                                petClick = { openPetDetail.invoke(petInfo) } )
+                                isLiked = uiState.favorites.contains(petInfo.desertionNo),
+                                favoriteClick = favoriteClick,
+                                petClick = openPetDetail )
                             PetListDivider()
                         }
                     }

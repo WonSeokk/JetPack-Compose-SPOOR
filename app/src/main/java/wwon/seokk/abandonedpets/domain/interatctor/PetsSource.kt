@@ -1,12 +1,10 @@
 package wwon.seokk.abandonedpets.domain.interatctor
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.domain.repository.AbandonedPetsRepository
-import wwon.seokk.abandonedpets.domain.repository.LocalRepository
 import javax.inject.Inject
 
 /**
@@ -14,7 +12,6 @@ import javax.inject.Inject
  **/
 class PetsSource @Inject constructor(
     private val abandonedPetsRepository: AbandonedPetsRepository,
-    private val localRepository: LocalRepository,
     private val getAbandonmentPublicRequest: GetAbandonmentPublicRequest
 ): PagingSource<Int, AbandonmentPublicResultEntity>() {
     companion object {
@@ -31,7 +28,6 @@ class PetsSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AbandonmentPublicResultEntity> {
         val nextPage = params.key ?: 1
         getAbandonmentPublicRequest.nextPage = nextPage
-        Log.d("PageTEST", "$nextPage")
         val petsResponse = abandonedPetsRepository.getAbandonmentPublic(getAbandonmentPublicRequest)
         return if (petsResponse.data == null) {
             LoadResult.Error(Exception(petsResponse.error.toString()))
@@ -39,18 +35,12 @@ class PetsSource @Inject constructor(
             if(petsResponse.data.abandonmentPublicEntities.isEmpty())
                 LoadResult.Error(Exception(EMPTY_LIST))
             else {
-                val likeList = localRepository.getPets().map { it.desertionNo }
-                val data = petsResponse.data.abandonmentPublicEntities.map {
-                    it.isLike = likeList.contains(it.desertionNo)
-                    it
-                }
                 LoadResult.Page(
-                    data = data,
+                    data = petsResponse.data.abandonmentPublicEntities,
                     prevKey = if (nextPage == 1) null else nextPage-1,
                     nextKey = nextPage.plus(1)
                 )
             }
-
         }
     }
 }

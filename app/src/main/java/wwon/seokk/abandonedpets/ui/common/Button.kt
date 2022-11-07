@@ -19,21 +19,18 @@ fun FavoriteButton(
     modifier: Modifier = Modifier,
     tint: Color = AbandonedPetsTheme.colors.redColor,
     contentAlpha: Float = ContentAlpha.high,
-    state: MutableState<Boolean> = remember { mutableStateOf(isLiked) },
-    onClick: () -> Unit,
+    state: MutableState<Boolean> = mutableStateOf(isLiked),
+    onClick: () -> Unit
 ) {
     CompositionLocalProvider(LocalContentAlpha provides contentAlpha) {
         IconToggleButton(
-            checked = isLiked,
+            checked = state.value,
             modifier = modifier,
-            onCheckedChange = {
-                state!!.value = state.value.not()
-                onClick()
-            }
+            onCheckedChange = { onClick() }
         ) {
             Icon(
-                imageVector = if (isLiked) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                tint = if (isLiked) tint else AbandonedPetsTheme.colors.iconColor,
+                imageVector = if (state.value) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                tint = if (state.value) tint else AbandonedPetsTheme.colors.iconColor,
                 contentDescription = null
             )
         }

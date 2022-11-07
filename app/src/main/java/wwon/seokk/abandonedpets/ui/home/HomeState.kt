@@ -3,10 +3,10 @@ package wwon.seokk.abandonedpets.ui.home
 import androidx.compose.runtime.MutableState
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
+import wwon.seokk.abandonedpets.data.local.entities.Pet
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
 import wwon.seokk.abandonedpets.domain.entity.base.ErrorRecord
-import wwon.seokk.abandonedpets.domain.entity.kind.KindResultEntity
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 
 /**
@@ -16,5 +16,6 @@ data class HomeState(
     val screenState: ScreenState,
     val requestQuery: MutableState<GetAbandonmentPublicRequest>,
     val abandonedPets: Flow<PagingData<AbandonmentPublicResultEntity>>?,
+    val favorites: List<String>,
     val error: ErrorRecord?
 )

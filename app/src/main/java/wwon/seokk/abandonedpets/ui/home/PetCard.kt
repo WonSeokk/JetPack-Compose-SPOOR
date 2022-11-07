@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,7 +33,8 @@ import wwon.seokk.abandonedpets.util.calculateAge
 @Composable
 fun PetCard(
     pet: AbandonmentPublicResultEntity,
-    favoriteClick: (AbandonmentPublicResultEntity) -> Unit,
+    isLiked: Boolean,
+    favoriteClick: (AbandonmentPublicResultEntity, MutableState<Boolean>) -> Unit,
     petClick: (AbandonmentPublicResultEntity) -> Unit
 ) {
     Card(
@@ -45,7 +46,7 @@ fun PetCard(
             .clickable(
                 enabled = true,
                 onClick = {
-                    petClick(pet)
+                    petClick.invoke(pet)
                 })
     ) {
         Row {
@@ -66,9 +67,9 @@ fun PetCard(
                     PetShelter(pet)
                     PetPlace(pet)
                 }
-                FavoriteButton(isLiked = pet.isLike, modifier = Modifier.align(Alignment.End)) {
-                    pet.isLike = pet.isLike.not()
-                    favoriteClick.invoke(pet)
+                val state = mutableStateOf(isLiked)
+                FavoriteButton(isLiked = isLiked, modifier = Modifier.align(Alignment.End), state = state) {
+                    favoriteClick.invoke(pet, state)
                 }
             }
         }
@@ -141,6 +142,6 @@ private fun PetImage(pet: AbandonmentPublicResultEntity) {
 @Composable
 private fun PetCardPreview() {
     AbandonedPetsTheme{
-        PetCard(AbandonmentPublicResultEntity.EMPTY, favoriteClick = {}, petClick = {} )
+        PetCard(AbandonmentPublicResultEntity.EMPTY, false, favoriteClick = { _, _ -> }, petClick = {} )
     }
 }

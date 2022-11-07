@@ -21,7 +21,7 @@ class LocalRepositoryImpl constructor(
 
     override suspend fun likePet(pet: Pet, isLike: Boolean): Boolean = withContext(ioDispatcher) {
         return@withContext when(isLike) {
-            true -> likePetsDao.insertPet(pet) == 1.toLong()
+            true -> likePetsDao.insertPet(pet).toInt() != 0
             else -> likePetsDao.deletePPet(pet) == 1
         }
 

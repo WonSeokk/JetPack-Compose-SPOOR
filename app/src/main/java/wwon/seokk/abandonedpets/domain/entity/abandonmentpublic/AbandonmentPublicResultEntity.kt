@@ -32,8 +32,7 @@ data class AbandonmentPublicResultEntity (
     val careAddr: String = "",
     val orgNm: String = "",
     val chargeNm: String? = null,
-    val officetel: String = "",
-    var isLike: Boolean = false
+    val officetel: String = ""
 ): Parcelable {
     companion object {
         val EMPTY = AbandonmentPublicResultEntity()
