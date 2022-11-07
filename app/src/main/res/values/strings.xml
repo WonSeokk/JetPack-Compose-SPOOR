@@ -56,4 +56,6 @@
     <string name="detail_screen_address">위치</string>
     <string name="detail_screen_tel_shelter">보호소 연락하기</string>
 
+    <string name="favorite_screen_end_notice">❗ 공고 종료일이 지난 목록은 자동으로 사라져요</string>
+
 </resources>

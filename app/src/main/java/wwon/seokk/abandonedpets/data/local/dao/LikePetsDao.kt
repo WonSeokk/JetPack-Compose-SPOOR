@@ -19,5 +19,8 @@ interface LikePetsDao {
     suspend fun getPets(): List<Pet>?
 
     @Delete
-    suspend fun deletePPet(pet: Pet): Int
+    suspend fun deletePet(pet: Pet): Int
+
+    @Delete
+    suspend fun deletePets(pets: List<Pet>)
 }

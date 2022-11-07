@@ -97,7 +97,7 @@ fun FavoriteContent(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
                 Text(
-                    text = "❗ 공고가 종료된 목록은 자동으로 사라져요",
+                    text = stringResource(id = R.string.favorite_screen_end_notice),
                     style = AbandonedPetsTheme.typography.body1.copy(
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
@@ -111,7 +111,7 @@ fun FavoriteContent(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .wrapContentSize(if(favorites.isEmpty()) Alignment.Center else Alignment.TopEnd)
+                .wrapContentSize(if (favorites.isEmpty()) Alignment.Center else Alignment.TopEnd)
         ) {
             if(favorites.isEmpty()) item { EmptyResult() }
 

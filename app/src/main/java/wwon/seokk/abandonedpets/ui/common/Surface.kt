@@ -25,7 +25,7 @@ fun PetNoticeSurface(pet: AbandonmentPublicResultEntity) {
         shape = AbandonedPetsTheme.shapes.circleRoundCornerShape,
         color = if(pet.processState == stringResource(id = R.string.common_caring))
             when {
-                remainDay < 7 -> AbandonedPetsTheme.colors.orangeColor
+                remainDay <= 7 -> AbandonedPetsTheme.colors.orangeColor
                 else -> AbandonedPetsTheme.colors.primaryColor
             }
         else
