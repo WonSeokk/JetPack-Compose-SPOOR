@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.ui.common
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -53,14 +54,14 @@ fun GetPetsError(buttonClick: () -> Unit) {
 }
 
 @Composable
-fun EmptyResult() {
+fun EmptyResult(@StringRes message: Int) {
     Text(
         modifier = Modifier.padding(8.dp),
-        text = stringResource(id = R.string.home_screen_empty_message),
+        text = stringResource(id = message),
         style = AbandonedPetsTheme.typography.body1.copy(
             color = Color.LightGray,
             textAlign = TextAlign.Center,
-            fontSize = 24.sp
+            fontSize = 20.sp
         )
     )
 }
@@ -77,6 +78,6 @@ fun ErrorItemPreview() {
 @Composable
 fun EmptyResultPreview() {
     AbandonedPetsTheme {
-        EmptyResult()
+        EmptyResult(R.string.home_screen_empty_message)
     }
 }

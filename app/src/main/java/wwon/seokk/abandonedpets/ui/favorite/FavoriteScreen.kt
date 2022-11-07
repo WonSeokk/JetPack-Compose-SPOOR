@@ -111,9 +111,9 @@ fun FavoriteContent(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .wrapContentSize(if (favorites.isEmpty()) Alignment.Center else Alignment.TopEnd)
+                .wrapContentSize(if (favorites.isEmpty()) Alignment.Center else Alignment.TopStart)
         ) {
-            if(favorites.isEmpty()) item { EmptyResult() }
+            if(favorites.isEmpty()) item { EmptyResult(R.string.favorite_screen_empty_message) }
 
             items(favorites.count()) { index ->
                 favorites[index].let { petInfo ->

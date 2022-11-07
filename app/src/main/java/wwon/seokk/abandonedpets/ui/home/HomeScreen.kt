@@ -150,6 +150,7 @@ fun PetListing(
         }
         is ScreenState.Success -> {
             val lazyPetItems = uiState.abandonedPets?.collectAsLazyPagingItems()
+
             lazyPetItems?.let { petItems ->
                 val listState: LazyListState =
                     if(petItems.itemCount <= ApiConstants.NUM_ROW && isLoading.value)
@@ -157,7 +158,9 @@ fun PetListing(
                     else
                         petItems.rememberLazyListState()
                 LazyColumn(
-                    modifier = Modifier.wrapContentSize(if(petItems.itemCount == 0) Alignment.Center else Alignment.TopEnd),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(if(petItems.itemCount == 0) Alignment.Center else Alignment.TopStart),
                     state = listState
                 ) {
                     items(petItems.itemCount) { index ->
@@ -182,7 +185,7 @@ fun PetListing(
                             loadState.refresh is LoadState.Error -> {
                                 val msg = (loadState.refresh as LoadState.Error).error.message
                                 if(msg == PetsSource.EMPTY_LIST)
-                                    item { EmptyResult() }
+                                    item { EmptyResult(R.string.home_screen_empty_message) }
                                 else
                                     homeViewModel.handlePaginationDataError()
                             }
