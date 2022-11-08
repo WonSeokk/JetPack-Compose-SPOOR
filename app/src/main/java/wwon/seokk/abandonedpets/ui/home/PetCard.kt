@@ -59,7 +59,7 @@ fun PetCard(
             ) {
                 PetNoticeSurface(pet)
                 Column(
-                    modifier = Modifier.padding(top = 10.dp),
+                    modifier = Modifier.padding(top = 10.dp, end = 19.dp),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.Start
                 ) {
@@ -69,7 +69,12 @@ fun PetCard(
                     PetPlace(pet)
                 }
                 val state = mutableStateOf(isLiked)
-                FavoriteButton(isLiked = isLiked, modifier = Modifier.align(Alignment.End), state = state) {
+                FavoriteButton(
+                    isLiked = isLiked,
+                    modifier = Modifier
+                        .width(24.dp)
+                        .align(Alignment.End),
+                    state = state) {
                     favoriteClick.invoke(pet, state)
                 }
             }
