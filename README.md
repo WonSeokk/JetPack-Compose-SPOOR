@@ -22,11 +22,12 @@ SPOOR는 JetPack Compose를 사용한 유기동물 검색 어플입니다.
  - [Retrofit][retrofit] API 네트워크 호출
  - [Paging 3][paging] 페이징 처리 
  - [Coil][coil] 이미지 처리
+ - [Room][room] 관심 목록 구현
  - [Calendar][calendar] Sample Code 참고하여 구현
+ - [Material Icons][icons] 아이콘 적용
  - [Material Icons][icons] 아이콘 적용
 
 ## Features to be developed
-- 관심목록 (Room DB 활용)
 - 보호소 위치 지도 표시(보호소 좌표 API / Map API 활용) 
 - 공유 기능
 - 다크 모드 UI
@@ -46,3 +47,4 @@ SPOOR는 JetPack Compose를 사용한 유기동물 검색 어플입니다.
 [accompanist]: https://github.com/google/accompanist
 [toolbar]: https://github.com/onebone/compose-collapsing-toolbar
 [calendar]: https://github.com/android/compose-samples/tree/main/Crane
+[room]: https://developer.android.com/jetpack/androidx/releases/room
