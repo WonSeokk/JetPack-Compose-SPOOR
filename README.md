@@ -22,7 +22,7 @@ SPOOR는 JetPack Compose를 사용한 유기동물 검색 어플입니다.
  - [Retrofit][retrofit] API 네트워크 호출
  - [Paging 3][paging] 페이징 처리 
  - [Coil][coil] 이미지 처리
- - [Room][room] 관심 목록 구현
+ - [Room][room] 관심 목록
  - [Calendar][calendar] Sample Code 참고하여 구현
  - [Material Icons][icons] 아이콘 적용
  - [Material Icons][icons] 아이콘 적용
