@@ -22,7 +22,6 @@ import wwon.seokk.abandonedpets.domain.interatctor.GetLikedPetsUseCase
 import wwon.seokk.abandonedpets.domain.interatctor.LikePetUseCase
 import wwon.seokk.abandonedpets.domain.interatctor.PetsSource
 import wwon.seokk.abandonedpets.domain.repository.AbandonedPetsRepository
-import wwon.seokk.abandonedpets.domain.repository.LocalRepository
 import wwon.seokk.abandonedpets.ui.base.BaseViewModel
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.details.PetDetailsViewModel

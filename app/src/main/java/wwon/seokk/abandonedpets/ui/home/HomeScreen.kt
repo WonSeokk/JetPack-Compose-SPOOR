@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.ui.home
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -54,7 +55,7 @@ fun HomeScreen(
     }
 
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBar(true)
+    systemUiController.setStatusBar(isSystemInDarkTheme().not())
 
     val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed)
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -122,7 +123,7 @@ fun HomeContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 5.dp),
-            color = Color.White,
+            color = AbandonedPetsTheme.colors.surfaceColor,
             shape = AbandonedPetsTheme.shapes.bottomSheetShape) {
             Column {
                 PetListing(homeViewModel = homeViewModel, uiState = uiState, favoriteClick = favoriteClick, openPetDetail = openPetDetail)
@@ -140,7 +141,7 @@ fun PetListing(
     favoriteClick: (AbandonmentPublicResultEntity, MutableState<Boolean>) -> Unit,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit
 ) {
-    val isLoading = remember { mutableStateOf(false)}
+    val isLoading = remember { mutableStateOf(false) }
 
     when (uiState.screenState) {
         is ScreenState.Loading -> {
@@ -160,7 +161,7 @@ fun PetListing(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .wrapContentSize(if(petItems.itemCount == 0) Alignment.Center else Alignment.TopStart),
+                        .wrapContentSize(if (petItems.itemCount == 0) Alignment.Center else Alignment.TopStart),
                     state = listState
                 ) {
                     items(petItems.itemCount) { index ->

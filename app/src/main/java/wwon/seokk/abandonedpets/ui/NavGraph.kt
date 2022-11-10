@@ -13,6 +13,7 @@ import wwon.seokk.abandonedpets.ui.Destinations.PetDetail
 import wwon.seokk.abandonedpets.ui.Destinations.PetKind
 import wwon.seokk.abandonedpets.ui.Destinations.PetRegion
 import wwon.seokk.abandonedpets.ui.Destinations.Settings
+import wwon.seokk.abandonedpets.ui.Destinations.Themes
 
 /**
  * Created by WonSeok on 2022.08.02
@@ -26,6 +27,7 @@ object Destinations {
     const val Image = "image"
     const val Favorite = "favorite"
     const val Settings = "settings"
+    const val Themes = "themes"
     const val Libs = "libs"
 }
 
@@ -64,7 +66,9 @@ class Actions(navHostController: NavHostController) {
 
     val openSettings = { navHostController.navigate(Settings) }
 
-    val openLibs = { navHostController.navigate(Libs) }
+    val openThemes = { navHostController.navigate("$Settings/$Themes") }
+
+    val openLibs = { navHostController.navigate("$Settings/$Libs") }
 
     val navigateBack: () -> Unit = {
         navHostController.navigateUp()

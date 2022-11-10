@@ -2,12 +2,10 @@ package wwon.seokk.abandonedpets.ui.common
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
 /**
  * Created by WonSeok on 2022.09.15
@@ -16,14 +14,14 @@ import androidx.compose.ui.unit.dp
 fun PetListDivider() {
     Divider(
         modifier = Modifier.padding(horizontal = 14.dp),
-        color = MaterialTheme.colors.onSurface.copy(alpha = 0.08f)
+        color = AbandonedPetsTheme.colors.iconColor.copy(alpha = 0.2f)
     )
 }
 
 @Composable
 fun BottomDivider() {
     Divider(
-        color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f),
+        color = AbandonedPetsTheme.colors.iconColor.copy(alpha = 0.2f),
         thickness =  1.dp,
         startIndent = 0.dp
     )

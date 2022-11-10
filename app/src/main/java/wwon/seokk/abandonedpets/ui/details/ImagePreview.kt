@@ -1,6 +1,7 @@
 package wwon.seokk.abandonedpets.ui.details
 
 import androidx.compose.foundation.gestures.detectTransformGestures
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,7 +26,7 @@ import wwon.seokk.abandonedpets.util.setStatusBar
 fun ImagePreview(uri: String, navigateBack: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
         val systemUiController = rememberSystemUiController()
-        systemUiController.setStatusBar(true)
+        systemUiController.setStatusBar(isSystemInDarkTheme())
 
         var zoom by remember { mutableStateOf(1f) }
         var offset by remember { mutableStateOf(Offset.Zero) }

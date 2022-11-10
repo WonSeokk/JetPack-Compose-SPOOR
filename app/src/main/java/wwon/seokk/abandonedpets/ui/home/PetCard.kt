@@ -35,6 +35,7 @@ import wwon.seokk.abandonedpets.util.calculateAge
 fun PetCard(
     pet: AbandonmentPublicResultEntity,
     isLiked: Boolean,
+    color: Color = AbandonedPetsTheme.colors.surfaceColor,
     favoriteClick: (AbandonmentPublicResultEntity, MutableState<Boolean>) -> Unit,
     petClick: (AbandonmentPublicResultEntity) -> Unit
 ) {
@@ -48,7 +49,8 @@ fun PetCard(
                 enabled = true,
                 onClick = {
                     petClick.invoke(pet)
-                })
+                }),
+        backgroundColor = color
     ) {
         Row {
             PetImage(pet)
@@ -156,6 +158,6 @@ private fun PetImage(pet: AbandonmentPublicResultEntity) {
 @Composable
 private fun PetCardPreview() {
     AbandonedPetsTheme{
-        PetCard(AbandonmentPublicResultEntity.EMPTY, false, favoriteClick = { _, _ -> }, petClick = {} )
+        PetCard(AbandonmentPublicResultEntity.EMPTY,false, Color.White, favoriteClick = { _, _ -> }, petClick = {} )
     }
 }

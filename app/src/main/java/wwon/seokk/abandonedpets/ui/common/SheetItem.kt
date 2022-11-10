@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.ui.common
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -55,12 +56,13 @@ fun SheetItem(
     }
     val region = regions.regionEntities[index]
     val orgCd =  if(filed == SheetField.UprRegion) uiState.selectedUprRegion.value.orgCd else uiState.selectedOrgRegion.value.orgCd
-    val textColor = if(region.orgCd == orgCd) AbandonedPetsTheme.colors.primaryColor else Color.LightGray
+    val textColor = if(region.orgCd == orgCd) AbandonedPetsTheme.colors.primaryColor else AbandonedPetsTheme.colors.iconColor
     if(region.orgCd == orgCd) scrollToItem()
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
+            .background(color = Color.Transparent)
             .fillMaxWidth()
             .height(48.dp)
             .clip(AbandonedPetsTheme.shapes.smallRoundCornerShape)
@@ -106,11 +108,12 @@ fun SheetItem(
     }
     val shelter = shelters.shelterEntities[index]
     val careNo = uiState.selectedShelter.value.careRegNo
-    val textColor = if(shelter.careRegNo == careNo) AbandonedPetsTheme.colors.primaryColor else Color.LightGray
+    val textColor = if(shelter.careRegNo == careNo) AbandonedPetsTheme.colors.primaryColor else AbandonedPetsTheme.colors.iconColor
     if(shelter.careRegNo == careNo) scrollToItem()
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
+            .background(color = Color.Transparent)
             .fillMaxWidth()
             .height(48.dp)
             .clip(AbandonedPetsTheme.shapes.smallRoundCornerShape)
@@ -147,19 +150,14 @@ fun SheetItem(
             bottomState.hide()
         }
     }
-    fun scrollToItem() {
-        scope.launch {
-            listState.animateScrollToItem(index)
-        }
-    }
     val kind = kinds.kindEntities[index]
     val kindCd =  if(filed == SheetField.UpKind) uiState.selectedUpKind.value.kindCd else uiState.selectedKind.value.kindCd
-    val textColor = if(kind.kindCd == kindCd) AbandonedPetsTheme.colors.primaryColor else Color.LightGray
-    if(kind.kindCd == kindCd) scrollToItem()
+    val textColor = if(kind.kindCd == kindCd) AbandonedPetsTheme.colors.primaryColor else AbandonedPetsTheme.colors.iconColor
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
+            .background(color = Color.Transparent)
             .fillMaxWidth()
             .height(48.dp)
             .clip(AbandonedPetsTheme.shapes.smallRoundCornerShape)

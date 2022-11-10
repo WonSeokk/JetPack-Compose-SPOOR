@@ -16,12 +16,12 @@ internal fun MonthHeader(modifier: Modifier = Modifier, month: String, year: Str
         Text(
             modifier = Modifier.weight(1f),
             text = month,
-            style = MaterialTheme.typography.h6
+            style = MaterialTheme.typography.h6.copy(color = AbandonedPetsTheme.colors.surfaceOppositeColor)
         )
         Text(
             modifier = Modifier.align(Alignment.CenterVertically),
             text = year,
-            style = AbandonedPetsTheme.typography.body1
+            style = AbandonedPetsTheme.typography.body1.copy(color = AbandonedPetsTheme.colors.surfaceOppositeColor)
         )
     }
 }

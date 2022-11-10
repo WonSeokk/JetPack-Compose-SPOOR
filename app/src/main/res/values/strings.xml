@@ -4,6 +4,8 @@
 
     <string name="screen_favorite">관심 목록</string>
     <string name="screen_settings">설정</string>
+    <string name="screen_settings_theme">화면 테마</string>
+    <string name="screen_settings_license">오픈소스 라이선스</string>
 
     <string name="common_all">전체</string>
     <string name="common_confirm">확인</string>
@@ -58,5 +60,9 @@
 
     <string name="favorite_screen_end_notice">❗ 공고 종료일이 지난 목록은 자동으로 사라져요</string>
     <string name="favorite_screen_empty_message">아직 관심 목록이 없어요.</string>
+
+    <string name="settings_screen_theme_light">밝은 모드</string>
+    <string name="settings_screen_theme_dark">어두운 모드</string>
+    <string name="settings_screen_theme_system">시스템 모드</string>
 
 </resources>

@@ -71,6 +71,7 @@ private fun SearchInput(
             .fillMaxWidth()
             .height(50.dp)
             .clip(AbandonedPetsTheme.shapes.mediumRoundCornerShape),
+        backgroundColor = AbandonedPetsTheme.colors.surfaceColor,
         onClick = {
             openScreen.invoke(uiState!!.requestQuery.value)
         }

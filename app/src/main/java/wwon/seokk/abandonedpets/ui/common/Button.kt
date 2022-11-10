@@ -49,11 +49,11 @@ fun BackButton(tint: Color = AbandonedPetsTheme.colors.surfaceColor, onClick: ()
 }
 
 @Composable
-fun ShareButton(onClick: () -> Unit) {
+fun ShareButton(tint: Color = AbandonedPetsTheme.colors.surfaceColor, onClick: () -> Unit) {
     IconButton(onClick) {
         Icon(
             imageVector = Icons.Filled.Share,
-            tint = AbandonedPetsTheme.colors.surfaceColor,
+            tint = tint,
             contentDescription = null
         )
     }

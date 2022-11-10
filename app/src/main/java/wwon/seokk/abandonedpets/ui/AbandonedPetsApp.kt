@@ -18,6 +18,7 @@ import wwon.seokk.abandonedpets.ui.Destinations.PetDetail
 import wwon.seokk.abandonedpets.ui.Destinations.PetKind
 import wwon.seokk.abandonedpets.ui.Destinations.PetRegion
 import wwon.seokk.abandonedpets.ui.Destinations.Settings
+import wwon.seokk.abandonedpets.ui.Destinations.Themes
 import wwon.seokk.abandonedpets.ui.PetRequestArgs.ImageUri
 import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetInfo
 import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetRequest
@@ -32,6 +33,7 @@ import wwon.seokk.abandonedpets.ui.kind.PetKindScreen
 import wwon.seokk.abandonedpets.ui.region.PetRegionScreen
 import wwon.seokk.abandonedpets.ui.settings.LibrariesScreen
 import wwon.seokk.abandonedpets.ui.settings.SettingsScreen
+import wwon.seokk.abandonedpets.ui.settings.ThemeScreen
 
 /**
  * Created by WonSeok on 2022.08.02
@@ -134,9 +136,12 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
             )
         }
         composable(Settings) {
-            SettingsScreen(openLibs = actions.openLibs, navigateBack = actions.navigateBack)
+            SettingsScreen(openThemes = actions.openThemes, openLibs = actions.openLibs, navigateBack = actions.navigateBack)
         }
-        composable(Libs) {
+        composable("$Settings/${Themes}") {
+            ThemeScreen(navigateBack = actions.navigateBack)
+        }
+        composable("$Settings/${Libs}") {
             LibrariesScreen(navigateBack = actions.navigateBack)
         }
     }

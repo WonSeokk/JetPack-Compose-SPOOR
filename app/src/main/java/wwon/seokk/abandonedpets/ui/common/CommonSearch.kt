@@ -1,6 +1,6 @@
 package wwon.seokk.abandonedpets.ui.common
 
-import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +27,7 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
  **/
 @Composable
 fun NoticeTitle(contentText: String) {
-    Row{
+    Row(modifier = Modifier.background(color = Color.Transparent)){
         Text(text = contentText,
             style = AbandonedPetsTheme.typography.title1,
             modifier = Modifier
@@ -63,9 +63,12 @@ fun DropDownTextField(
             backgroundColor = Color.Transparent,
             disabledLabelColor = AbandonedPetsTheme.colors.primaryColor,
             disabledIndicatorColor = AbandonedPetsTheme.colors.primaryColor,
-            disabledTextColor = Color.Black
+            disabledTextColor = AbandonedPetsTheme.colors.surfaceOppositeColor
         ),
-        trailingIcon = { Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "") },
+        trailingIcon = { Icon(
+            imageVector = Icons.Filled.ArrowDropDown,
+            tint = AbandonedPetsTheme.colors.iconColor,
+            contentDescription = "") },
         modifier = Modifier
             .padding(0.dp, 0.dp, 0.dp, 20.dp)
             .fillMaxWidth()

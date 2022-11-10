@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.ui.kind
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -72,7 +73,7 @@ fun PetKindScreen(
         modifier = Modifier.statusBarsPadding(),
         sheetState = bottomState,
         sheetShape =  AbandonedPetsTheme.shapes.bottomSheetShape,
-        sheetBackgroundColor = Color.White,
+        sheetBackgroundColor = AbandonedPetsTheme.colors.surfaceColor,
         sheetContent = {
             BottomContent(
                 uiState = state,
@@ -113,7 +114,7 @@ fun BottomContent(
             .fillMaxWidth()
             .fillMaxHeight(0.5f)
     ) {
-        Column {
+        Column(Modifier.background(color = AbandonedPetsTheme.colors.surfaceColor)) {
             NoticeTitle(contentText = stringResource(id = R.string.kind_screen_select_message))
             SelectListing(uiState, bottomState, onSelectKind)
         }
@@ -132,6 +133,7 @@ private fun MainContent(
 ) {
     Column(
         modifier = Modifier
+            .background(color = AbandonedPetsTheme.colors.surfaceColor)
             .padding(15.dp)
             .fillMaxSize()
     ) {
@@ -190,6 +192,7 @@ private fun SelectListing(
             LazyColumn(
                 state = listState,
                 modifier = Modifier
+                    .background(color = Color.Transparent)
                     .fillMaxWidth()
                     .wrapContentHeight()
             ) {

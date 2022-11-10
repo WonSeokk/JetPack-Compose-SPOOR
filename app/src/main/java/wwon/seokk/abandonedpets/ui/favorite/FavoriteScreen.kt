@@ -1,5 +1,7 @@
 package wwon.seokk.abandonedpets.ui.favorite
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Scaffold
@@ -46,7 +48,7 @@ fun FavoriteScreen(
         parentViewModel.handleLikePet(pet, state, null, favoriteViewModel)
     }
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBar(true)
+    systemUiController.setStatusBar(isSystemInDarkTheme().not())
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val scaffoldState = rememberScaffoldState()
@@ -86,16 +88,19 @@ fun FavoriteContent(
     favoriteClick: (AbandonmentPublicResultEntity, MutableState<Boolean>) -> Unit,
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit
 ) {
-    Column {
+    Column(Modifier.background(color = AbandonedPetsTheme.colors.surfaceColor)) {
         Surface(
             modifier = Modifier
                 .height(80.dp)
                 .fillMaxWidth()
                 .padding(start = 15.dp, top = 10.dp, end = 15.dp, bottom = 5.dp),
             shape = AbandonedPetsTheme.shapes.mediumRoundCornerShape,
-            color = AbandonedPetsTheme.colors.surfaceVariantColor
+            color = AbandonedPetsTheme.colors.subColor
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ){
                 Text(
                     text = stringResource(id = R.string.favorite_screen_end_notice),
                     style = AbandonedPetsTheme.typography.body1.copy(

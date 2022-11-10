@@ -81,7 +81,7 @@ fun PetDetailsScreen(
         }
     }
 
-    Scaffold(scaffoldState = scaffoldState) {
+    Scaffold(scaffoldState = scaffoldState, backgroundColor = AbandonedPetsTheme.colors.surfaceColor) {
         Box {
             systemUiController.setStatusBar(false)
             CollapsingToolbarScaffold(
@@ -109,9 +109,9 @@ fun PetDetailsScreen(
                             .background(AbandonedPetsTheme.colors.primaryColor)
                     )
                     Row(modifier = Modifier.statusBarsPadding()){
-                        BackButton { navigateBack() }
+                        BackButton(tint = Color.White) { navigateBack() }
                         Spacer(modifier = Modifier.weight(1f))
-                        ShareButton {
+                        ShareButton(tint = Color.White) {
                             petDetailsViewModel.handleSnackBar(R.string.common_prepare_message, action)
                         }
                     }

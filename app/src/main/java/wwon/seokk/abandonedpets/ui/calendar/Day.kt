@@ -7,27 +7,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.SemanticsPropertyKey
 import androidx.compose.ui.semantics.SemanticsPropertyReceiver
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.semantics.text
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
-import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import java.time.LocalDate
 import java.time.YearMonth
@@ -41,7 +36,7 @@ internal fun DayOfWeekHeading(day: String) {
                 .wrapContentHeight(Alignment.CenterVertically),
             textAlign = TextAlign.Center,
             text = day,
-            color = Color.Black.copy(alpha = 0.6f)
+            color = AbandonedPetsTheme.colors.surfaceOppositeColor.copy(alpha = 0.6f)
         )
     }
 }
@@ -102,7 +97,7 @@ internal fun Day(
                 .fillMaxSize()
                 .wrapContentSize(Alignment.Center),
             text = day.dayOfMonth.toString(),
-            style = AbandonedPetsTheme.typography.body1.copy(color = Color.Black)
+            style = AbandonedPetsTheme.typography.body1.copy(color = AbandonedPetsTheme.colors.surfaceOppositeColor)
         )
     }
 }

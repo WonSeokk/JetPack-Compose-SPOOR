@@ -4,14 +4,12 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,7 +33,7 @@ fun GetPetsError(buttonClick: () -> Unit) {
             modifier = Modifier.padding(8.dp),
             text = stringResource(id = R.string.common_network_error_message),
             style = AbandonedPetsTheme.typography.body1.copy(
-                color = Color.LightGray,
+                color = AbandonedPetsTheme.colors.iconColor,
                 textAlign = TextAlign.Center,
                 fontSize = 16.sp
             )
@@ -59,7 +57,7 @@ fun EmptyResult(@StringRes message: Int) {
         modifier = Modifier.padding(8.dp),
         text = stringResource(id = message),
         style = AbandonedPetsTheme.typography.body1.copy(
-            color = Color.LightGray,
+            color = AbandonedPetsTheme.colors.iconColor,
             textAlign = TextAlign.Center,
             fontSize = 20.sp
         )
