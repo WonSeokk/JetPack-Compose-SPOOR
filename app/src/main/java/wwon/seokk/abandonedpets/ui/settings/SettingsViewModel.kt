@@ -1,10 +1,11 @@
 package wwon.seokk.abandonedpets.ui.settings
 
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.util.SettingsPref
 import javax.inject.Inject
@@ -25,15 +26,10 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setTheme(theme: Theme) {
-        selectedTheme.value = theme
-        settingsPref.setTheme(theme.id)
-        AppCompatDelegate.setDefaultNightMode(
-            when(theme) {
-                Theme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
-                Theme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
-                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            }
-        )
+        viewModelScope.launch {
+            selectedTheme.value = theme
+            settingsPref.setTheme(theme.id)
+        }
     }
 
     data class Theme(

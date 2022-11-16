@@ -39,12 +39,13 @@ import wwon.seokk.abandonedpets.ui.settings.ThemeScreen
  * Created by WonSeok on 2022.08.02
  **/
 @Composable
-fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
+fun AbandonedPetsApp(darkTheme: Boolean, widthSize: WindowWidthSizeClass) {
     val navController = rememberNavController()
     val actions = remember(navController) { Actions(navController) }
     NavHost(navController = navController, startDestination = Home) {
         composable(Home) {
             HomeScreen(
+                darkTheme = darkTheme,
                 widthSize = widthSize,
                 openPetRegionSearch = actions.openPetRegionSearch,
                 openPetKindSearch = actions.openPetKindSearch,
@@ -121,6 +122,7 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
             )) {
             val uri = it.arguments?.getString(ImageUri)!!
             ImagePreview(
+                darkTheme = darkTheme,
                 uri = uri,
                 navigateBack = actions.navigateBack
             )
@@ -130,6 +132,7 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
             val parentEntry = remember { navController.getBackStackEntry(Home)  }
             val parentViewModel = hiltViewModel<HomeViewModel>(parentEntry)
             FavoriteScreen(
+                darkTheme = darkTheme,
                 parentViewModel = parentViewModel,
                 openPetDetail = actions.openPetDetail,
                 navigateBack = actions.navigateBack
@@ -139,7 +142,7 @@ fun AbandonedPetsApp(widthSize: WindowWidthSizeClass) {
             SettingsScreen(openThemes = actions.openThemes, openLibs = actions.openLibs, navigateBack = actions.navigateBack)
         }
         composable("$Settings/${Themes}") {
-            ThemeScreen(navigateBack = actions.navigateBack)
+            ThemeScreen(darkTheme = darkTheme, navigateBack = actions.navigateBack)
         }
         composable("$Settings/${Libs}") {
             LibrariesScreen(navigateBack = actions.navigateBack)

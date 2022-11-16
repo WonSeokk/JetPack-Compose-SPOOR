@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.domain.entity.kind.KindResultEntity
 import wwon.seokk.abandonedpets.ui.base.ScreenState
@@ -35,6 +36,8 @@ fun PetKindScreen(
     fun onSelectKind(query: KindResultEntity, field: SheetField) {
         petKindViewModel.selectKind(query, field)
     }
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(AbandonedPetsTheme.colors.surfaceColor)
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val stateFlow = petKindViewModel.uiState()

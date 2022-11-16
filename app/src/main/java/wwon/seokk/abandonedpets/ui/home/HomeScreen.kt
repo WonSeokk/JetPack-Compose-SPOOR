@@ -1,6 +1,5 @@
 package wwon.seokk.abandonedpets.ui.home
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -40,6 +39,7 @@ import wwon.seokk.abandonedpets.util.setStatusBar
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
+    darkTheme: Boolean,
     widthSize: WindowWidthSizeClass,
     openPetRegionSearch: (GetAbandonmentPublicRequest) -> Unit,
     openPetKindSearch: (GetAbandonmentPublicRequest) -> Unit,
@@ -55,7 +55,7 @@ fun HomeScreen(
     }
 
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBar(isSystemInDarkTheme().not())
+    systemUiController.setStatusBar(darkTheme.not())
 
     val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed)
     val lifecycleOwner = LocalLifecycleOwner.current

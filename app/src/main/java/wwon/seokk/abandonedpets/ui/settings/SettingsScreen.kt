@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.ui.common.BottomDivider
 import wwon.seokk.abandonedpets.ui.common.NavigateUpAppBar
@@ -24,6 +25,9 @@ fun SettingsScreen(
     openLibs: () -> Unit,
     navigateBack: () -> Unit
 ) {
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(AbandonedPetsTheme.colors.surfaceColor)
+
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
         backgroundColor = AbandonedPetsTheme.colors.surfaceColor,

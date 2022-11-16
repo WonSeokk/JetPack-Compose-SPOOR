@@ -1,7 +1,7 @@
 package wwon.seokk.abandonedpets.ui.details
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,13 +20,14 @@ import coil.request.ImageRequest
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.ui.common.CloseButton
+import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.setStatusBar
 
 @Composable
-fun ImagePreview(uri: String, navigateBack: () -> Unit) {
-    Box(modifier = Modifier.fillMaxSize()) {
+fun ImagePreview(darkTheme: Boolean, uri: String, navigateBack: () -> Unit) {
+    Box(modifier = Modifier.fillMaxSize().background(color = AbandonedPetsTheme.colors.surfaceColor)) {
         val systemUiController = rememberSystemUiController()
-        systemUiController.setStatusBar(isSystemInDarkTheme())
+        systemUiController.setStatusBar(darkTheme)
 
         var zoom by remember { mutableStateOf(1f) }
         var offset by remember { mutableStateOf(Offset.Zero) }

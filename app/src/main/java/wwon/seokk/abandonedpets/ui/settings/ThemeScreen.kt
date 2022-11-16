@@ -2,7 +2,6 @@ package wwon.seokk.abandonedpets.ui.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Scaffold
@@ -26,11 +25,13 @@ import wwon.seokk.abandonedpets.util.setStatusBar
  **/
 @Composable
 fun ThemeScreen(
+    darkTheme: Boolean,
     settingsViewModel: SettingsViewModel = hiltViewModel(),
     navigateBack: () -> Unit
 ) {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBar(isSystemInDarkTheme().not())
+    systemUiController.setStatusBar(darkTheme.not())
+    systemUiController.setSystemBarsColor(AbandonedPetsTheme.colors.surfaceColor)
 
     Scaffold(
         modifier = Modifier.statusBarsPadding(),

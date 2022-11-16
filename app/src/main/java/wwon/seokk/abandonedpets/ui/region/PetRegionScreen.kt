@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import wwon.seokk.abandonedpets.R
@@ -43,6 +44,8 @@ fun PetRegionScreen(
     fun onSelectShelter(query: ShelterResultEntity) {
         petRegionViewModel.selectShelter(query)
     }
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(AbandonedPetsTheme.colors.surfaceColor)
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val stateFlow = petRegionViewModel.uiState()

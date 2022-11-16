@@ -7,6 +7,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mikepenz.aboutlibraries.ui.compose.LibrariesContainer
 import com.mikepenz.aboutlibraries.ui.compose.LibraryDefaults
 import wwon.seokk.abandonedpets.R
@@ -15,6 +16,9 @@ import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 
 @Composable
 fun LibrariesScreen(navigateBack: () -> Unit) {
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(AbandonedPetsTheme.colors.surfaceColor)
+
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
         topBar = {

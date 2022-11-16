@@ -1,7 +1,6 @@
 package wwon.seokk.abandonedpets.ui.favorite
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Scaffold
@@ -39,6 +38,7 @@ import wwon.seokk.abandonedpets.util.setStatusBar
  **/
 @Composable
 fun FavoriteScreen(
+    darkTheme: Boolean,
     parentViewModel: HomeViewModel,
     favoriteViewModel: FavoriteViewModel = hiltViewModel(),
     openPetDetail: (AbandonmentPublicResultEntity) -> Unit,
@@ -48,7 +48,9 @@ fun FavoriteScreen(
         parentViewModel.handleLikePet(pet, state, null, favoriteViewModel)
     }
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBar(isSystemInDarkTheme().not())
+    systemUiController.setStatusBar(darkTheme.not())
+    systemUiController.setSystemBarsColor(AbandonedPetsTheme.colors.surfaceColor)
+
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val scaffoldState = rememberScaffoldState()
