@@ -25,12 +25,10 @@ SPOOR는 JetPack Compose를 사용한 유기동물 검색 어플입니다.
  - [Room][room] 관심 목록
  - [Calendar][calendar] Sample Code 참고하여 구현
  - [Material Icons][icons] 아이콘 적용
- - [Material Icons][icons] 아이콘 적용
 
 ## Features to be developed
 - 보호소 위치 지도 표시(보호소 좌표 API / Map API 활용) 
 - 공유 기능
-- 다크 모드 UI
 
 [농림축산식품부]: https://www.animal.go.kr/front/index.do
 [정부 공공 데이터]: https://www.data.go.kr/data/15098931/openapi.do
