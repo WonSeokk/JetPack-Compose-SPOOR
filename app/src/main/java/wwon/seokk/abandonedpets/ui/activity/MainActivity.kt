@@ -1,6 +1,9 @@
 package wwon.seokk.abandonedpets.ui.activity
 
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -50,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         installSplashScreen()
         setContent {
             val darkTheme = shouldUseDarkTheme(themeState)
@@ -59,8 +62,24 @@ class MainActivity : AppCompatActivity() {
                 AbandonedPetsApp(darkTheme, widthSizeClass)
             }
         }
+        hideSystemUI()
+    }
+
+    @Suppress("DEPRECATION")
+    private fun hideSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        } else {
+            window.insetsController?.apply {
+                systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        }
     }
 }
+
+
 
 @Composable
 fun shouldUseDarkTheme(
@@ -78,3 +97,4 @@ sealed interface ThemeUiState {
     object Loading : ThemeUiState
     data class Success(val theme: SettingsViewModel.Theme) : ThemeUiState
 }
+
