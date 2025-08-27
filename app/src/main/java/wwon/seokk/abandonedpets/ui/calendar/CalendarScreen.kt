@@ -11,7 +11,6 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import wwon.seokk.abandonedpets.ui.common.NavigateUpAppBar
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
@@ -26,8 +25,7 @@ fun CalendarScreen(
     calendarViewModel: CalendarViewModel = hiltViewModel(),
     navigateBack: () -> Unit
 ) {
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(AbandonedPetsTheme.colors.surfaceColor)
+    // Status bar styling now handled by edge-to-edge behavior and theme
     
     val lifecycleOwner = LocalLifecycleOwner.current
     val stateFlow = calendarViewModel.uiState()
@@ -55,6 +53,7 @@ private fun CalendarContent(
     Scaffold(
         modifier = Modifier
             .statusBarsPadding()
+            .navigationBarsPadding()
             .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Start + WindowInsetsSides.End)),
         backgroundColor = AbandonedPetsTheme.colors.surfaceColor,
         topBar = {

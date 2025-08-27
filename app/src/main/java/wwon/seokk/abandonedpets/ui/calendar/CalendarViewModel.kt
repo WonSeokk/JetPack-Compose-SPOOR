@@ -3,7 +3,6 @@ package wwon.seokk.abandonedpets.ui.calendar
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
-import wwon.seokk.abandonedpets.ui.PetRequestArgs
 import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetRequest
 import wwon.seokk.abandonedpets.ui.base.BaseViewModel
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
@@ -21,7 +20,7 @@ class CalendarViewModel @Inject constructor(
     var requestQuery = GetAbandonmentPublicRequest.EMPTY
     override fun createInitialState(): CalendarState = CalendarState()
 
-    override fun initData() {
+    override fun initData() = intent {
         val currentState = uiState().value.calendarUiState.value
         requestQuery = savedStateHandle[PetRequest]?: GetAbandonmentPublicRequest.EMPTY
         requestQuery.run {

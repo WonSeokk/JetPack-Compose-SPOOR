@@ -9,9 +9,6 @@ import androidx.paging.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.data.remote.ApiConstants
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
@@ -43,7 +40,7 @@ class HomeViewModel @Inject constructor(
 
     override fun createInitialState(): HomeState = HomeState(ScreenState.Loading, mutableStateOf(GetAbandonmentPublicRequest.EMPTY), null, emptyList(), null)
 
-    override fun initData() {
+    override fun initData() = intent {
         handleSearch()
         requestPets(uiState().value.requestQuery.value)
         getFavorites()

@@ -3,9 +3,6 @@ package wwon.seokk.abandonedpets.ui.favorite
 import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
 import wwon.seokk.abandonedpets.domain.interatctor.GetLikedPetsUseCase
 import wwon.seokk.abandonedpets.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -21,7 +18,7 @@ class FavoriteViewModel @Inject constructor(
 
     override fun createInitialState(): FavoriteState = FavoriteState()
 
-    override fun initData() {
+    override fun initData() = intent {
         getFavorites()
     }
 

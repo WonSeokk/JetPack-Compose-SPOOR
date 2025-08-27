@@ -15,9 +15,9 @@ data class Item (
     val careRegNo: String,
     val careNm: String,
     val kindCd: String,
-    val knm: String,
+    val kindNm: String,
     val desertionNo: String,
-    val filename: String,
+    val popfile1: String?,
     val happenDt: String,
     val happenPlace: String,
     val colorCd: String,
@@ -26,7 +26,7 @@ data class Item (
     val noticeNo: String,
     val noticeSdt: String,
     val noticeEdt: String,
-    val popfile: String,
+    val popfile2: String?,
     val processState: String,
     val sexCd: String,
     val neuterYn: String,
@@ -35,7 +35,7 @@ data class Item (
     val careAddr: String,
     val orgNm: String,
     val chargeNm: String,
-    val officetel: String,
+    val officetel: String?,
 )
 
 fun Item.toRegionEntity() = RegionResultEntity(uprCd, orgCd, orgdownNm)
@@ -44,12 +44,12 @@ fun List<Item>.toRegionsEntity() = map { it.toRegionEntity() }
 fun Item.toShelterEntity() = ShelterResultEntity(careRegNo, careNm)
 fun List<Item>.toSheltersEntity() = map { it.toShelterEntity() }
 
-fun Item.toKindEntity() = KindResultEntity(kindCd, knm)
+fun Item.toKindEntity() = KindResultEntity(kindCd, kindNm)
 fun List<Item>.toKindsEntity() = map { it.toKindEntity() }
 
 fun Item.toAbandonmentPublicEntity() = AbandonmentPublicResultEntity(
     desertionNo,
-    filename,
+    popfile1 ?: "",
     happenDt,
     happenPlace,
     kindCd,
@@ -59,7 +59,7 @@ fun Item.toAbandonmentPublicEntity() = AbandonmentPublicResultEntity(
     noticeNo,
     noticeSdt,
     noticeEdt,
-    popfile,
+    popfile2 ?: "",
     processState,
     sexCd,
     neuterYn,
@@ -69,6 +69,6 @@ fun Item.toAbandonmentPublicEntity() = AbandonmentPublicResultEntity(
     careAddr,
     orgNm,
     chargeNm,
-    officetel
+    officetel ?: ""
 )
 fun List<Item>.toAbandonmentPublicEntities() = map { it.toAbandonmentPublicEntity() }

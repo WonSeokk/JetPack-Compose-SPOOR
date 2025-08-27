@@ -3,24 +3,15 @@ package wwon.seokk.abandonedpets.ui.kind
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
 import wwon.seokk.abandonedpets.data.remote.abandonedpets.upKinds
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.kind.KindEntity
 import wwon.seokk.abandonedpets.domain.entity.kind.KindResultEntity
-import wwon.seokk.abandonedpets.domain.entity.region.RegionEntity
-import wwon.seokk.abandonedpets.domain.entity.region.RegionResultEntity
-import wwon.seokk.abandonedpets.domain.entity.shelter.ShelterResultEntity
 import wwon.seokk.abandonedpets.domain.interatctor.GetKindUseCase
-import wwon.seokk.abandonedpets.domain.interatctor.GetSigunguUseCase
 import wwon.seokk.abandonedpets.ui.PetRequestArgs
 import wwon.seokk.abandonedpets.ui.base.BaseViewModel
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.SheetField
-import wwon.seokk.abandonedpets.ui.home.HomeSideEffect
-import wwon.seokk.abandonedpets.ui.region.PetRegionSideEffect
 import javax.inject.Inject
 
 /**
@@ -43,7 +34,7 @@ class PetKindViewModel @Inject constructor(
         null
     )
 
-    override fun initData() {
+    override fun initData() = intent {
         requestQuery = savedStateHandle[PetRequestArgs.PetRequest]!!
         uiState().value.selectedUpKind.value = requestQuery.upKind
         uiState().value.selectedKind.value = requestQuery.kind

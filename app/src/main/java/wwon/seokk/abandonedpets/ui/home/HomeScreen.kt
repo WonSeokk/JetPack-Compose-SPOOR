@@ -20,7 +20,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.R
@@ -31,7 +30,6 @@ import wwon.seokk.abandonedpets.domain.interatctor.PetsSource
 import wwon.seokk.abandonedpets.ui.common.*
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.rememberLazyListState
-import wwon.seokk.abandonedpets.util.setStatusBar
 
 /**
  * Created by WonSeok on 2022.08.05
@@ -54,8 +52,7 @@ fun HomeScreen(
          homeViewModel.handleLikePet(pet, state)
     }
 
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBar(darkTheme.not())
+    // Status bar styling now handled by edge-to-edge behavior and theme
 
     val scaffoldState = rememberBackdropScaffoldState(BackdropValue.Revealed)
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -81,7 +78,9 @@ fun HomeScreen(
     }
 
     BackdropScaffold(
-        modifier = Modifier.statusBarsPadding(),
+        modifier = Modifier
+            .statusBarsPadding()
+            .navigationBarsPadding(),
         scaffoldState = scaffoldState,
         backLayerBackgroundColor = AbandonedPetsTheme.colors.surfaceVariantColor,
         frontLayerShape = AbandonedPetsTheme.shapes.bottomSheetShape,

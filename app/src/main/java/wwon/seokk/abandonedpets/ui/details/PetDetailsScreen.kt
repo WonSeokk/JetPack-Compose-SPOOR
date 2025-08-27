@@ -23,7 +23,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import me.onebone.toolbar.*
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.domain.entity.abandonmentpublic.AbandonmentPublicResultEntity
@@ -33,7 +32,6 @@ import wwon.seokk.abandonedpets.ui.home.HomeViewModel
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
 import wwon.seokk.abandonedpets.util.calculateAge
 import wwon.seokk.abandonedpets.util.noticeDateFormatter
-import wwon.seokk.abandonedpets.util.setStatusBar
 import wwon.seokk.abandonedpets.util.toFormat
 import java.time.format.DateTimeFormatter
 
@@ -52,7 +50,6 @@ fun PetDetailsScreen(
         parentViewModel.handleLikePet(pet, state, petDetailsViewModel, favoriteViewModel)
     }
 
-    val systemUiController = rememberSystemUiController()
     val state = rememberCollapsingToolbarScaffoldState()
     val isScroll = state.toolbarState.minHeight + 250 >= state.toolbarState.height
 
@@ -81,9 +78,13 @@ fun PetDetailsScreen(
         }
     }
 
-    Scaffold(scaffoldState = scaffoldState, backgroundColor = AbandonedPetsTheme.colors.surfaceColor) {
-        Box {
-            systemUiController.setStatusBar(false)
+    Scaffold(scaffoldState = scaffoldState, backgroundColor = AbandonedPetsTheme.colors.surfaceColor) { padding ->
+        Box(
+            modifier = Modifier
+                .padding(padding)
+                .navigationBarsPadding()
+        ) {
+            // Status bar now handled by edge-to-edge behavior
             CollapsingToolbarScaffold(
                 modifier = Modifier.fillMaxSize(),
                 state = state,

@@ -3,9 +3,6 @@ package wwon.seokk.abandonedpets.ui.region
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
 import wwon.seokk.abandonedpets.data.remote.model.request.GetAbandonmentPublicRequest
 import wwon.seokk.abandonedpets.domain.entity.region.RegionEntity
 import wwon.seokk.abandonedpets.domain.entity.region.RegionResultEntity
@@ -18,7 +15,6 @@ import wwon.seokk.abandonedpets.ui.PetRequestArgs.PetRequest
 import wwon.seokk.abandonedpets.ui.base.BaseViewModel
 import wwon.seokk.abandonedpets.ui.base.ScreenState
 import wwon.seokk.abandonedpets.ui.common.SheetField
-import wwon.seokk.abandonedpets.ui.kind.PetKindSideEffect
 import javax.inject.Inject
 
 /**
@@ -45,7 +41,7 @@ class PetRegionViewModel @Inject constructor(
         null
     )
 
-    override fun initData() {
+    override fun initData() = intent {
         requestQuery = savedStateHandle[PetRequest]!!
         uiState().value.run {
             selectedUprRegion.value = requestQuery.upr

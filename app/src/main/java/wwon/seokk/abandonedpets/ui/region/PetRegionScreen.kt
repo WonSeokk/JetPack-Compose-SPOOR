@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import wwon.seokk.abandonedpets.R
@@ -44,8 +43,7 @@ fun PetRegionScreen(
     fun onSelectShelter(query: ShelterResultEntity) {
         petRegionViewModel.selectShelter(query)
     }
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(AbandonedPetsTheme.colors.surfaceColor)
+    // Status bar styling now handled by edge-to-edge behavior and theme
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val stateFlow = petRegionViewModel.uiState()
@@ -95,12 +93,14 @@ fun PetRegionScreen(
         }
     ) {
         Scaffold(
+            modifier = Modifier.navigationBarsPadding(),
             scaffoldState = scaffoldState,
             topBar = {
                 NavigateUpAppBar(navigateBack = navigateBack)
             },
             content = {
                 MainContent(
+                    modifier = Modifier.padding(it),
                     uiState = state,
                     bottomState = bottomState,
                     parentViewModel = parentViewModel,
@@ -117,6 +117,7 @@ fun PetRegionScreen(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun MainContent(
+    modifier: Modifier,
     uiState: PetRegionState?,
     bottomState: ModalBottomSheetState?,
     parentViewModel: HomeViewModel?,
@@ -125,7 +126,7 @@ private fun MainContent(
 ) {
     val scope = rememberCoroutineScope()
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(color = AbandonedPetsTheme.colors.surfaceColor)
             .padding(15.dp)
             .fillMaxSize()
@@ -268,6 +269,6 @@ private fun SelectListing(
 @Composable
 private fun MainContentPreView() {
     AbandonedPetsTheme {
-        MainContent(null, null, null,null) { }
+        MainContent(Modifier, null, null, null,null) { }
     }
 }

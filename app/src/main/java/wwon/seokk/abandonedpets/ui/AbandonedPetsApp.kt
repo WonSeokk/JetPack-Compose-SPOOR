@@ -1,5 +1,6 @@
 package wwon.seokk.abandonedpets.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -38,6 +39,7 @@ import wwon.seokk.abandonedpets.ui.settings.ThemeScreen
 /**
  * Created by WonSeok on 2022.08.02
  **/
+@SuppressLint("UnrememberedGetBackStackEntry", "RestrictedApi", "StateFlowValueCalledInComposition")
 @Composable
 fun AbandonedPetsApp(darkTheme: Boolean, widthSize: WindowWidthSizeClass) {
     val navController = rememberNavController()
@@ -61,7 +63,7 @@ fun AbandonedPetsApp(darkTheme: Boolean, widthSize: WindowWidthSizeClass) {
                     type = AbandonmentPublicRequestNavType()
                 }
             )) {
-            val parentEntry = remember { navController.getBackStackEntry(Home)  }
+            val parentEntry = remember(navController) { navController.getBackStackEntry(Home) }
             val parentViewModel = hiltViewModel<HomeViewModel>(parentEntry)
             PetRegionScreen(
                 parentViewModel = parentViewModel,
@@ -74,7 +76,7 @@ fun AbandonedPetsApp(darkTheme: Boolean, widthSize: WindowWidthSizeClass) {
                     type = AbandonmentPublicRequestNavType()
                 }
             )) {
-            val parentEntry = remember { navController.getBackStackEntry(Home)  }
+            val parentEntry = remember(navController) { navController.getBackStackEntry(Home) }
             val parentViewModel = hiltViewModel<HomeViewModel>(parentEntry)
             PetKindScreen(
                 parentViewModel = parentViewModel,
@@ -87,7 +89,7 @@ fun AbandonedPetsApp(darkTheme: Boolean, widthSize: WindowWidthSizeClass) {
                     type = AbandonmentPublicRequestNavType()
                 }
             )) {
-            val parentEntry = remember { navController.getBackStackEntry(Home)  }
+            val parentEntry = remember(navController) { navController.getBackStackEntry(Home) }
             val parentViewModel = hiltViewModel<HomeViewModel>(parentEntry)
             CalendarScreen(
                 parentViewModel = parentViewModel,
@@ -101,10 +103,14 @@ fun AbandonedPetsApp(darkTheme: Boolean, widthSize: WindowWidthSizeClass) {
                     type = AbandonmentPublicResultNavType()
                 }
             )) {
-            val parentEntry = remember { navController.getBackStackEntry(Home)  }
+            val parentEntry = remember(navController) { navController.getBackStackEntry(Home) }
             val parentViewModel = hiltViewModel<HomeViewModel>(parentEntry)
-            val favorite = navController.findDestination(Favorite)
-            val favoriteEntry = navController.backQueue.find { it.destination == favorite }?.let { remember { navController.getBackStackEntry(it.destination.id) } }
+            val backStacks = navController.currentBackStack.value
+            val favoriteEntry = if(backStacks.any { it.id == Favorite}) {
+                navController.getBackStackEntry(Favorite).let {
+                    remember(navController) { navController.getBackStackEntry(Favorite) }
+                }
+            } else null
             val favoriteViewModel = favoriteEntry?.let { hiltViewModel<FavoriteViewModel>(it) }
             PetDetailsScreen(
                 parentViewModel = parentViewModel,
@@ -129,7 +135,7 @@ fun AbandonedPetsApp(darkTheme: Boolean, widthSize: WindowWidthSizeClass) {
         }
 
         composable(Favorite) {
-            val parentEntry = remember { navController.getBackStackEntry(Home)  }
+            val parentEntry = remember(navController) { navController.getBackStackEntry(Home) }
             val parentViewModel = hiltViewModel<HomeViewModel>(parentEntry)
             FavoriteScreen(
                 darkTheme = darkTheme,

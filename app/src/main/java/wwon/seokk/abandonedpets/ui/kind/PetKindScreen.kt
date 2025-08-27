@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.domain.entity.kind.KindResultEntity
 import wwon.seokk.abandonedpets.ui.base.ScreenState
@@ -36,8 +35,7 @@ fun PetKindScreen(
     fun onSelectKind(query: KindResultEntity, field: SheetField) {
         petKindViewModel.selectKind(query, field)
     }
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(AbandonedPetsTheme.colors.surfaceColor)
+    // Status bar styling now handled by edge-to-edge behavior and theme
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val stateFlow = petKindViewModel.uiState()
@@ -86,12 +84,14 @@ fun PetKindScreen(
         }
     ) {
         Scaffold(
+            modifier = Modifier.navigationBarsPadding(),
             scaffoldState = scaffoldState,
             topBar = {
                 NavigateUpAppBar(navigateBack = navigateBack)
             },
             content = {
                 MainContent(
+                    modifier = Modifier.padding(it),
                     uiState = state,
                     bottomState = bottomState,
                     parentViewModel = parentViewModel,
@@ -128,6 +128,7 @@ fun BottomContent(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun MainContent(
+    modifier: Modifier,
     uiState: PetKindState?,
     bottomState: ModalBottomSheetState?,
     parentViewModel: HomeViewModel?,
@@ -135,7 +136,7 @@ private fun MainContent(
     navigateBack: () -> Unit
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(color = AbandonedPetsTheme.colors.surfaceColor)
             .padding(15.dp)
             .fillMaxSize()
@@ -237,6 +238,6 @@ private fun SelectListing(
 @Composable
 private fun MainContentPreView() {
     AbandonedPetsTheme {
-        MainContent(null, null, null, null) { }
+        MainContent(Modifier, null, null, null, null) { }
     }
 }

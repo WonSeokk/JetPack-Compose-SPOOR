@@ -17,17 +17,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntSize
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.ui.common.CloseButton
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
-import wwon.seokk.abandonedpets.util.setStatusBar
 
 @Composable
 fun ImagePreview(darkTheme: Boolean, uri: String, navigateBack: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize().background(color = AbandonedPetsTheme.colors.surfaceColor)) {
-        val systemUiController = rememberSystemUiController()
-        systemUiController.setStatusBar(darkTheme)
+        // Status bar styling now handled by edge-to-edge behavior and theme
 
         var zoom by remember { mutableStateOf(1f) }
         var offset by remember { mutableStateOf(Offset.Zero) }
@@ -69,6 +66,7 @@ fun ImagePreview(darkTheme: Boolean, uri: String, navigateBack: () -> Unit) {
         )
         CloseButton(modifier = Modifier
             .statusBarsPadding()
+            .navigationBarsPadding()
             .align(Alignment.TopEnd)) { navigateBack.invoke() }
     }
 }

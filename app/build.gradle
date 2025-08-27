@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'org.jetbrains.kotlin.plugin.compose'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
@@ -11,19 +12,25 @@ apply from: './gradleScript/dependencies.gradle'
 
 android {
     def file = rootProject.file("local.properties")
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    if (keystorePropertiesFile.exists()) {
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    }
 
-    compileSdk 33
+    namespace "wwon.seokk.abandonedpets"
+    compileSdk 35
 
     defaultConfig {
         applicationId "wwon.seokk.abandonedpets"
         minSdk 26
-        targetSdk 33
-        versionCode 2
-        versionName "2.0"
+        targetSdk 35
+        versionCode 3
+        versionName "3.0.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField 'String', 'BASE_URL', "\"http://apis.data.go.kr/1543061/abandonmentPublicSrvc/\""
+        buildConfigField 'String', 'BASE_URL', "\"http://apis.data.go.kr/1543061/abandonmentPublicService_v2/\""
         if (file.exists()) {
             def localProperties = new Properties()
             localProperties.load(new FileInputStream(file))
@@ -33,25 +40,35 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile rootProject.file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     buildFeatures {
         compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.2.0'
-        kotlinCompilerVersion '1.7.0'
+        buildConfig true
     }
     testOptions {
         unitTests {

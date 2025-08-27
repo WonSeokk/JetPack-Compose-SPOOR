@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.data.local.entities.Pet
 import wwon.seokk.abandonedpets.data.local.entities.toPublicResult
@@ -31,7 +30,6 @@ import wwon.seokk.abandonedpets.ui.common.SnackBarView
 import wwon.seokk.abandonedpets.ui.home.HomeViewModel
 import wwon.seokk.abandonedpets.ui.home.PetCard
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
-import wwon.seokk.abandonedpets.util.setStatusBar
 
 /**
  * Created by WonSeok on 2022.11.07
@@ -47,10 +45,7 @@ fun FavoriteScreen(
     val favoriteClick: (AbandonmentPublicResultEntity, MutableState<Boolean>) -> Unit = { pet, state ->
         parentViewModel.handleLikePet(pet, state, null, favoriteViewModel)
     }
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBar(darkTheme.not())
-    systemUiController.setSystemBarsColor(AbandonedPetsTheme.colors.surfaceColor)
-
+    // Status bar styling now handled by edge-to-edge behavior and theme
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val scaffoldState = rememberScaffoldState()
@@ -76,7 +71,9 @@ fun FavoriteScreen(
     }
 
     Scaffold(
-        modifier = Modifier.statusBarsPadding(),
+        modifier = Modifier
+            .statusBarsPadding()
+            .navigationBarsPadding(),
         topBar = {
             NavigateUpAppBar(title = stringResource(id = R.string.screen_favorite), navigateBack = navigateBack)
         },
