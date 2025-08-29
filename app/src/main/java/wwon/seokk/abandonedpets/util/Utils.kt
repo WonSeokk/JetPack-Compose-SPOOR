@@ -3,10 +3,8 @@ package wwon.seokk.abandonedpets.util
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
 import androidx.core.text.isDigitsOnly
 import androidx.paging.compose.LazyPagingItems
-import com.google.accompanist.systemuicontroller.SystemUiController
 import wwon.seokk.abandonedpets.ui.calendar.CALENDAR_STARTS_ON
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -64,12 +62,8 @@ fun YearMonth.getNumberWeeks(weekFields: WeekFields = CALENDAR_STARTS_ON): Int {
     return lastWeekNumber - firstWeekNumber + 1 // Both weeks inclusive
 }
 
-fun SystemUiController.setStatusBar(darkMode: Boolean) {
-    setStatusBarColor(
-        darkIcons = darkMode,
-        color = Color.Transparent
-    )
-}
+// SystemUIController extension function removed - use native Compose WindowInsets APIs instead
+// This function is no longer needed as SystemUIController is deprecated
 
 @Composable
 fun <T : Any> LazyPagingItems<T>.rememberLazyListState(): LazyListState {

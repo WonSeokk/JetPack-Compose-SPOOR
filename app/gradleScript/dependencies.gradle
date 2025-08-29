@@ -1,87 +1,91 @@
 dependencies {
 
-    def core_version = "1.7.0"
+    // Use Compose BOM to manage all Compose library versions
+    def compose_bom_version = "2024.12.01"
+    implementation platform("androidx.compose:compose-bom:$compose_bom_version")
+
+    def core_version = "1.15.0"
     implementation "androidx.core:core-ktx:$core_version"
 
-    def appcompat_version = "1.4.2"
+    def appcompat_version = "1.7.0"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
 
-    def material_design_version = "1.6.1"
+    def material_design_version = "1.12.0"
     implementation "com.google.android.material:material:$material_design_version"
 
-    def jetpack_compose_version = "1.3.0-alpha02"
-    implementation "androidx.compose.ui:ui:$jetpack_compose_version"
-    implementation "androidx.compose.material:material:$jetpack_compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$jetpack_compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$jetpack_compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$jetpack_compose_version"
+    // Compose libraries - versions managed by BOM
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.material:material"
+    implementation "androidx.compose.material3:material3"
+    implementation "androidx.compose.ui:ui-tooling-preview"
+    debugImplementation "androidx.compose.ui:ui-tooling"
+    debugImplementation "androidx.compose.ui:ui-test-manifest"
 
-    def jetpack_compose_material3= "1.0.0-alpha12"
-    implementation "androidx.compose.material3:material3-window-size-class:$jetpack_compose_material3"
+    implementation "androidx.compose.material3:material3-window-size-class"
 
-    def jetpack_compose_viewmodel_version = "2.5.1"
+    def jetpack_compose_viewmodel_version = "2.8.7"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$jetpack_compose_viewmodel_version"
 
-    def jetpack_navigation_version = "2.5.0-alpha03"
+    def jetpack_navigation_version = "2.8.4"
     implementation "androidx.navigation:navigation-compose:$jetpack_navigation_version"
 
-    def jetpack_lifecycle_version = "2.5.1"
+    def jetpack_lifecycle_version = "2.8.7"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$jetpack_lifecycle_version"
 
-    def activity_compose_version = "1.5.1"
+    def activity_compose_version = "1.9.3"
     implementation "androidx.activity:activity-compose:$activity_compose_version"
 
-    def jetpack_constraint_layout_version = "1.0.1"
+    def jetpack_constraint_layout_version = "1.1.0"
     implementation "androidx.constraintlayout:constraintlayout-compose:$jetpack_constraint_layout_version"
 
-    def jetpack_paging_version = "1.0.0-alpha15"
+    def jetpack_paging_version = "3.3.5"
     implementation "androidx.paging:paging-compose:$jetpack_paging_version"
 
-    def material_icons_version = "1.2.0"
-    implementation "androidx.compose.material:material-icons-extended:$material_icons_version"
+    // material-icons-extended version managed by BOM
+    implementation "androidx.compose.material:material-icons-extended"
 
-    def coil_version = "2.0.0"
+    def coil_version = "2.7.0"
     implementation "io.coil-kt:coil-compose:$coil_version"
 
-    def coroutines_version = "1.6.1"
+    def coroutines_version = "1.9.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
-    def retrofit_version = "2.9.0"
+    def retrofit_version = "2.11.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
-    def logging_interceptor_version = "4.9.3"
+    def logging_interceptor_version = "4.12.0"
     implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
 
-    def dagger_hilt_version = "2.43"
+    def dagger_hilt_version = "2.52"
     implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$dagger_hilt_version"
 
-    def hilt_navigation_version = "1.0.0"
+    def hilt_navigation_version = "1.2.0"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_version"
 
-    def mvi_orbit_version = "4.3.2"
+    def mvi_orbit_version = "9.0.0"
     implementation "org.orbit-mvi:orbit-core:$mvi_orbit_version"
     implementation "org.orbit-mvi:orbit-viewmodel:$mvi_orbit_version"
 
-    def splash_api_version = "1.0.0"
+    def splash_api_version = "1.0.1"
     implementation "androidx.core:core-splashscreen:$splash_api_version"
 
-    def leakcanary_version = "2.8.1"
+    def leakcanary_version = "2.14"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
 
-    def toolbar_compose_version = "2.3.4"
+    def toolbar_compose_version = "2.3.5"
     implementation "me.onebone:toolbar-compose:$toolbar_compose_version"
 
-    def accompanist_version = "0.17.0"
-    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+    // Accompanist SystemUIController is deprecated, use built-in Compose APIs instead
+    // Remove this dependency and update code to use native WindowInsets APIs
 
-    def about_lib_version = "10.5.1"
+    def about_lib_version = "11.2.3"
     implementation "com.mikepenz:aboutlibraries-core:$about_lib_version"
     implementation "com.mikepenz:aboutlibraries-compose:$about_lib_version"
 
-    def room_version = "2.4.3"
+    def room_version = "2.6.1"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -90,16 +94,16 @@ dependencies {
     def junit_version = "4.13.2"
     testImplementation "junit:junit:$junit_version"
 
-    def junit_android_version = "1.1.3"
+    def junit_android_version = "1.2.1"
     androidTestImplementation "androidx.test.ext:junit:$junit_android_version"
 
-    def espresso_version = "3.4.0"
+    def espresso_version = "3.6.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
 
-    def mockwebserver_version = "4.9.1"
+    def mockwebserver_version = "4.12.0"
     testImplementation "com.squareup.okhttp3:mockwebserver:$mockwebserver_version"
 
-    def mockk_version = "1.12.0"
+    def mockk_version = "1.13.13"
     testImplementation "io.mockk:mockk:$mockk_version"
     androidTestImplementation "io.mockk:mockk-android:$mockk_version"
 
@@ -107,9 +111,10 @@ dependencies {
 
     testImplementation "org.orbit-mvi:orbit-test:$mvi_orbit_version"
 
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$jetpack_compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$jetpack_compose_version"
+    // Compose test versions managed by BOM
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
+    debugImplementation "androidx.compose.ui:ui-test-manifest"
 
-    def turbine_version = "0.7.0"
+    def turbine_version = "1.1.0"
     testImplementation "app.cash.turbine:turbine:$turbine_version"
 }

@@ -14,11 +14,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.ui.common.NavigateUpAppBar
 import wwon.seokk.abandonedpets.ui.theme.AbandonedPetsTheme
-import wwon.seokk.abandonedpets.util.setStatusBar
 
 /**
  * Created by WonSeok on 2022.11.10
@@ -29,10 +27,6 @@ fun ThemeScreen(
     settingsViewModel: SettingsViewModel = hiltViewModel(),
     navigateBack: () -> Unit
 ) {
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBar(darkTheme.not())
-    systemUiController.setSystemBarsColor(AbandonedPetsTheme.colors.surfaceColor)
-
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
         topBar = {
@@ -41,6 +35,7 @@ fun ThemeScreen(
         backgroundColor = AbandonedPetsTheme.colors.surfaceColor,
         content = {
             Box(Modifier
+                .padding(it)
                 .padding(12.dp)
                 .fillMaxSize()
             ) {

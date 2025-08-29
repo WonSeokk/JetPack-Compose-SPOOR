@@ -13,7 +13,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import wwon.seokk.abandonedpets.R
 import wwon.seokk.abandonedpets.ui.common.BottomDivider
 import wwon.seokk.abandonedpets.ui.common.NavigateUpAppBar
@@ -25,24 +24,31 @@ fun SettingsScreen(
     openLibs: () -> Unit,
     navigateBack: () -> Unit
 ) {
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(AbandonedPetsTheme.colors.surfaceColor)
-
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
         backgroundColor = AbandonedPetsTheme.colors.surfaceColor,
         topBar = {
             NavigateUpAppBar(title = stringResource(id = R.string.screen_settings), navigateBack = navigateBack)
         },
-        content = { SettingsContent(openThemes, openLibs) }
+        content = {
+            SettingsContent(
+                modifier = Modifier.padding(it),
+                openThemes = openThemes,
+                openLibs = openLibs
+            )
+        }
     )
 }
 
 @Composable
-fun SettingsContent(openThemes: () -> Unit, openLibs: () -> Unit) {
+fun SettingsContent(
+    modifier: Modifier,
+    openThemes: () -> Unit,
+    openLibs: () -> Unit
+) {
     Surface {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .background(color = AbandonedPetsTheme.colors.surfaceColor)
                 .fillMaxSize()
                 .padding(12.dp)
@@ -72,6 +78,6 @@ fun item(modifier: Modifier, text: String) {
 @Composable
 private fun MainContentPreView() {
     AbandonedPetsTheme {
-        SettingsContent({},{})
+        SettingsContent(Modifier,{},{})
     }
 }
